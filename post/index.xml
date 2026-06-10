@@ -2,62 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on 珞桐蔚</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/post/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/post/</link>
         <description>Recent content in Posts on 珞桐蔚</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>BG4LTW</copyright>
-        <lastBuildDate>Thu, 26 Feb 2026 19:39:59 +0800</lastBuildDate><atom:link href="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/post/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>琥珀博物馆闭馆公告</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%90%A5%E7%8F%80%E5%8D%9A%E7%89%A9%E9%A6%86%E9%97%AD%E9%A6%86%E5%85%AC%E5%91%8A/</link>
-        <pubDate>Thu, 26 Feb 2026 19:39:59 +0800</pubDate>
-        
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%90%A5%E7%8F%80%E5%8D%9A%E7%89%A9%E9%A6%86%E9%97%AD%E9%A6%86%E5%85%AC%E5%91%8A/</guid>
-        <description>&lt;h1 id=&#34;琥珀博物馆闭馆公告&#34;&gt;琥珀博物馆闭馆公告
-&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;致最后一位参观者：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;展品编号 AM-2019-0615，即“未竟琥珀”，今日正式撤展。&lt;/p&gt;
-&lt;p&gt;该标本形成于四年前，核心包裹物为：一句未接住的比喻、图书馆空调的嗡鸣声、以及若干说不出口的话。曾长期陈列于左胸第三肋间隙，每日接受特定光照，在墙面投下颤抖的光斑。&lt;/p&gt;
-&lt;p&gt;今日撤展，不是因为坏了，也不是因为想通了。&lt;/p&gt;
-&lt;p&gt;是因为收到了一只玩偶猫。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;玩偶猫是寄来的。普通布料，不会发光，不会说话，不会在深夜突然让你胃里一沉。但它软。抱着的时候，那些翻来覆去的念头，好像没那么重了。&lt;/p&gt;
-&lt;p&gt;经评估，玩偶猫比琥珀更适合现在的生活。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;后续安排：&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;琥珀存入抽屉，与修不好的伞、未寄出的信、过期的茶叶放在一起。不丢，不藏，想看了可以看。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;玩偶猫即日起上岗，主要负责夜间陪伴、情绪承接、以及在不引发回忆的前提下提供温暖。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;博物馆主厅即日起永久关闭。&lt;/strong&gt; 不再设特别展区，不再收门票，不再提供深度解说。原策展人即日起恢复“普通人”身份，允许进行以下活动：正常呼吸、正常吃饭、正常想念但不沉溺、正常喜欢下一个人。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;给琥珀的最后一段话：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;你不是被扔掉的。&lt;br&gt;
-你是被完成的。&lt;/p&gt;
-&lt;p&gt;那些年困在里面挣扎的东西，终于不动了。&lt;br&gt;
-那些裹了一层又一层的，终于干透了。&lt;br&gt;
-光穿过你的时候，不会再弯了。&lt;/p&gt;
-&lt;p&gt;你可以休息了。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;出口在右边。&lt;br&gt;
-门不锁。想回来坐坐就回来。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;但不建议久留。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;外面有风，有猫，有2026年正在来的春天。&lt;/p&gt;
-&lt;p&gt;—— 策展人&lt;br&gt;
-2026年2月26日，永久闭馆&lt;/p&gt;
-</description>
-        </item>
-        <item>
+        <lastBuildDate>Mon, 16 Feb 2026 12:00:00 +0800</lastBuildDate><atom:link href="http://localhost:1313/LuoTongweix-my-hugo-site/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>特殊的日子</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%89%B9%E6%AE%8A%E7%9A%84%E6%97%A5%E5%AD%90/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/p/%E7%89%B9%E6%AE%8A%E7%9A%84%E6%97%A5%E5%AD%90/</link>
         <pubDate>Mon, 16 Feb 2026 12:00:00 +0800</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%89%B9%E6%AE%8A%E7%9A%84%E6%97%A5%E5%AD%90/</guid>
+        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/p/%E7%89%B9%E6%AE%8A%E7%9A%84%E6%97%A5%E5%AD%90/</guid>
         <description>&lt;p&gt;马蹄声声踏碎旧岁的尘埃 つ♡⊂
 且听风吟迎来新年的光彩 ⦁֊⦁&lt;/p&gt;
 &lt;p&gt;愿新的一年——
@@ -69,409 +24,11 @@
 </description>
         </item>
         <item>
-        <title>琥珀博物馆开馆指南</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%90%A5%E7%8F%80%E5%8D%9A%E7%89%A9%E9%A6%86%E5%BC%80%E9%A6%86%E6%8C%87%E5%8D%97/</link>
-        <pubDate>Fri, 06 Feb 2026 21:31:52 +0800</pubDate>
-        
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%90%A5%E7%8F%80%E5%8D%9A%E7%89%A9%E9%A6%86%E5%BC%80%E9%A6%86%E6%8C%87%E5%8D%97/</guid>
-        <description>&lt;p&gt;《琥珀博物馆开馆指南》&lt;/p&gt;
-&lt;p&gt;一、新馆址选址报告&lt;/p&gt;
-&lt;p&gt;2026年春天，我把琥珀搬了家。&lt;br&gt;
-从心脏正中央的密室，迁至左胸第三肋间隙的展览馆——一个既能看见，又不会压迫心跳的位置。&lt;/p&gt;
-&lt;p&gt;新馆的设计参考了安藤忠雄的光之教堂：&lt;br&gt;
-一道细长的缝隙从屋顶劈下，每天下午三点十七分（图书馆闭馆音乐响起的时间），阳光会准时穿透琥珀，在对面白墙上投出颤抖的光斑。&lt;br&gt;
-光斑里，那只被封存的小蜂翅膀纹理清晰可见，仿佛仍在振动。&lt;br&gt;
-参观者只有我一人，但足够了。&lt;/p&gt;
-&lt;p&gt;开馆首日，我制定了参观守则：&lt;br&gt;
-第一条：允许触摸，但禁止长时间停留。&lt;br&gt;
-第二条：可以流泪，但结束后要喝温水。&lt;br&gt;
-第三条：每次参观不超过一刻钟——足够怀念，不够沉溺。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;二、标本的重新标签&lt;/p&gt;
-&lt;p&gt;我给琥珀换了标签。&lt;br&gt;
-旧标签写：“未完成的告白，2019-2026。”&lt;br&gt;
-新标签更详细：&lt;/p&gt;
-&lt;p&gt;展品编号：AM-2019-0615&lt;br&gt;
-学名：Hupo imperfectus（未竟琥珀）&lt;br&gt;
-形成时期：晚青春世·雨季&lt;br&gt;
-核心包裹物：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;一句未落地的榫卯比喻（重0.003克）&lt;/li&gt;
-&lt;li&gt;图书馆空调的嗡鸣频率（437赫兹）&lt;/li&gt;
-&lt;li&gt;她转身时发梢扬起的水分子（约7×10²¹个）&lt;/li&gt;
-&lt;li&gt;我喉咙里未能成形的“我也”二字（呈气态）&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;保存状态：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;表面氧化程度：37%（趋于稳定）&lt;/li&gt;
-&lt;li&gt;内部压力：0.5个标准大气压（与外界平衡）&lt;/li&gt;
-&lt;li&gt;光学折射率：1.54（接近普通树脂）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;特别说明：&lt;br&gt;
-本标本在2026年1月经历重大内部结构调整，原有“遗憾晶体”部分转化为“记忆蛋白”，目前处于化学稳定期。在特定光照下仍会诱发轻微鼻酸，属正常现象。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;三、意外访客记录&lt;/p&gt;
-&lt;p&gt;三月，小吴来修热水器。&lt;br&gt;
-看见书架上的琥珀：“这玻璃里是什么？”&lt;br&gt;
-“树脂化石。”&lt;br&gt;
-他凑近看了很久：“像只虫子。”&lt;br&gt;
-“是只蜂。”&lt;br&gt;
-“它还活着吗？”&lt;br&gt;
-“在某种意义上，永远活着。”&lt;/p&gt;
-&lt;p&gt;他突然说：“我老婆以前送我块石头，说是什么爱情石，搬家时弄丢了。”&lt;br&gt;
-“难过吗？”&lt;br&gt;
-“当时有点。后来想想，石头丢了，但手牵过了。”&lt;/p&gt;
-&lt;p&gt;他继续拧螺丝。我继续看琥珀。&lt;br&gt;
-我们之间隔着七年的时差，却在这一刻共享了同一种领悟：&lt;br&gt;
-有些东西存在的意义，就是为了某天被温柔地失去。&lt;/p&gt;
-&lt;p&gt;热水器修好了，喷出白色的蒸汽。&lt;br&gt;
-小吴说：“你这屋子潮，琥珀得防霉。”&lt;br&gt;
-“怎么防？”&lt;br&gt;
-“常开窗，让新的空气进来。”&lt;br&gt;
-他说的是物理，我听见的是隐喻。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;四、光线治疗实验&lt;/p&gt;
-&lt;p&gt;我开始记录光线穿过琥珀的路径。&lt;br&gt;
-发现一个规律：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;阴天时，光斑暗淡，像褪色的旧照片&lt;/li&gt;
-&lt;li&gt;晴天下午三点十七分，光斑最清晰，甚至能看见树脂里的气泡&lt;/li&gt;
-&lt;li&gt;雨天的折射最奇妙——水痕滑过窗户时，光斑会碎裂成无数跳动的小光点，像一场微型的、无声的烟花&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;某个暴雨午后，我突然想：&lt;br&gt;
-也许她根本不曾说过那句关于榫卯的话。&lt;br&gt;
-也许那只是我渴望被比喻成“安定”的部分，在记忆的暗房里自己冲洗出的底片。&lt;br&gt;
-但有什么关系呢？&lt;br&gt;
-琥珀的价值不在于包裹物的真实性，而在于包裹这个动作本身。&lt;br&gt;
-就像眼泪的价值不在于悲伤的缘由，而在于它曾如此认真地想要清洗某个伤口。&lt;/p&gt;
-&lt;p&gt;我拿起琥珀，第一次没有寻找那只蜂。&lt;br&gt;
-而是看树脂本身——&lt;br&gt;
-那些层层叠叠的半透明，那些岁月沉积的暖褐色，那些细小如星辰的杂质。&lt;br&gt;
-原来最美的从来不是被困住的生命，&lt;br&gt;
-是 松脂在坠落途中，依然选择用最清澈的姿态包裹世界的模样 。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;五、巡回展览计划&lt;/p&gt;
-&lt;p&gt;六月，我带着琥珀出了趟远门。&lt;br&gt;
-不是去山西，是去舟山群岛最东边的无人岛。&lt;/p&gt;
-&lt;p&gt;船夫问：“搞地质的？”&lt;br&gt;
-我说：“算是。”&lt;br&gt;
-他指着琥珀：“这玩意儿值钱吗？”&lt;br&gt;
-“对我而言，无价。”&lt;br&gt;
-“那就不值钱。”他笑，“无价就是没市场价。”&lt;/p&gt;
-&lt;p&gt;岛上只有灯塔和鸥鸟。&lt;br&gt;
-我在礁石上坐下，把琥珀举向东海的风。&lt;br&gt;
-树脂在咸湿空气里微微发黏，仿佛要重新融化——&lt;br&gt;
-原来时间不是单向的，在某些特殊的坐标里，过去可以暂时恢复流动性。&lt;/p&gt;
-&lt;p&gt;我做了件疯狂的事：&lt;br&gt;
-把琥珀浸入海浪。&lt;br&gt;
-不是抛弃，是测试盐度——我想知道，七年思念的咸度，与太平洋相比如何。&lt;br&gt;
-琥珀浮起来了，像个小巧的、蜜色的船。&lt;br&gt;
-载着2019年的那只蜂，在2026年的浪尖摇晃。&lt;br&gt;
-那一瞬间我忽然明白：&lt;br&gt;
-重要的不是抵达，是它始终没有沉没。&lt;/p&gt;
-&lt;p&gt;黄昏时我收回琥珀。&lt;br&gt;
-表面沾着细小的盐晶，在夕阳下闪闪发光，像刚哭过的眼睛。&lt;br&gt;
-我舔了一下，咸的。&lt;br&gt;
-和大海一样咸，和眼泪一样咸，和所有无解之爱一样咸。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;六、博物馆的常态化运营&lt;/p&gt;
-&lt;p&gt;如今琥珀博物馆每日开放。&lt;br&gt;
-开放时间：随心情。&lt;br&gt;
-门票：无需门票，但参观者需携带一件“当下正在爱着的事物”作为入场券——&lt;br&gt;
-可以是一杯热茶，可以是窗台上的多肉，可以是对今晚电影的期待。&lt;/p&gt;
-&lt;p&gt;最近常带的入场券是：&lt;br&gt;
-“2026年2月5日，我学会了修漏水的水龙头，并且第一次觉得，扳手拧紧螺母的声音很像某种安心的心跳。”&lt;/p&gt;
-&lt;p&gt;参观流程固定：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;凝视琥珀三分钟&lt;/li&gt;
-&lt;li&gt;触摸表面温度（通常与室温相同）&lt;/li&gt;
-&lt;li&gt;看光斑在白墙上跳舞&lt;/li&gt;
-&lt;li&gt;对自己说：“那时是真的，现在也是真的。”&lt;/li&gt;
-&lt;li&gt;转身泡茶，或继续读昨天没读完的书&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;偶尔会有特别展览：&lt;br&gt;
-比如把琥珀和今年晒的干花放在一起，&lt;br&gt;
-标题叫《两种脱水保存术的比较研究》。&lt;br&gt;
-结论是：花朵会褪色，但香气能转移；树脂会变色，但瞬间被定格。&lt;br&gt;
-两者都在失去鲜活的同时，获得了另一种形态的永恒。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;七、最重要的展品说明牌&lt;/p&gt;
-&lt;p&gt;上周，我在琥珀旁加了最后一块说明牌：&lt;br&gt;
-“致参观者（通常是我自己）：&lt;br&gt;
-你所见的不是爱情标本，&lt;br&gt;
-是一个人类曾经如何用尽全力，&lt;br&gt;
-想要理解另一个人类的珍贵证据。&lt;/p&gt;
-&lt;p&gt;那只蜂没有死去，&lt;br&gt;
-它只是被邀请永远参加一场光的盛宴。&lt;br&gt;
-松脂不是坟墓，&lt;br&gt;
-是时间颁发的透明奖章——&lt;br&gt;
-表彰那个年轻人，&lt;br&gt;
-曾在旱季持续分泌温柔，&lt;br&gt;
-在疼痛中保持澄澈，&lt;br&gt;
-并允许一滴泪珠般的故事，&lt;br&gt;
-在身体里结晶成此刻你看见的、&lt;br&gt;
-坚固而美丽的模样。&lt;/p&gt;
-&lt;p&gt;现在，请你放下这份展品，&lt;br&gt;
-回到2026年的阳光里。&lt;br&gt;
-门外有新烤的面包香，&lt;br&gt;
-有需要浇水的绿萝，&lt;br&gt;
-有等待被书写的、&lt;br&gt;
-尚未被树脂包裹的此刻。&lt;/p&gt;
-&lt;p&gt;博物馆出口在右边。&lt;br&gt;
-欢迎明天再来，&lt;br&gt;
-或者不来了也可以。&lt;br&gt;
-陌生人，祝你好运。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;终：&lt;br&gt;
-昨晚梦见博物馆扩建了。&lt;br&gt;
-新展厅里挂着所有未寄出的信、未发送的语音、未说出口的早安晚安。&lt;br&gt;
-它们被装裱在透明的树脂板里，像琥珀的兄弟姐妹。&lt;br&gt;
-导览语音说：&lt;br&gt;
-“这些是爱的预备役，从未上过战场，但训练时的汗水同样真实。”&lt;/p&gt;
-&lt;p&gt;醒来时晨光熹微。&lt;br&gt;
-我走到琥珀前，发现那道每日造访的光斑，&lt;br&gt;
-今天没有落在墙上——&lt;br&gt;
-它越过了琥珀，直接照在我的手心。&lt;br&gt;
-温暖，明亮，毫无阻碍。&lt;/p&gt;
-&lt;p&gt;原来当你不把琥珀当作必须穿透的障碍时，&lt;br&gt;
-光会选择更直接的路径。&lt;br&gt;
-就像记忆，&lt;br&gt;
-当你不再试图破解它，&lt;br&gt;
-它就只是身后温柔的影子，&lt;br&gt;
-陪你走向所有光来的方向。&lt;/p&gt;
-&lt;p&gt;2026.2.6&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>琥珀生长史</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%90%A5%E7%8F%80%E7%94%9F%E9%95%BF%E5%8F%B2/</link>
-        <pubDate>Sat, 31 Jan 2026 19:04:38 +0800</pubDate>
-        
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/%E7%90%A5%E7%8F%80%E7%94%9F%E9%95%BF%E5%8F%B2/</guid>
-        <description>&lt;p&gt;《琥珀生长史》&lt;/p&gt;
-&lt;p&gt;楔子：关于伤口与松脂的误解&lt;/p&gt;
-&lt;p&gt;人们总说琥珀始于松脂滴落。&lt;br&gt;
-但真正的起点要早得多——&lt;br&gt;
-在树皮第一次皴裂的那个旱季，在菌丝侵入木质部的深夜，在某个携带孢子的风路过却拒绝停留的瞬间。&lt;br&gt;
-疼痛发生得比治愈更早。&lt;/p&gt;
-&lt;p&gt;就像我遇见她，不是在图书馆的雨天，而是在那之前的、所有让我成为“会躲雨的人”的岁月里。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;第一章：树皮皴裂期（2016-2018）&lt;/p&gt;
-&lt;p&gt;旱季持续了七十三天。&lt;br&gt;
-校园里的香樟树开始卷叶，水泥地烫得能煎蛋。我躲在有空调的阅览室，把《地质学概论》第47页反复看了四遍——那一章讲沉积岩，说“压力是记忆的形式之一”。&lt;/p&gt;
-&lt;p&gt;她坐在斜对角，不是固定位置。周三靠窗，周五近过道，偶尔周二出现在哲学区。像某种移动的地质现象，我的罗盘因此失灵。&lt;/p&gt;
-&lt;p&gt;第一次对话与雨无关。&lt;br&gt;
-她拿着《营造法式》问我：“这个斗拱插图，是不是印反了？”&lt;br&gt;
-手指点在宋代木构的阴影线上，指甲剪得很短，甲床有小小的月牙白。&lt;br&gt;
-我说可能是镜像印刷错误。&lt;br&gt;
-她说：“那历史的真相，会不会也是镜像？”&lt;br&gt;
-问题太突然，我卡住了。&lt;br&gt;
-她笑：“开玩笑的。”&lt;br&gt;
-但那个问题像楔子，敲进了我原本密实的年轮里。&lt;/p&gt;
-&lt;p&gt;后来我知道她学建筑保护，梦想是修复一座唐代木塔。&lt;br&gt;
-“木头比石头诚实，”她说，“受伤了就开裂，腐烂了就倒下，从不假装完整。”&lt;br&gt;
-说这话时我们正经过工地，起重机吊着预制板缓缓旋转，像巨大的、悲伤的钟摆。&lt;/p&gt;
-&lt;p&gt;那些旱季的午后，树皮正在我看不见的地方悄悄皴裂。&lt;br&gt;
-为了一场尚未降临的雨。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;第二章：树脂分泌机制（2019.春）&lt;/p&gt;
-&lt;p&gt;真正的松脂开始分泌，是在清明前后。&lt;/p&gt;
-&lt;p&gt;那天她带来一份测绘稿：皖南某座濒危宗祠，梁架歪斜了3.7度。&lt;br&gt;
-“像老人驼背。”她把图纸铺在阳光里，墨线微微反光。&lt;br&gt;
-我指出某处标注错误——椽子的间距不是《法式》规定的经典比例。&lt;br&gt;
-她凑近看，发梢扫过图纸边缘。&lt;br&gt;
-“你比我的测绘仪还准。”&lt;br&gt;
-距离太近了，近得能看见她睫毛上沾着的、从窗外飘进的柳絮。&lt;/p&gt;
-&lt;p&gt;松脂大概就是从那时开始分泌的。&lt;br&gt;
-缓慢地，黏稠地，从某个我无法定位的伤口渗出来——&lt;br&gt;
-也许是当她说到“这座祠堂明年可能就塌了”时，声音里那丝几乎听不见的颤抖。&lt;br&gt;
-也许是那天夕阳特别浓，把她的侧影镀成暖金色，像某尊即将失传的彩塑。&lt;br&gt;
-也许只是春天太柔软了，柔软得让所有防御都显得粗鲁。&lt;/p&gt;
-&lt;p&gt;之后的一切都带着树脂的质感：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;她分享的古建筑修复视频，我看了十七遍&lt;/li&gt;
-&lt;li&gt;她推荐的桐油品牌，我买了一小罐（至今未开封）&lt;/li&gt;
-&lt;li&gt;她偶然提到的“理想构筑物该有呼吸的缝隙”，我写进了日记的扉页&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这些透明的分泌物，在时间里一层覆盖一层。&lt;br&gt;
-当时不觉，后来才知—— 包裹总是在发生之后才被确认。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;第三章：滴落物理学（2019.夏至）&lt;/p&gt;
-&lt;p&gt;树脂滴落的瞬间，是有声音的。&lt;/p&gt;
-&lt;p&gt;那是期末考前的深夜，图书馆只剩我们。&lt;br&gt;
-她的咖啡杯见了底，杯壁挂着最后的褐色液痕，像即将干涸的河床。&lt;br&gt;
-“我要去山西实习三个月，”她说，“跟一个石窟保护项目。”&lt;br&gt;
-“很好啊。”我说。&lt;br&gt;
-“可能没信号。”&lt;br&gt;
-“嗯。”&lt;/p&gt;
-&lt;p&gt;沉默像第二个人坐在我们中间。&lt;br&gt;
-空调出风口嗡嗡响，把她的头发吹起又放下。&lt;/p&gt;
-&lt;p&gt;然后她说了那句话：&lt;br&gt;
-“有时候我觉得，你像某种……很安定的榫卯。”&lt;br&gt;
-停顿。&lt;br&gt;
-“但我不确定自己是不是对应的卯口。”&lt;/p&gt;
-&lt;p&gt;松脂就在那时滴落。&lt;br&gt;
-我听见了——真的听见了，一种类似蜂蜜脱离勺子的、绵长的断裂声。&lt;br&gt;
-它悬在半空，折射着此刻所有的光：台灯的暖黄，电脑屏幕的冷白，她眼里那种介于期待和畏惧之间的灰。&lt;/p&gt;
-&lt;p&gt;我的回应却像树皮的裂缝：&lt;br&gt;
-“山西干燥，记得带润唇膏。”&lt;/p&gt;
-&lt;p&gt;滴落的松脂包裹住了这个瞬间：&lt;br&gt;
-她愣了一下，然后笑出来的样子；&lt;br&gt;
-我指甲掐进掌心的痛感；&lt;br&gt;
-窗外突然亮起的车灯扫过书架，把我们的影子短暂钉在墙上；&lt;br&gt;
-还有那种明确的、潮湿的预感——&lt;br&gt;
-有些话一旦错过重力，就再也落不到该落的地方。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;第四章：包裹动力学（2019.秋-冬）&lt;/p&gt;
-&lt;p&gt;她走后，包裹开始了。&lt;/p&gt;
-&lt;p&gt;第一层是沉默。&lt;br&gt;
-她发来的石窟照片：北魏的飞天衣袂斑驳，唐代的力士肌肉崩裂。我的回复总是滞后，像坏掉的钟摆。&lt;br&gt;
-“今天拓了一片碑。”&lt;br&gt;
-“嗯。”&lt;br&gt;
-“这里的星星很低。”&lt;br&gt;
-“真好。”&lt;br&gt;
-语言贫瘠得让我自己都厌恶。&lt;/p&gt;
-&lt;p&gt;第二层是距离。&lt;br&gt;
-地图上的1152公里，高铁5小时27分，快递3天。还有另一种距离：她开始用“我们团队”，照片里出现勾肩搭背的同行者；而我还在图书馆的老位置，帮陌生人捡起掉落的笔。&lt;/p&gt;
-&lt;p&gt;第三层是想象。&lt;br&gt;
-我虚构了无数版本的重逢：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;她带着北方的风沙回来，我递上一罐未开封的桐油&lt;/li&gt;
-&lt;li&gt;她在某个讲座现场看见我，发现我在自学《中国建筑木作营造》&lt;/li&gt;
-&lt;li&gt;甚至最俗套的雨景——她没带伞，我正好有两把&lt;br&gt;
-但现实是：她延期了，接着是疫情，然后是毕业季的仓皇。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;树脂一层层流淌，把所有这些都裹进去：&lt;br&gt;
-未寄出的明信片、凌晨三点的聊天记录、她分享的歌里某句让我心悸的歌词……&lt;br&gt;
-最核心的，永远是那个夏至夜：&lt;br&gt;
-悬在半空的松脂，将落未落的光，和她那句未能着陆的比喻。&lt;/p&gt;
-&lt;p&gt;琥珀就这样长成了——&lt;br&gt;
-以一句未曾回应的话为内核，&lt;br&gt;
-以三千公里的沉默为包浆，&lt;br&gt;
-以三年又三个季节的氧化，&lt;br&gt;
-凝固成我心口的透明结石。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;第五章：氧化与失水（2020-2022）&lt;/p&gt;
-&lt;p&gt;琥珀离开树体后，会开始氧化。&lt;br&gt;
-表面龟裂，颜色加深，从淡金渐至暖褐——像所有被抽离语境的爱，都会在时间里缓慢变质。&lt;/p&gt;
-&lt;p&gt;那几年我成了琥珀的观察员：&lt;br&gt;
-2020年春 ，她晒出研究生录取通知。评论里我说“恭喜”，她回“谢谢”，像两个礼貌的陌生人。当晚我梦见琥珀裂了，裂缝里爬出早已灭绝的昆虫。&lt;/p&gt;
-&lt;p&gt;2021年冬 ，她转发古塔抢险募捐。我捐了三个月稿费，匿名。后来她在朋友圈写：“不知名的善意让塔又多撑一个雨季。”我盯着“雨季”二字，胃里泛起松脂的涩味。&lt;/p&gt;
-&lt;p&gt;2022年中秋 ，共同朋友结婚。她没来，寄了礼物：一套修复用的微型工具。新郎开玩笑：“她还活在古建世界里。”大家都笑。我盯着那套工具，突然明白——&lt;br&gt;
-她早已把自己活成了需要修复的建筑，而我连参观的门票都没买到。&lt;/p&gt;
-&lt;p&gt;氧化最明显的证据，是记忆开始变色。&lt;br&gt;
-那个夏至夜，在她的话和我愚蠢的回应之间，本应有几秒的空白。&lt;br&gt;
-但在反复反刍中，空白被填满了：我幻想出各种更好的回答，它们像伪年轮，让琥珀的截面越来越模糊。&lt;br&gt;
-最后连我自己都分不清：&lt;br&gt;
-我怀念的究竟是那个瞬间，还是我后来为它撰写的无数续集？&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;第六章：现世标本（2023-2025）&lt;/p&gt;
-&lt;p&gt;琥珀最终出现在博物馆的展柜里。&lt;br&gt;
-灯光打得恰到好处，标签写着：“ 晚更新世树脂化石，内含完整昆虫。 ”&lt;br&gt;
-没人关心树疼不疼。&lt;/p&gt;
-&lt;p&gt;我就是这样展出自己的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;在出版社做古籍修复，同事夸我“有耐心”&lt;/li&gt;
-&lt;li&gt;独居，阳台种耐旱植物，书架按营造法式分类&lt;/li&gt;
-&lt;li&gt;偶尔约会，对方总说“你好像有一部分不在场”&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我成了自己的策展人，把那段过往布置成可供参观的伤痛：&lt;br&gt;
-看，这是未能送出的桐油。&lt;br&gt;
-看，这是她推荐的碑帖拓片。&lt;br&gt;
-看，这是心口那块不会代谢的透明。&lt;/p&gt;
-&lt;p&gt;直到去年秋天，我在修复一本明代匠作则例时，发现夹页里有片真正的琥珀——指甲盖大小，封着一只小蜂。&lt;br&gt;
-对着光看，虫翅纹理清晰，仿佛下一秒就会震颤。&lt;br&gt;
-它被夹在《枓栱等第》这一章，像某个匠人五百年前随手做的书签。&lt;/p&gt;
-&lt;p&gt;我忽然哭了。&lt;br&gt;
-毫无预兆地，眼泪砸在宣纸上，晕开一个比琥珀更大的圆。&lt;br&gt;
-原来 所有被封存的生命，都在等待另一个封存的生命来辨认 。&lt;br&gt;
-那只小蜂等了我五百年。&lt;br&gt;
-而我等谁？&lt;br&gt;
-等一个早已忘记自己说过“榫卯”比喻的人？&lt;br&gt;
-等时间终于氧化掉最后一丝不甘？&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;第七章：地质时间（2026.1.31）&lt;/p&gt;
-&lt;p&gt;今天，2026年1月31日，我带着那块琥珀去了地质博物馆。&lt;/p&gt;
-&lt;p&gt;新开的特展叫“时间的容器”。&lt;br&gt;
-展厅尽头有块镇馆之宝：缅甸琥珀，封着一只恐龙羽毛。&lt;br&gt;
-讲解员说：“这是白垩纪的松脂，包裹了9900万年前的瞬间。”&lt;br&gt;
-一个小女孩问：“树疼吗？”&lt;br&gt;
-全场安静。&lt;br&gt;
-讲解员笑：“树早就不在了。”&lt;/p&gt;
-&lt;p&gt;我站在展柜前，掌心攥着自己的那颗。&lt;br&gt;
-它其实不大，比衬衫纽扣还小一圈，颜色是普通的蜜色，没有恐龙羽毛，只有一句悬空的话。&lt;br&gt;
-但它重。&lt;br&gt;
-重得像拖着一整片已经变成煤的森林。&lt;/p&gt;
-&lt;p&gt;手机震了。&lt;br&gt;
-是她——确切说，是她的婚礼请柬电子版。&lt;br&gt;
-日期在下个月，地点在山西，那座她参与修复的古寺旁边。&lt;br&gt;
-请柬设计成古建筑剖面的样子，新郎的名字写在“大梁”位置，她的在“立柱”。&lt;br&gt;
-力学合理，结构稳固。&lt;br&gt;
-符合一切营造法式。&lt;/p&gt;
-&lt;p&gt;我该祝福的。&lt;br&gt;
-像祝福一座终于找到承重结构的建筑，&lt;br&gt;
-像祝福一滴松脂终于落定成了琥珀，&lt;br&gt;
-像祝福所有悬而未决的，都找到了它的地心引力。&lt;/p&gt;
-&lt;p&gt;但我只是把琥珀举到眼前，对准博物馆的天窗。&lt;br&gt;
-阳光穿过9900万年，穿过恐龙的羽毛，穿过白垩纪的风，&lt;br&gt;
-再穿过我这颗微不足道的、只有七年历史的树脂——&lt;/p&gt;
-&lt;p&gt;光在内部发生了弯曲。&lt;br&gt;
-那个夏至夜被折射成无数个版本：&lt;br&gt;
-有我说出“其实我也”的版本，&lt;br&gt;
-有她追问“然后呢”的版本，&lt;br&gt;
-有我们被同一滴松脂包裹的版本。&lt;br&gt;
-它们在琥珀内部交叠，像永远无法对焦的全息图。&lt;/p&gt;
-&lt;p&gt;原来琥珀不是坟墓。&lt;br&gt;
-是棱镜。&lt;br&gt;
-它困住的不是过去，是所有可能的过去。&lt;br&gt;
-我们不是失去了那个瞬间，&lt;br&gt;
-是被给予了那个瞬间的 所有平行可能 ，&lt;br&gt;
-并被迫永生观看这些永远无法抵达的、灿烂的分岔。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;终章：树的后续&lt;/p&gt;
-&lt;p&gt;离开博物馆时，门口在发纪念品：&lt;br&gt;
-小塑料袋装着松脂碎片，标签写“可自制琥珀”。&lt;br&gt;
-我领了一份。&lt;/p&gt;
-&lt;p&gt;回家路上经过苗圃，工人在移栽香樟。&lt;br&gt;
-根系裹着土球，用草绳捆成巨大的茧。&lt;br&gt;
-其中一棵的树皮上，有道新鲜的伤口——&lt;br&gt;
-可能是移植时擦伤的，正渗出透明的树脂。&lt;/p&gt;
-&lt;p&gt;我蹲下来看了很久。&lt;br&gt;
-树脂很慢很慢地聚集，在伤口边缘形成饱满的弧面，映出云、电线、和我模糊的倒影。&lt;br&gt;
-它还会流很久，直到完全覆盖伤口，然后在时间里变硬、变色、最终成为某种类似记忆的东西。&lt;/p&gt;
-&lt;p&gt;但树还会长高。&lt;br&gt;
-新的年轮会覆盖旧伤，叶子会继续光合作用，鸟会来筑巢。&lt;br&gt;
-树脂只是树脂。&lt;br&gt;
-树才是生命。&lt;/p&gt;
-&lt;p&gt;我把那颗琥珀埋在了这棵树下。&lt;br&gt;
-不是埋葬，是归还——&lt;br&gt;
-把一滴松脂还给一棵树，&lt;br&gt;
-把一个瞬间还给时间，&lt;br&gt;
-把“未能”还给“可能”。&lt;/p&gt;
-&lt;p&gt;土盖上的瞬间，我忽然想起她那个问题：&lt;br&gt;
-“历史的真相，会不会也是镜像？”&lt;br&gt;
-现在我有答案了：&lt;br&gt;
-不是镜像。&lt;br&gt;
-是琥珀。&lt;br&gt;
-所有真相都被包裹在透明的误解里，&lt;br&gt;
-而我们都是通过折射，&lt;br&gt;
-看见彼此变形的光。&lt;/p&gt;
-&lt;p&gt;起风了。&lt;br&gt;
-新栽的香樟轻轻摇晃，树脂在伤口上颤动，&lt;br&gt;
-像一颗正在形成的、&lt;br&gt;
-未来的琥珀。&lt;/p&gt;
-&lt;p&gt;而我终于可以转身，&lt;br&gt;
-走进没有松脂气味的、&lt;br&gt;
-普通的风里。&lt;/p&gt;
-&lt;p&gt;​                                                      初稿完成于2026.1，31&lt;/p&gt;
-</description>
-        </item>
-        <item>
         <title>Sky</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/sky/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/p/sky/</link>
         <pubDate>Fri, 01 Aug 2025 12:33:07 +0800</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/sky/</guid>
+        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/p/sky/</guid>
         <description>&lt;h1 id=&#34;光遇&#34;&gt;光遇
 &lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;[!NOTE]&lt;/p&gt;
@@ -492,11 +49,11 @@
         </item>
         <item>
         <title>Chinese Test</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/</link>
         <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/</guid>
-        <description>&lt;img src="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" /&gt;&lt;h2 id=&#34;正文测试&#34;&gt;正文测试
+        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/</guid>
+        <description>&lt;img src="http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" /&gt;&lt;h2 id=&#34;正文测试&#34;&gt;正文测试
 &lt;/h2&gt;&lt;p&gt;而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 我们不得不面对一个非常尴尬的事实，那就是， 可是，即使是这样，学生会退会的出现仍然代表了一定的意义。 学生会退会，发生了会如何，不发生又会如何。 经过上述讨论， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 学生会退会，到底应该如何实现。 这样看来， 在这种困难的抉择下，本人思来想去，寝食难安。 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 就我个人来说，学生会退会对我的意义，不能不说非常重大。 莎士比亚曾经提到过，人的一生是短的，但如果卑劣地过这一生，就太长了。这似乎解答了我的疑惑。 莫扎特说过一句富有哲理的话，谁和我一样用功，谁就会和我一样成功。这启发了我， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 学生会退会，到底应该如何实现。 一般来说， 从这个角度来看， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 了解清楚学生会退会到底是一种怎么样的存在，是解决一切问题的关键。 一般来说， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 问题的关键究竟为何？ 而这些并不是完全重要，更加重要的问题是。&lt;/p&gt;
 &lt;p&gt;奥斯特洛夫斯基曾经说过，共同的事业，共同的斗争，可以使人们产生忍受一切的力量。　带着这句话，我们还要更加慎重的审视这个问题： 一般来讲，我们都必须务必慎重的考虑考虑。 既然如此， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 带着这些问题，我们来审视一下学生会退会。 我认为， 我认为， 在这种困难的抉择下，本人思来想去，寝食难安。 问题的关键究竟为何？ 每个人都不得不面对这些问题。 在面对这种问题时， 要想清楚，学生会退会，到底是一种怎么样的存在。 我认为， 既然如此， 每个人都不得不面对这些问题。 在面对这种问题时， 那么， 我认为， 学生会退会因何而发生。&lt;/p&gt;
 &lt;h2 id=&#34;引用&#34;&gt;引用
@@ -508,10 +65,10 @@
 &lt;p&gt;&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=3aypp_YlBzI&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;最暖的憂傷 - 田馥甄&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;图片&#34;&gt;图片
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg&#34;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg&#34;
 	width=&#34;667&#34;
 	height=&#34;1000&#34;
-	srcset=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Photo by Florian Klauer on Unsplash&#34;
@@ -521,10 +78,10 @@
 		data-flex-grow=&#34;66&#34;
 		data-flex-basis=&#34;160px&#34;
 	
-&gt;  &lt;img src=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg&#34;
+&gt;  &lt;img src=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg&#34;
 	width=&#34;1000&#34;
 	height=&#34;667&#34;
-	srcset=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Photo by Luca Bravo on Unsplash&#34;
@@ -535,10 +92,10 @@
 		data-flex-basis=&#34;359px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg&#34;
 	width=&#34;1000&#34;
 	height=&#34;750&#34;
-	srcset=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Photo by Helena Hertz on Unsplash&#34;
@@ -548,10 +105,10 @@
 		data-flex-grow=&#34;133&#34;
 		data-flex-basis=&#34;320px&#34;
 	
-&gt;  &lt;img src=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg&#34;
+&gt;  &lt;img src=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg&#34;
 	width=&#34;667&#34;
 	height=&#34;1000&#34;
-	srcset=&#34;https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, http://localhost:1313/LuoTongweix-my-hugo-site/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Photo by Hudai Gayiran on Unsplash&#34;
@@ -580,11 +137,11 @@
         </item>
         <item>
         <title>Markdown Syntax Guide</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/markdown-syntax-guide/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/p/markdown-syntax-guide/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/markdown-syntax-guide/</guid>
-        <description>&lt;img src="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/markdown-syntax-guide/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" alt="Featured image of post Markdown Syntax Guide" /&gt;&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;
+        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/p/markdown-syntax-guide/</guid>
+        <description>&lt;img src="http://localhost:1313/LuoTongweix-my-hugo-site/p/markdown-syntax-guide/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" alt="Featured image of post Markdown Syntax Guide" /&gt;&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;
 &lt;h2 id=&#34;headings&#34;&gt;Headings
 &lt;/h2&gt;&lt;p&gt;The following HTML &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;—&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; elements represent six levels of section headings. &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; is the highest section level while &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; is the lowest.&lt;/p&gt;
 &lt;h1 id=&#34;h1&#34;&gt;H1
@@ -808,11 +365,11 @@
         </item>
         <item>
         <title>Placeholder Text</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/placeholder-text/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/p/placeholder-text/</link>
         <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/placeholder-text/</guid>
-        <description>&lt;img src="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/placeholder-text/matt-le-SJSpo9hQf7s-unsplash.jpg" alt="Featured image of post Placeholder Text" /&gt;&lt;p&gt;Lorem est tota propiore conpellat pectoribus de pectora summo.&lt;/p&gt;
+        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/p/placeholder-text/</guid>
+        <description>&lt;img src="http://localhost:1313/LuoTongweix-my-hugo-site/p/placeholder-text/matt-le-SJSpo9hQf7s-unsplash.jpg" alt="Featured image of post Placeholder Text" /&gt;&lt;p&gt;Lorem est tota propiore conpellat pectoribus de pectora summo.&lt;/p&gt;
 &lt;p&gt;Redit teque digerit hominumque toris verebor lumina non cervice subde tollit usus habet Arctonque, furores quas nec ferunt. Quoque montibus nunc caluere tempus inhospita parcite confusaque translucet patri vestro qui optatis lumine cognoscere flos nubis! Fronde ipsamque patulos Dryopen deorum.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Exierant elisi ambit vivere dedere&lt;/li&gt;
@@ -839,10 +396,10 @@
         </item>
         <item>
         <title>Math Typesetting</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/math-typesetting/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/p/math-typesetting/</link>
         <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/math-typesetting/</guid>
+        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/p/math-typesetting/</guid>
         <description>&lt;p&gt;Mathematical notation in a Hugo project can be enabled by using third party JavaScript libraries.&lt;/p&gt;
 &lt;p&gt;In this example we will be using &lt;a class=&#34;link&#34; href=&#34;https://katex.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;KaTeX&lt;/a&gt;&lt;/p&gt;
@@ -881,11 +438,11 @@ $$</description>
         </item>
         <item>
         <title>Emoji Support</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/emoji-support/</link>
+        <link>http://localhost:1313/LuoTongweix-my-hugo-site/p/emoji-support/</link>
         <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/emoji-support/</guid>
-        <description>&lt;img src="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/p/emoji-support/the-creative-exchange-d2zvqp3fpro-unsplash.jpg" alt="Featured image of post Emoji Support" /&gt;&lt;p&gt;Emoji can be enabled in a Hugo project in a number of ways.&lt;/p&gt;
+        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/p/emoji-support/</guid>
+        <description>&lt;img src="http://localhost:1313/LuoTongweix-my-hugo-site/p/emoji-support/the-creative-exchange-d2zvqp3fpro-unsplash.jpg" alt="Featured image of post Emoji Support" /&gt;&lt;p&gt;Emoji can be enabled in a Hugo project in a number of ways.&lt;/p&gt;
 &lt;p&gt;The &lt;a class=&#34;link&#34; href=&#34;https://gohugo.io/functions/emojify/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;&lt;code&gt;emojify&lt;/code&gt;&lt;/a&gt; function can be called directly in templates or &lt;a class=&#34;link&#34; href=&#34;https://gohugo.io/templates/shortcode-templates/#inline-shortcodes&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Inline Shortcodes&lt;/a&gt;.&lt;/p&gt;
