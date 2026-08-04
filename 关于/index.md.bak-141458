@@ -1,0 +1,19 @@
+---
+title: About
+menu:
+    main: 
+        weight: -90
+        params:
+            icon: user
+---
+
+Hi, I'm **LuoTongwei** (callsign BG4LTW).
+
+An amateur radio enthusiast and a writer of small stories. This blog records my life, thoughts and tales.
+
+**Contact**
+
+- GitHub: https://github.com/LuoTongweix
+- HamCQ: https://forum.hamcq.cn/u/7256
+
+All original articles are licensed under CC BY-NC-SA 4.0.

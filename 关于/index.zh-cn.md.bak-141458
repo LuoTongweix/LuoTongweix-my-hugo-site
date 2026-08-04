@@ -1,0 +1,30 @@
+---
+title: 关于
+menu:
+    main: 
+        weight: -90
+        params:
+            icon: user
+---
+
+你好，我是**珞桐蔚**（呼号 BG4LTW）。
+
+**关于我**
+
+- 业余无线电爱好者
+- 喜欢写一点文字
+- 以后还会有...
+
+**关于这个博客**
+
+- 记录生活、想法和一些故事
+- 使用 Hugo 搭建
+
+**联系我**
+
+- GitHub: https://github.com/LuoTongweix
+- HamCQ: https://forum.hamcq.cn/u/7256
+
+**版权**
+
+原创文章采用 CC BY-NC-SA 4.0，转载注明出处即可。
