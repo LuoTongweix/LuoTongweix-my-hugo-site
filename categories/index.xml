@@ -2,50 +2,50 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Categories on 珞桐蔚</title>
-        <link>http://localhost:1313/LuoTongweix-my-hugo-site/categories/</link>
+        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/</link>
         <description>Recent content in Categories on 珞桐蔚</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>BG4LTW</copyright>
-        <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/LuoTongweix-my-hugo-site/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 30 Jul 2026 15:30:00 +0800</lastBuildDate><atom:link href="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>随笔</title>
+        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E9%9A%8F%E7%AC%94/</link>
+        <pubDate>Thu, 30 Jul 2026 15:30:00 +0800</pubDate>
+        
+        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E9%9A%8F%E7%AC%94/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>印象</title>
+        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E5%8D%B0%E8%B1%A1/</link>
+        <pubDate>Thu, 26 Feb 2026 19:39:59 +0800</pubDate>
+        
+        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E5%8D%B0%E8%B1%A1/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>特殊的日子</title>
+        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E7%89%B9%E6%AE%8A%E7%9A%84%E6%97%A5%E5%AD%90/</link>
+        <pubDate>Mon, 16 Feb 2026 12:00:00 +0800</pubDate>
+        
+        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E7%89%B9%E6%AE%8A%E7%9A%84%E6%97%A5%E5%AD%90/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>文本测试</title>
+        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E6%96%87%E6%9C%AC%E6%B5%8B%E8%AF%95/</link>
+        <pubDate>Fri, 01 Aug 2025 12:33:07 +0800</pubDate>
+        
+        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/%E6%96%87%E6%9C%AC%E6%B5%8B%E8%AF%95/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Test</title>
-        <link>http://localhost:1313/LuoTongweix-my-hugo-site/categories/test/</link>
-        <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/test/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/categories/test/</guid>
-        <description>&lt;img src="http://localhost:1313/LuoTongweix-my-hugo-site/categories/test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Test" /&gt;</description>
-        </item>
-        <item>
-        <title>测试</title>
-        <link>http://localhost:1313/LuoTongweix-my-hugo-site/categories/%E6%B5%8B%E8%AF%95/</link>
-        <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/categories/%E6%B5%8B%E8%AF%95/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Syntax</title>
-        <link>http://localhost:1313/LuoTongweix-my-hugo-site/categories/syntax/</link>
-        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/categories/syntax/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Themes</title>
-        <link>http://localhost:1313/LuoTongweix-my-hugo-site/categories/themes/</link>
-        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/categories/themes/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Test With Whitespaces</title>
-        <link>http://localhost:1313/LuoTongweix-my-hugo-site/categories/test-with-whitespaces/</link>
-        <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/LuoTongweix-my-hugo-site/categories/test-with-whitespaces/</guid>
-        <description></description>
+        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/test/</guid>
+        <description>&lt;img src="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Test" /&gt;</description>
         </item>
         
     </channel>
