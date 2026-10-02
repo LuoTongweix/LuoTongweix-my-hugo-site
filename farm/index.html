@@ -1269,7 +1269,7 @@ function packFarm(note){
   return cleanName(S.name) + '~' + bitsToB64(bits) + (nt ? '~' + nt : '');
 }
 function unpackFarmV2(payload){
-  const s = String(payload || '').trim();
+  const s = String(payload || '').replace(/\s+/g, '');   // 折行/空格不该让码失效
   if(s.length < 20 || s.length > 120) return null;
   const bits = checkB64(s);
   if(!bits) return null;
@@ -1290,7 +1290,7 @@ function unpackFarmV2(payload){
 
 function unpackFarm(code){
   if(!code) return null;
-  code = String(code).trim();
+  code = decodeCodeInput(String(code));
   /* 新版 */
   const t = code.split('~');
   if(t.length >= 2){
@@ -1328,7 +1328,7 @@ function packNote(text){
   return cleanName(S.name) + '~' + cleanNote(text);
 }
 function unpackNote(code){
-  const t = String(code || '').trim().split('~');
+  const t = decodeCodeInput(String(code || '')).split('~');
   if(t.length < 2) return null;
   const text = decodeNote(cleanNote(t.slice(1).join(' ')));
   if(!text) return null;
@@ -1348,7 +1348,7 @@ function packReceipt(steals, note){
 }
 function unpackReceipt(code){
   if(!code) return null;
-  code = String(code).trim();
+  code = decodeCodeInput(String(code));
   let name, data, note = '';
   if(code.indexOf('~') >= 0){
     const t = code.split('~');
@@ -1373,17 +1373,39 @@ function unpackReceipt(code){
   return { name, steals, note };
 }
 
-/* --- 链接与粘贴解析 --- */
+/* --- 链接与粘贴解析 ---
+   容错解码:聊天软件常把整条链接再编码一次,或在折行处把 %E4 劈成两半;
+   这两种情况都会让 decodeURIComponent 抛异常 —— 旧写法 catch 后直接返回原文,
+   于是昵称/附言就停在 %E6%96%B9 这种状态(农场负载是 ASCII,所以照样能解析)。 */
+function decodeCodeInput(s){
+  let out = String(s == null ? '' : s).trim();
+  out = out.replace(/[\r\n\t\u200B\uFEFF\u00A0]+/g, '');   // 只去换行/制表/零宽,保留空格
+  for(let i=0;i<3;i++){
+    /* 附言里的 ~ 是转义成 %7E 的。每轮解码前先抱住它,
+       否则解码出来的 ~ 会被当成字段分隔符,把附言劈成两半 */
+    out = out.replace(/%7E/gi, '\u0001');
+    if(out.indexOf('%') < 0) break;
+    try{
+      const d = decodeURIComponent(out);
+      if(d === out) break;
+      out = d;                                             // 二层、三层编码也解得开
+    }catch(e){
+      /* 存在不合法的 % 时,只解出合法的转义序列,不整串放弃 */
+      out = out.replace(/%[0-9a-fA-F]{2}/g, function(m){
+        try{ return decodeURIComponent(m); }catch(_){ return m; }
+      });
+      break;
+    }
+  }
+  return out.replace(/\u0001/g, '%7E').replace(/[\r\n\t\u200B\uFEFF\u00A0]+/g, '');
+}
 function extractCode(input, keys){
   const s = String(input == null ? '' : input).trim();
   for(const k of keys){
     const i = s.indexOf(k);
-    if(i >= 0){
-      const raw = s.slice(i + k.length).split('&')[0];
-      try{ return decodeURIComponent(raw); }catch(e){ return raw; }
-    }
+    if(i >= 0) return decodeCodeInput(s.slice(i + k.length).split('&')[0]);
   }
-  return s;
+  return decodeCodeInput(s);
 }
 function extractFarmCode(input){ return extractCode(input, ['#v=']); }
 function extractReceiptCode(input){ return extractCode(input, ['#s=']); }
@@ -1912,7 +1934,7 @@ $('btn-visit-go').onclick = () => {
     }
   }
   const farm = unpackFarm(extractFarmCode(raw));
-  if(!farm){ toast('码格式不对,请检查'); return; }
+  if(!farm){ toast('码读不出来 🤔<br>可能是链接被聊天软件截断了<br>让 TA 改发「农场码」再试一次'); return; }
   V.name = farm.name;
   V.plots = farm.plots;
   V.plotLv = farm.plotLv;
@@ -2035,7 +2057,7 @@ $('btn-copy-receipt-link').onclick = () => {
 /* ================= 导入回执 ================= */
 function importReceipt(codeStr){
   const data = unpackReceipt(codeStr);
-  if(!data){ toast('回执码无效'); return false; }
+  if(!data){ toast('回执码无效 🤔<br>让 TA 把整条链接或回执码重发一次'); return false; }
   const thief = cleanName(data.name);
   let removed = [], protectedCnt = 0;
 
