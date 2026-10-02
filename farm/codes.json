@@ -1,0 +1,9 @@
+{
+  "codes": [
+    { "code": "WELCOME",     "desc": "新手欢迎礼包",  "reward": { "coins": 200, "diamonds": 5 } },
+    { "code": "FARM2026",    "desc": "2026 秋收礼包", "reward": { "coins": 888, "diamonds": 8, "items": { "fert": 2 } } },
+    { "code": "FRIEND",      "desc": "好友串门礼",    "reward": { "coins": 300, "items": { "speed": 1, "rich": 1 } } },
+    { "code": "BIRTHDAY",    "desc": "生日特别版",    "reward": { "coins": 520, "diamonds": 14 } },
+    { "code": "LUOTONGWEIX", "desc": "站长专属",      "reward": { "coins": 2026, "diamonds": 20, "items": { "guard": 2 } } }
+  ]
+}

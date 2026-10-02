@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Pages on 珞桐蔚</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/page/</link>
+        <link>https://luotongweix.github.io/LuoTongweix-my-hugo-site/page/</link>
         <description>Recent content in Pages on 珞桐蔚</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>珞桐蔚</copyright>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://luotongweix.github.io/LuoTongweix-my-hugo-site/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>档案</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/archives/</link>
+        <link>https://luotongweix.github.io/LuoTongweix-my-hugo-site/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/archives/</guid>
+        <guid>https://luotongweix.github.io/LuoTongweix-my-hugo-site/archives/</guid>
         <description></description>
         </item>
         <item>
         <title>关于</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/%E5%85%B3%E4%BA%8E/</link>
+        <link>https://luotongweix.github.io/LuoTongweix-my-hugo-site/%E5%85%B3%E4%BA%8E/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/%E5%85%B3%E4%BA%8E/</guid>
+        <guid>https://luotongweix.github.io/LuoTongweix-my-hugo-site/%E5%85%B3%E4%BA%8E/</guid>
         <description>&lt;p&gt;你好，我是&lt;strong&gt;珞桐蔚&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;关于我&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -46,18 +46,18 @@
         </item>
         <item>
         <title>搜索</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/search/</link>
+        <link>https://luotongweix.github.io/LuoTongweix-my-hugo-site/search/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/search/</guid>
+        <guid>https://luotongweix.github.io/LuoTongweix-my-hugo-site/search/</guid>
         <description></description>
         </item>
         <item>
         <title>友链</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/%E5%8F%8B%E9%93%BE/</link>
+        <link>https://luotongweix.github.io/LuoTongweix-my-hugo-site/%E5%8F%8B%E9%93%BE/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/%E5%8F%8B%E9%93%BE/</guid>
+        <guid>https://luotongweix.github.io/LuoTongweix-my-hugo-site/%E5%8F%8B%E9%93%BE/</guid>
         <description>&lt;p&gt;欢迎交换友链！&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;申请方式&lt;/strong&gt;：在留言或邮件里告诉我你的网站
 &lt;strong&gt;格式&lt;/strong&gt;：网站名 + 一句话简介 + 链接&lt;/p&gt;

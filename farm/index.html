@@ -1,0 +1,3568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5e6c8">
+<meta name="description" content="小农场 · 双人版 —— 种菜、加工、和朋友互相串门偷菜">
+<title>小农场 · 双人版</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  color:#3b2b1f;background:#f5e6c8;min-height:100vh;overflow-x:hidden;user-select:none}
+.app{max-width:460px;margin:0 auto;padding:14px 14px 90px;min-height:100vh;position:relative}
+.screen{display:none}.screen.active{display:block;animation:fu .35s ease}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px;flex-wrap:wrap}
+.pill{background:#fff8e7;border:2px solid #e0c9a0;border-radius:14px;padding:6px 11px;
+  font-weight:800;font-size:13px;box-shadow:0 3px 0 #e0c9a0;display:flex;align-items:center;gap:4px}
+.pill.gold{color:#c98a1a}.pill.lv{color:#7a5bb5}.pill.me{color:#c25b8b}.pill.dia{color:#2196f3}
+.weather-bar{margin:6px 0 10px;padding:8px 14px;border-radius:14px;text-align:center;
+  font-size:13px;font-weight:700;background:#fff8e7;border:2px solid #e0c9a0;display:flex;
+  align-items:center;justify-content:center;gap:8px}
+.weather-bar .wx{font-size:20px}
+.farm{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.plot{position:relative;aspect-ratio:1/1;border-radius:14px;cursor:pointer;
+  background:linear-gradient(180deg,#a9764a,#8a5c34);
+  border:3px solid #6f4622;overflow:hidden;transition:.15s;
+  display:flex;align-items:center;justify-content:center}
+.plot:active{transform:scale(.95)}
+.plot.empty::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 12px)}
+.plot .emoji{font-size:34px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));
+  z-index:2;animation:sway 3s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.plot.mature .emoji{animation:bounce .7s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.1)}}
+.plot.mature{box-shadow:0 0 0 3px #ffd166,0 0 18px rgba(255,209,102,.7)}
+.plot.r-rare.mature{box-shadow:0 0 0 3px #2196f3,0 0 18px rgba(33,150,243,.7)}
+.plot.r-epic.mature{box-shadow:0 0 0 3px #9c27b0,0 0 18px rgba(156,39,176,.7)}
+.plot.r-legend.mature{box-shadow:0 0 0 3px #ff9800,0 0 22px rgba(255,152,0,.85);
+  animation:legendPulse 1.4s ease-in-out infinite}
+@keyframes legendPulse{0%,100%{box-shadow:0 0 0 3px #ff9800,0 0 22px rgba(255,152,0,.85)}
+  50%{box-shadow:0 0 0 4px #ffd166,0 0 32px rgba(255,152,0,1)}}
+.plot .bar{position:absolute;bottom:0;left:0;right:0;height:5px;background:rgba(0,0,0,.35);z-index:3}
+.plot .bar i{display:block;height:100%;background:linear-gradient(90deg,#8fe388,#4caf50);
+  width:0;transition:width .4s}
+.plot .water{position:absolute;top:3px;right:4px;font-size:11px;z-index:3;letter-spacing:-1px}
+.plot .lvtag{position:absolute;bottom:4px;right:4px;font-size:9px;font-weight:800;
+  background:rgba(212,160,23,.9);color:#fff;padding:1px 5px;border-radius:6px;z-index:4}
+.plot .prot{position:absolute;top:2px;left:2px;font-size:12px;z-index:4}
+.plot.locked{background:linear-gradient(180deg,#5a5a5a,#3a3a3a);border-color:#2a2a2a}
+.plot.locked::before{content:"🔒";position:absolute;font-size:26px;z-index:5;opacity:.85}
+.plot .evt{position:absolute;top:2px;left:2px;font-size:18px;z-index:6;animation:shake .5s infinite}
+@keyframes shake{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.tool{background:#fff8e7;border:2px solid #e0c9a0;border-radius:14px;padding:8px 2px;
+  font-size:11px;font-weight:700;font-family:inherit;color:#7a5b3a;cursor:pointer;
+  box-shadow:0 3px 0 #e0c9a0;transition:.12s;display:flex;flex-direction:column;align-items:center;gap:3px;
+  position:relative}
+.tool:active{transform:translateY(3px);box-shadow:0 0 0 #e0c9a0}
+.tool.on{background:#ffe9a8;border-color:#d4a017;box-shadow:0 3px 0 #d4a017;color:#8a5a00}
+.tool .ic{font-size:20px;line-height:1}
+.mask{position:fixed;inset:0;background:rgba(40,25,10,.55);z-index:100;
+  display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.mask.show{display:flex;animation:fi .2s}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.sheet{width:100%;max-width:460px;background:#fff8e7;border-radius:24px 24px 0 0;
+  padding:18px 16px 26px;animation:up .3s cubic-bezier(.22,1,.36,1);max-height:85vh;overflow-y:auto}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet h3{margin:0 0 4px;font-size:19px;color:#5a3d22}
+.sheet .desc{font-size:12.5px;color:#9a7c5a;margin-bottom:14px}
+.seed{display:flex;align-items:center;gap:12px;padding:11px;border-radius:14px;
+  background:#fff;border:2px solid #e8d8b8;margin-bottom:9px;cursor:pointer;transition:.15s}
+.seed:active{transform:scale(.98)}
+.seed.lock{opacity:.45;pointer-events:none}
+.seed.r-common{border-left:6px solid #4caf50}
+.seed.r-rare{border-left:6px solid #2196f3}
+.seed.r-epic{border-left:6px solid #9c27b0}
+.seed.r-legend{border-left:6px solid #ff9800;background:linear-gradient(135deg,#fff9ec,#fff)}
+.seed .se{font-size:30px;width:42px;text-align:center}
+.seed .info{flex:1}
+.seed .nm{font-weight:800;font-size:14.5px;color:#4a3320;display:flex;align-items:center;gap:5px}
+.seed .rr{font-size:9.5px;font-weight:800;padding:1px 6px;border-radius:8px;color:#fff}
+.seed .rr.common{background:#4caf50}.seed .rr.rare{background:#2196f3}
+.seed .rr.epic{background:#9c27b0}.seed .rr.legend{background:linear-gradient(90deg,#ff9800,#ff5722)}
+.seed .meta{font-size:11.5px;color:#9a7c5a;margin-top:2px}
+.seed .price{font-weight:800;font-size:13.5px;color:#c98a1a;white-space:nowrap;text-align:right}
+.seed .price.no{color:#d9534f}
+.btn{width:100%;padding:14px;border:none;border-radius:16px;font-size:15px;font-weight:800;
+  font-family:inherit;color:#fff;cursor:pointer;margin-top:10px;
+  background:linear-gradient(135deg,#7bc96f,#4caf50);box-shadow:0 4px 0 #357a38;transition:.12s}
+.btn:active{transform:translateY(3px);box-shadow:0 0 0 #357a38}
+.btn.b2{background:linear-gradient(135deg,#ffb74d,#f57c00);box-shadow:0 4px 0 #b35c00}
+.btn.b3{background:linear-gradient(135deg,#a0a0a0,#707070);box-shadow:0 4px 0 #4a4a4a}
+.btn.b4{background:linear-gradient(135deg,#f06292,#c2185b);box-shadow:0 4px 0 #880e4f}
+.btn.b5{background:linear-gradient(135deg,#64b5f6,#1976d2);box-shadow:0 4px 0 #0d47a1}
+.btn.b6{background:linear-gradient(135deg,#ff9800,#e65100);box-shadow:0 4px 0 #bf360c}
+.row{display:flex;gap:8px}.row .btn{margin-top:0}
+input{width:100%;padding:13px;border-radius:14px;font-size:15px;font-family:inherit;
+  border:2px solid #e0c9a0;background:#fff;color:#4a3320;outline:none;transition:.2s;text-align:center}
+input:focus{border-color:#d4a017}
+input::placeholder{color:#c9b696}
+textarea{width:100%;padding:12px;border-radius:14px;font-size:12.5px;font-family:monospace;
+  border:2px solid #e0c9a0;background:#fff;color:#4a3320;outline:none;resize:none;
+  height:90px;word-break:break-all;line-height:1.5}
+textarea:focus{border-color:#d4a017}
+.code-box{font-size:11.5px;font-weight:700;text-align:center;
+  padding:13px 10px;border-radius:14px;margin:12px 0;min-height:60px;
+  background:#fff;border:2px dashed #d4a017;color:#8a5a00;
+  user-select:all;word-break:break-all;font-family:monospace;line-height:1.6}
+#cam-canvas{width:100%;border-radius:18px;display:block;background:#cdeafd;
+  border:3px solid #e0c9a0;touch-action:none}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:10px 0 4px;-webkit-overflow-scrolling:touch}
+.filters::-webkit-scrollbar{display:none}
+.fchip{flex:none;padding:7px 13px;border-radius:20px;font-size:12.5px;font-weight:700;
+  border:2px solid #e0c9a0;background:#fff8e7;color:#7a5b3a;cursor:pointer;font-family:inherit}
+.fchip.on{background:#ffd166;border-color:#d4a017;color:#7a4a00}
+.stickers{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0}
+.schip{width:40px;height:40px;border-radius:12px;font-size:20px;border:2px solid #e0c9a0;
+  background:#fff8e7;cursor:pointer;display:grid;place-items:center;font-family:inherit}
+.schip.on{background:#ffd166;border-color:#d4a017}
+.album{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.photo{position:relative;border-radius:14px;overflow:hidden;border:3px solid #fff;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);aspect-ratio:1/1;background:#eee}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .del{position:absolute;top:5px;right:5px;width:26px;height:26px;border-radius:50%;
+  border:none;background:rgba(0,0,0,.5);color:#fff;font-size:14px;cursor:pointer;
+  display:grid;place-items:center;line-height:1}
+.photo .d{position:absolute;bottom:0;left:0;right:0;padding:3px 6px;font-size:10px;
+  background:rgba(0,0,0,.45);color:#fff;text-align:center}
+.empty-tip{text-align:center;padding:50px 20px;color:#9a7c5a;font-size:14px;line-height:1.8}
+.toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:999;
+  background:rgba(40,25,10,.9);color:#fff;padding:12px 22px;border-radius:14px;
+  font-size:14px;font-weight:700;pointer-events:none;animation:tst 1.8s forwards;max-width:80%;
+  text-align:center;line-height:1.5}
+@keyframes tst{0%{opacity:0;transform:translate(-50%,-40%)}15%{opacity:1;transform:translate(-50%,-50%)}
+  80%{opacity:1}100%{opacity:0;transform:translate(-50%,-60%)}}
+.hint{text-align:center;font-size:11.5px;color:#9a7c5a;margin-top:12px;line-height:1.7}
+.big-emoji{font-size:52px;line-height:1;margin-bottom:10px;text-align:center;animation:pop .45s}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.center{text-align:center}
+.visit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0}
+.vcell{aspect-ratio:1/1;border-radius:10px;background:linear-gradient(180deg,#a9764a,#8a5c34);
+  border:2px solid #6f4622;display:grid;place-items:center;font-size:26px;position:relative;cursor:pointer}
+.vcell.mature{box-shadow:0 0 0 2px #ffd166,0 0 12px rgba(255,209,102,.6)}
+.vcell.mature:active{transform:scale(.94)}
+.vcell.stolen{opacity:.4;pointer-events:none}
+.vcell.stolen::before{content:"✓";position:absolute;inset:0;display:grid;place-items:center;
+  font-size:22px;font-weight:800;color:#fff;background:rgba(0,0,0,.35);border-radius:8px}
+.vcell .steal-tag{position:absolute;top:2px;left:3px;font-size:9px;font-weight:800;
+  background:#ff4d8d;color:#fff;padding:0 4px;border-radius:5px}
+.navbar{position:fixed;bottom:0;left:0;right:0;background:#fff8e7;
+  border-top:2px solid #e0c9a0;display:flex;z-index:50;padding:6px 0 max(6px,env(safe-area-inset-bottom))}
+.navbar-inner{display:flex;width:100%;max-width:460px;margin:0 auto}
+.nav-btn{flex:1;background:none;border:none;font-family:inherit;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;
+  font-size:10.5px;font-weight:700;color:#9a7c5a;position:relative}
+.nav-btn.on{color:#c25b8b}
+.nav-btn .ni{font-size:22px;line-height:1}
+.nav-btn .nbadge{position:absolute;top:-2px;right:20%;background:#ff4d8d;color:#fff;
+  font-size:9px;font-weight:800;padding:1px 5px;border-radius:9px;min-width:14px}
+.quest{display:flex;gap:10px;padding:11px;border-radius:13px;background:#fff;
+  border:2px solid #e8d8b8;margin-bottom:8px;align-items:center}
+.quest.done{opacity:.55;border-color:#b8d8b8;background:#f0f8f0}
+.quest .qi{font-size:26px}
+.quest .qinfo{flex:1}
+.quest .qn{font-weight:800;font-size:13.5px;color:#4a3320}
+.quest .qp{font-size:11px;color:#9a7c5a;margin-top:2px}
+.quest .qbar{height:5px;background:#eee;border-radius:99px;overflow:hidden;margin-top:5px}
+.quest .qbar i{display:block;height:100%;background:linear-gradient(90deg,#8fe388,#4caf50);
+  width:0;transition:width .3s}
+.quest .qr{font-size:11.5px;font-weight:800;color:#2196f3;white-space:nowrap}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ach{aspect-ratio:1/1;border-radius:14px;background:#fff;border:2px solid #e8d8b8;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:6px 4px;text-align:center;opacity:.35;transition:.2s}
+.ach.done{opacity:1;border-color:#ffd166;background:linear-gradient(160deg,#fffbe6,#fff0c8);
+  box-shadow:0 0 12px rgba(255,209,102,.5)}
+.ach .ae{font-size:26px}
+.ach .an{font-size:10px;font-weight:800;color:#5a3d22;margin-top:4px;line-height:1.2}
+.ach .ad{font-size:9px;color:#9a7c5a;margin-top:2px}
+.item{display:flex;gap:10px;padding:11px;border-radius:13px;background:#fff;
+  border:2px solid #e8d8b8;margin-bottom:8px;align-items:center}
+.item .ii{font-size:28px;width:40px;text-align:center}
+.item .iname{font-weight:800;font-size:13.5px;color:#4a3320}
+.item .idesc{font-size:11px;color:#9a7c5a;margin-top:2px;line-height:1.4}
+.item .cnt{font-weight:800;font-size:14px;color:#2196f3;margin-left:auto;white-space:nowrap}
+.item .ibtn{padding:7px 12px;border:none;border-radius:10px;font-family:inherit;
+  font-weight:800;font-size:12px;color:#fff;cursor:pointer;
+  background:linear-gradient(135deg,#64b5f6,#1976d2);box-shadow:0 2px 0 #0d47a1}
+.item .ibtn:disabled{opacity:.4}
+.pet{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;
+  background:linear-gradient(135deg,#fff2e6,#ffe4d6);border:2px solid #f0b890;margin-bottom:10px}
+.pet .pe{font-size:44px}
+.pet .pi{flex:1}
+.pet .pn{font-weight:800;font-size:15px;color:#7a3a15}
+.pet .pl{font-size:11.5px;color:#a05a30;margin-top:2px}
+.pet .pbar{height:5px;background:#f0d0b8;border-radius:99px;overflow:hidden;margin-top:6px}
+.pet .pbar i{display:block;height:100%;background:linear-gradient(90deg,#ffb74d,#f57c00);
+  width:0;transition:width .3s}
+.dex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dex{aspect-ratio:1/1;border-radius:14px;background:#fff;border:2px solid #e8d8b8;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;text-align:center}
+.dex.lock{opacity:.35;filter:grayscale(1)}
+.dex.r-common{border-top:5px solid #4caf50}
+.dex.r-rare{border-top:5px solid #2196f3}
+.dex.r-epic{border-top:5px solid #9c27b0}
+.dex.r-legend{border-top:5px solid #ff9800;background:linear-gradient(160deg,#fff9ec,#fff)}
+.dex .de{font-size:32px}
+.dex .dn{font-size:11px;font-weight:800;color:#5a3d22;margin-top:4px}
+.dex .dc{font-size:9.5px;color:#9a7c5a;margin-top:2px}
+.code-input{width:100%;padding:16px;border-radius:16px;font-size:18px;font-family:inherit;
+  border:2px solid #e0c9a0;background:#fff;color:#4a3320;outline:none;
+  text-align:center;letter-spacing:4px;text-transform:uppercase;font-weight:800}
+.code-input:focus{border-color:#d4a017}
+.redeemed-list{margin-top:16px}
+.redeemed-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:11px;
+  background:rgba(255,255,255,.6);border:1.5px solid #e8d8b8;margin-bottom:6px;font-size:12.5px}
+.redeemed-item .rc{font-family:monospace;font-weight:800;color:#7a4a00;flex:1}
+.redeemed-item .rd{font-size:10.5px;color:#9a7c5a}
+.reward-popup{position:fixed;inset:0;z-index:200;display:none;
+  align-items:center;justify-content:center;background:rgba(40,25,10,.7);backdrop-filter:blur(4px)}
+.reward-popup.show{display:flex;animation:fi .25s}
+.reward-card{background:#fff8e7;border-radius:24px;padding:26px 22px;text-align:center;
+  max-width:340px;width:calc(100% - 40px);border:3px solid #ffd166;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+.reward-card h3{color:#7a4a00;font-size:22px;margin:8px 0 6px}
+.reward-card .rlist{margin:16px 0;display:flex;flex-direction:column;gap:8px}
+.reward-card .ritem{display:flex;align-items:center;justify-content:center;gap:8px;
+  background:#fff;border-radius:12px;padding:10px;font-weight:800;font-size:14px}
+.reward-card .ri-emoji{font-size:22px}
+.legend-badge{display:inline-block;padding:2px 6px;border-radius:6px;font-size:9px;
+  font-weight:800;color:#fff;background:linear-gradient(90deg,#ff9800,#ff5722);margin-left:4px}
+
+/* ================= v5 新增样式 ================= */
+body{touch-action:manipulation}
+.navbar-inner{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:0 4px}
+.navbar-inner::-webkit-scrollbar{display:none}
+.nav-btn{flex:0 0 20%;min-height:46px;min-width:64px}
+:focus-visible{outline:3px solid #d4a017;outline-offset:2px;border-radius:10px}
+.hint b,.hint strong{color:#8a5a00}
+
+/* --- 分段切换 / 通用列表 --- */
+.seg{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
+.seg button{flex:1 1 0;min-width:74px;min-height:40px;padding:9px 4px;border-radius:12px;
+  border:2px solid #e0c9a0;background:#fff8e7;font-family:inherit;font-weight:800;
+  font-size:12px;color:#7a5b3a;cursor:pointer}
+.seg button.on{background:#ffd166;border-color:#d4a017;color:#7a4a00}
+.rec{display:flex;gap:10px;padding:11px;border-radius:13px;background:#fff;
+  border:2px solid #e8d8b8;margin-bottom:8px;align-items:center}
+.rec .re{font-size:28px;width:40px;text-align:center}
+.rec .rn{font-weight:800;font-size:13.5px;color:#4a3320}
+.rec .rd{font-size:11px;color:#9a7c5a;margin-top:2px;line-height:1.45}
+.rec .rc{font-weight:800;font-size:12.5px;color:#c98a1a;white-space:nowrap;margin-left:auto}
+.gslot{display:flex;gap:10px;padding:11px;border-radius:13px;background:#fff;
+  border:2px solid #e8d8b8;margin-bottom:8px;align-items:center}
+.gslot.busy{background:linear-gradient(135deg,#fff9ec,#fff)}
+.gslot .ge{font-size:30px;width:42px;text-align:center}
+.gslot .gi{flex:1}
+.gslot .gn{font-weight:800;font-size:13.5px;color:#4a3320}
+.gslot .gp{font-size:11px;color:#9a7c5a;margin-top:2px}
+.gslot .gbar{height:5px;border-radius:99px;background:#eee;overflow:hidden;margin-top:6px}
+.gslot .gbar i{display:block;height:100%;background:linear-gradient(90deg,#ffd166,#f57c00)}
+.goods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.good{border-radius:13px;background:#fff;border:2px solid #e8d8b8;padding:10px 6px;text-align:center}
+.good .goe{font-size:28px}
+.good .gon{font-size:11px;font-weight:800;color:#5a3d22;margin-top:3px}
+.good .goc{font-size:10.5px;color:#9a7c5a;margin-top:2px}
+
+/* --- 福利:签到 --- */
+.checkin{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.cday{border-radius:13px;background:#fff;border:2px solid #e8d8b8;padding:9px 4px;
+  text-align:center;position:relative}
+.cday .cd{font-size:10px;font-weight:800;color:#9a7c5a}
+.cday .ce{font-size:21px;margin:2px 0}
+.cday .ct{font-size:9.5px;font-weight:800;color:#5a3d22;line-height:1.3}
+.cday.got{background:#eaf7e2;border-color:#8fbf6a;opacity:.75}
+.cday.got::after{content:"✓";position:absolute;top:2px;right:5px;color:#4caf50;font-weight:800;font-size:12px}
+.cday.today{border-color:#ff9800;box-shadow:0 0 0 3px rgba(255,152,0,.25)}
+
+/* --- 福利:转盘 --- */
+.wheel-wrap{position:relative;width:min(272px,78vw);aspect-ratio:1/1;margin:16px auto 6px}
+.wheel{position:absolute;inset:0;border-radius:50%;border:6px solid #fff8e7;
+  box-shadow:0 6px 22px rgba(0,0,0,.22),inset 0 0 0 4px #e0c9a0;
+  background:conic-gradient(
+    #ffe9a8 0deg 45deg,#ffd166 45deg 90deg,#fff3cf 90deg 135deg,#ffdf8a 135deg 180deg,
+    #ffe9a8 180deg 225deg,#ffd166 225deg 270deg,#fff3cf 270deg 315deg,#ffdf8a 315deg 360deg);
+  transition:transform 3.8s cubic-bezier(.17,.67,.2,1)}
+.wheel .wl{position:absolute;left:50%;top:50%;width:74px;margin:-9px 0 0 -37px;
+  text-align:center;font-size:11px;font-weight:800;color:#7a4a00;line-height:1.2}
+.wheel .wl span{display:block;font-size:19px}
+.wheel-pin{position:absolute;left:50%;top:-14px;transform:translateX(-50%);font-size:28px;z-index:3;
+  filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+.wheel-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;
+  border-radius:50%;background:#fff8e7;border:4px solid #e0c9a0;display:grid;place-items:center;
+  font-size:24px;z-index:2;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+
+/* --- 邻居簿 --- */
+.friend{display:flex;gap:10px;padding:11px;border-radius:13px;background:#fff;
+  border:2px solid #e8d8b8;margin-bottom:8px;align-items:center}
+.friend .fe{font-size:26px;width:36px;text-align:center}
+.friend .fi{flex:1;min-width:0}
+.friend .fn{font-weight:800;font-size:13.5px;color:#4a3320;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.friend .fd{font-size:10.5px;color:#9a7c5a;margin-top:2px}
+.friend .fbtns{display:flex;gap:5px}
+.friend .fbtns button{padding:7px 9px;border:none;border-radius:10px;font-family:inherit;
+  font-weight:800;font-size:11.5px;color:#fff;cursor:pointer;
+  background:linear-gradient(135deg,#64b5f6,#1976d2);box-shadow:0 2px 0 #0d47a1}
+.friend .fbtns button.del{background:linear-gradient(135deg,#ef9a9a,#c62828);box-shadow:0 2px 0 #8e0000}
+
+/* --- 彩蛋:金币雨 --- */
+.coin-rain{position:fixed;inset:0;pointer-events:none;z-index:998;overflow:hidden}
+.coin-rain i{position:absolute;top:-8vh;font-size:24px;animation:coinFall linear forwards}
+@keyframes coinFall{to{transform:translateY(118vh) rotate(540deg);opacity:.15}}
+
+/* --- v6.1:底部导航单行自适应(9 项全可见;窄屏自动折成两行) --- */
+.app{padding:14px 14px 104px}
+.navbar{padding:4px 0 max(4px,env(safe-area-inset-bottom))}
+.navbar-inner{display:flex;flex-wrap:wrap;gap:1px 0;overflow:visible;padding:0 3px;
+  width:100%;max-width:460px;margin:0 auto}
+.nav-btn{flex:1 1 0;min-width:36px;min-height:46px;padding:5px 0 4px;font-size:9.5px;
+  border-radius:12px;background:transparent;transition:.15s}
+.nav-btn .ni{font-size:18px}
+.nav-btn.on{color:#c25b8b;background:#fff1cf}
+.nav-btn .nbadge{right:6%;top:-1px;font-size:8.5px;padding:0 4px}
+@media (max-width:360px){
+  .nav-btn{font-size:9px}
+  .nav-btn .ni{font-size:17px}
+}
+
+/* --- v6.1:分享码说明(大白话) --- */
+.help{text-align:left;font-size:13px;line-height:1.75;color:#4a3320}
+.help .hstep{background:#fff;border:2px solid #e8d8b8;border-radius:14px;padding:11px 12px;margin-bottom:9px}
+.help .hstep b{color:#5a3d22}
+.help .hcode{display:flex;align-items:center;gap:9px;background:#fff8e7;border:2px dashed #e0c9a0;
+  border-radius:12px;padding:9px 11px;margin:7px 0;font-size:12.5px}
+.help .hcode .he{font-size:22px}
+.help .hcode .ht{flex:1}
+.help .hcode .hn{font-weight:800;color:#4a3320}
+.help .hcode .hd{font-size:11px;color:#9a7c5a}
+.help .hcode .hk{font-family:monospace;font-size:11px;color:#8a5a00;background:#fff;
+  border:1.5px solid #e0c9a0;border-radius:8px;padding:1px 6px;white-space:nowrap}
+.help .hnums{display:flex;gap:8px;margin-bottom:9px}
+.help .hnums div{flex:1;background:#fff;border:2px solid #e8d8b8;border-radius:13px;padding:9px 6px;
+  text-align:center;font-size:11.5px;font-weight:700;color:#7a5b3a}
+.help .hnums span{display:block;font-size:20px;margin-bottom:2px}
+.help .htip{font-size:11.5px;color:#9a7c5a;line-height:1.8}
+.help .htip b{color:#c25b8b}
+
+/* --- v6:快捷操作 / 留言板 / 存档面板 --- */
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 2px}
+.quick button{padding:11px 4px;border-radius:13px;border:2px solid #cfe3b8;background:#f2fbe8;
+  font-family:inherit;font-weight:800;font-size:12px;color:#4a6b2a;cursor:pointer;
+  box-shadow:0 3px 0 #cfe3b8;min-height:44px;transition:.12s}
+.quick button:active{transform:translateY(3px);box-shadow:0 0 0 #cfe3b8}
+.note-card{margin:10px 0 4px;padding:10px 12px;border-radius:14px;font-size:12.5px;line-height:1.6;
+  background:linear-gradient(135deg,#fff7e0,#fff);border:2px solid #f0d9a0;color:#7a5b3a;
+  word-break:break-word}
+.msg{padding:11px 12px;border-radius:14px;background:#fff;border:2px solid #e8d8b8;margin-bottom:9px}
+.msg.done{background:#f6faf2;border-color:#cfe3b8}
+.msg .mh{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#9a7c5a;gap:8px}
+.msg .mf{font-weight:800;color:#c25b8b;font-size:12.5px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.msg .mb{margin-top:6px;font-size:13.5px;line-height:1.6;color:#4a3320;word-break:break-word}
+.msg .mbtns{display:flex;gap:8px;margin-top:9px}
+.msg .mbtns button{flex:1;padding:8px;border:none;border-radius:10px;font-family:inherit;
+  font-weight:800;font-size:12px;color:#fff;cursor:pointer;min-height:38px;
+  background:linear-gradient(135deg,#64b5f6,#1976d2);box-shadow:0 2px 0 #0d47a1}
+.msg .mbtns button.del{background:linear-gradient(135deg,#ef9a9a,#c62828);box-shadow:0 2px 0 #8e0000}
+#share-note,#receipt-note{margin-top:10px;height:72px}
+#save-code{height:96px;font-size:10.5px;margin-top:10px}
+
+/* --- v6:吐司堆叠 / 图鉴里程碑 --- */
+.toast-box{position:fixed;left:0;right:0;top:36%;z-index:999;display:flex;flex-direction:column;
+  align-items:center;gap:8px;pointer-events:none;padding:0 16px}
+.toast{position:static;left:auto;top:auto;transform:none;animation:tst2 1.8s forwards;
+  max-width:100%;font-size:13.5px}
+@keyframes tst2{0%{opacity:0;transform:translateY(10px) scale(.96)}
+  14%{opacity:1;transform:none}80%{opacity:1;transform:none}
+  100%{opacity:0;transform:translateY(-10px) scale(.98)}}
+
+/* --- 无障碍:偏好减弱动效 --- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important}
+  .screen.active{animation:none}
+}
+@media (max-width:340px){
+  .plot .emoji{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <section id="s-name" class="screen">
+    <div class="center" style="padding-top:50px">
+      <div class="big-emoji">🌱</div>
+      <h2 style="color:#5a3d22;font-size:22px;margin:0 0 6px">欢迎来到小农场</h2>
+      <p class="hint" style="margin-bottom:24px">先给自己起个名字吧</p>
+    </div>
+    <input id="name-input" maxlength="8" placeholder="输入昵称" autocomplete="off">
+    <button class="btn" id="btn-name-ok">开始种菜</button>
+  </section>
+
+  <section id="s-farm" class="screen active">
+    <div class="topbar">
+      <div class="pill me">👤 <span id="my-name">--</span></div>
+      <div class="pill gold">💰 <span id="coins">20</span></div>
+      <div class="pill dia">💎 <span id="diamonds">0</span></div>
+      <div class="pill lv">Lv.<span id="lv">1</span></div>
+    </div>
+    <div class="weather-bar" id="weather-bar">☀️ 晴天 · 生长速度正常</div>
+    <div class="farm" id="farm"></div>
+    <div class="quick">
+      <button id="q-water">💧 全部浇水</button>
+      <button id="q-harvest">🌾 一键收获</button>
+      <button id="q-plant">🌱 接着种</button>
+    </div>
+    <div class="tools">
+      <button class="tool" id="t-water"><span class="ic">💧</span>水壶</button>
+      <button class="tool" id="t-shovel"><span class="ic">🪓</span>铲除</button>
+      <button class="tool" id="t-cam"><span class="ic">📷</span>拍照</button>
+      <button class="tool" id="t-album"><span class="ic">🖼️</span>相册</button>
+      <button class="tool" id="t-share"><span class="ic">📤</span>分享</button>
+      <button class="tool" id="t-visit"><span class="ic">👀</span>拜访</button>
+      <button class="tool" id="t-board"><span class="ic">✉️</span>留言</button>
+      <button class="tool" id="t-craft"><span class="ic">🍳</span>加工</button>
+      <button class="tool" id="t-pet"><span class="ic">🐾</span>宠物</button>
+      <button class="tool" id="t-shop"><span class="ic">🛒</span>商店</button>
+    </div>
+    <p class="hint">点空地播种 · 点作物浇水 · 成熟后收获<br>
+      忙的时候用上面三个快按钮:一起浇、一起收、接着种 🌾</p>
+  </section>
+
+  <section id="s-share" class="screen">
+    <div class="topbar">
+      <div class="pill">📤 分享我的农场</div>
+      <button class="tool" id="share-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <p class="hint">推荐用<b>直达链接</b>:对方点一下就能进你的农场</p>
+    <button class="btn b3" id="btn-help-share" style="margin-top:0">❓ 分享码怎么用?</button>
+    <textarea id="share-note" maxlength="60" placeholder="附一句话给 TA(可留空)..."></textarea>
+    <button class="btn b2" id="btn-share-system">📤 系统分享 / 发送给好友</button>
+    <button class="btn b5" id="btn-copy-link">🔗 复制直达链接</button>
+    <div class="code-box" id="share-code"></div>
+    <button class="btn b3" id="btn-copy-share">📋 只复制农场码</button>
+  </section>
+
+  <section id="s-visit" class="screen">
+    <div class="topbar">
+      <div class="pill">👀 拜访好友</div>
+      <button class="tool" id="visit-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div id="visit-input-wrap">
+      <p class="hint">粘贴 TA 发的<b>链接</b>或<b>农场码</b>都行</p>
+      <button class="btn b3" id="btn-help-visit" style="margin-top:0">❓ 收到一堆码不知道怎么用?</button>
+      <textarea id="visit-input" placeholder="链接 或 农场码..."></textarea>
+      <button class="btn" id="btn-visit-go">🚪 进入 TA 的农场</button>
+    </div>
+    <div id="visit-farm-wrap" style="display:none">
+      <div class="center" style="margin-bottom:6px">
+        <span class="pill me" id="visit-name">TA</span>
+      </div>
+      <div class="note-card" id="visit-note" style="display:none"></div>
+      <div class="visit-grid" id="visit-grid"></div>
+      <div class="hint" id="visit-status" style="margin-top:8px"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn b3" id="btn-visit-again" style="flex:1">换一个</button>
+        <button class="btn b4" id="btn-visit-done" style="flex:2">🎁 偷完了</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-receipt" class="screen">
+    <div class="topbar">
+      <div class="pill">🎁 回执给 TA</div>
+      <button class="tool" id="receipt-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <p class="hint">用<b>直达链接</b>最方便,TA 点一下就知道你偷了什么</p>
+    <button class="btn b3" id="btn-help-receipt" style="margin-top:0">❓ 回执是干嘛的?</button>
+    <textarea id="receipt-note" maxlength="60" placeholder="给 TA 留句话(可留空)..."></textarea>
+    <button class="btn b2" id="btn-copy-receipt-link">🔗 复制回执链接</button>
+    <div class="code-box" id="receipt-code"></div>
+    <button class="btn b3" id="btn-copy-receipt">📋 只复制回执码</button>
+  </section>
+
+  <section id="s-cam" class="screen">
+    <div class="topbar">
+      <div class="pill">📷 给农场拍照</div>
+      <button class="tool" id="cam-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <canvas id="cam-canvas" width="600" height="600"></canvas>
+    <div class="filters" id="filters"></div>
+    <div class="stickers" id="stickers"></div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn b3" id="cam-clear" style="flex:1">清空贴纸</button>
+      <button class="btn" id="cam-save" style="flex:2">保存到相册</button>
+    </div>
+  </section>
+
+  <section id="s-album" class="screen">
+    <div class="topbar">
+      <div class="pill">🖼️ 我的相册</div>
+      <button class="tool" id="album-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div class="album" id="album-grid"></div>
+    <div class="empty-tip" id="album-empty" style="display:none">还没有照片哦<br>去农场拍一张吧 📷</div>
+  </section>
+
+  <section id="s-quests" class="screen">
+    <div class="topbar">
+      <div class="pill">📋 每日任务</div>
+      <button class="tool" id="quest-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <p class="hint" id="quest-reset">每天 0 点刷新 · 完成可得钻石 💎</p>
+    <div id="quest-list"></div>
+  </section>
+
+  <section id="s-ach" class="screen">
+    <div class="topbar">
+      <div class="pill">🏆 成就 <span id="ach-count" style="color:#c98a1a"></span></div>
+      <button class="tool" id="ach-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div class="ach-grid" id="ach-grid"></div>
+  </section>
+
+  <section id="s-shop" class="screen">
+    <div class="topbar">
+      <div class="pill gold">💰 <span id="shop-coins">20</span></div>
+      <div class="pill dia">💎 <span id="shop-dia">0</span></div>
+      <button class="tool" id="shop-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <h3 style="color:#5a3d22;margin:10px 0 6px;font-size:16px">🎒 道具</h3>
+    <div id="shop-items"></div>
+    <h3 style="color:#5a3d22;margin:16px 0 6px;font-size:16px">🐾 宠物</h3>
+    <div id="shop-pets"></div>
+    <h3 style="color:#5a3d22;margin:16px 0 6px;font-size:16px">🌱 土地升级</h3>
+    <div id="shop-plots"></div>
+  </section>
+
+  <section id="s-pet" class="screen">
+    <div class="topbar">
+      <div class="pill">🐾 我的宠物</div>
+      <button class="tool" id="pet-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div id="pet-content"></div>
+  </section>
+
+  <section id="s-dex" class="screen">
+    <div class="topbar">
+      <div class="pill">📖 作物图鉴 <span id="dex-count" style="color:#c98a1a"></span></div>
+      <button class="tool" id="dex-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div class="dex-grid" id="dex-grid"></div>
+  </section>
+
+  <section id="s-bag" class="screen">
+    <div class="topbar">
+      <div class="pill">🎒 我的背包</div>
+      <button class="tool" id="bag-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div id="bag-list"></div>
+    <h3 style="color:#5a3d22;margin:22px 0 6px;font-size:16px">💾 存档与备份</h3>
+    <p class="hint" style="text-align:left;margin-top:0" id="save-info"></p>
+    <div class="row">
+      <button class="btn b5" id="btn-save-now" style="flex:1">立即保存</button>
+      <button class="btn b3" id="btn-save-export" style="flex:1">导出备份码</button>
+    </div>
+    <textarea id="save-code" placeholder="备份码会显示在这里 / 也可以把备份码粘贴进来..." spellcheck="false"></textarea>
+    <button class="btn b2" id="btn-save-import">📥 用备份码恢复存档</button>
+    <button class="btn b4" id="btn-save-reset">🗑️ 重新开始(清空存档)</button>
+  </section>
+
+  <!-- 兑换码已并入「🎁 福利」页,不再单独占一个导航位 -->
+
+  <!-- ========== v5:加工坊 + 仓库 ========== -->
+  <section id="s-craft" class="screen">
+    <div class="topbar">
+      <div class="pill">🍳 加工坊</div>
+      <button class="tool" id="craft-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div class="seg" id="craft-seg">
+      <button data-tab="craft" class="on">加工位</button>
+      <button data-tab="recipe">配方</button>
+      <button data-tab="granary">仓库</button>
+      <button data-tab="goods">成品架</button>
+    </div>
+    <div id="craft-body"></div>
+  </section>
+
+  <!-- ========== v6:留言板 ========== -->
+  <section id="s-board" class="screen">
+    <div class="topbar">
+      <div class="pill">✉️ 留言板</div>
+      <button class="tool" id="board-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <h3 style="color:#5a3d22;margin:10px 0 6px;font-size:16px">✍️ 写一条留言</h3>
+    <p class="hint" style="text-align:left;margin-top:0">留言码很短,发出去像一条短信;对方点开就进他的留言板 ✉️
+      <button class="btn b3" id="btn-help-board" style="margin-top:8px">❓ 分享码怎么用?</button>
+    </p>
+    <textarea id="board-input" maxlength="60" placeholder="想对 TA 说的话(最多 60 字)..."></textarea>
+    <div class="row" style="margin-top:10px">
+      <button class="btn b2" id="btn-board-share" style="flex:1">📤 分享</button>
+      <button class="btn b5" id="btn-board-link" style="flex:1">🔗 复制留言链接</button>
+    </div>
+    <div class="code-box" id="board-code" style="display:none"></div>
+
+    <h3 style="color:#5a3d22;margin:22px 0 6px;font-size:16px">
+      收到 <span id="board-count" style="color:#c98a1a"></span>
+    </h3>
+    <div id="board-list"></div>
+  </section>
+
+  <!-- ========== 福利:签到 / 转盘 / 兑换码 ========== -->
+  <section id="s-welfare" class="screen">
+    <div class="topbar">
+      <div class="pill">🎁 每日福利</div>
+      <button class="tool" id="welfare-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <div class="seg" id="welfare-seg">
+      <button data-wtab="checkin" class="on">📅 签到</button>
+      <button data-wtab="wheel">🎡 转盘</button>
+      <button data-wtab="code">🎫 兑换码</button>
+    </div>
+
+    <div id="wtab-checkin">
+      <p class="hint" style="margin-top:0;text-align:left" id="checkin-tip"></p>
+      <div class="checkin" id="checkin-grid"></div>
+      <button class="btn" id="btn-checkin">领取今日签到</button>
+    </div>
+
+    <div id="wtab-wheel" style="display:none">
+      <div class="wheel-wrap">
+        <div class="wheel-pin" aria-hidden="true">🔻</div>
+        <div class="wheel" id="wheel"></div>
+        <div class="wheel-hub" aria-hidden="true">🎁</div>
+      </div>
+      <button class="btn b6" id="btn-spin">转一次</button>
+      <p class="hint" id="wheel-tip"></p>
+    </div>
+
+    <div id="wtab-code" style="display:none">
+      <p class="hint">输入有效的兑换码即可领取奖励<br>每个码每人只能兑换一次</p>
+      <input id="code-input" class="code-input" maxlength="32" placeholder="输入兑换码" autocomplete="off" spellcheck="false">
+      <button class="btn b6" id="btn-redeem">✨ 立即兑换</button>
+      <div class="redeemed-list" id="redeemed-list"></div>
+      <p class="hint" id="code-status" style="margin-top:14px"></p>
+    </div>
+  </section>
+
+  <!-- ========== v5:邻居簿 ========== -->
+  <section id="s-friends" class="screen">
+    <div class="topbar">
+      <div class="pill">📇 邻居簿</div>
+      <button class="tool" id="friends-back" style="width:auto;padding:8px 14px;flex-direction:row">返回</button>
+    </div>
+    <p class="hint" style="text-align:left">把朋友发来的<b>链接</b>或<b>农场码</b>存进来,以后一键串门</p>
+    <textarea id="friend-input" placeholder="粘贴链接 或 农场码..." spellcheck="false"></textarea>
+    <button class="btn b5" id="btn-friend-add">➕ 存进邻居簿</button>
+    <div id="friend-list" style="margin-top:16px"></div>
+  </section>
+
+</div>
+
+<nav class="navbar" id="navbar" style="display:none">
+  <div class="navbar-inner">
+    <button class="nav-btn on" data-nav="s-farm"><span class="ni">🌾</span>农场</button>
+    <button class="nav-btn" data-nav="s-craft"><span class="ni">🍳</span>加工</button>
+    <button class="nav-btn" data-nav="s-quests"><span class="ni">📋</span>任务<span class="nbadge" id="nb-quest" style="display:none">0</span></button>
+    <button class="nav-btn" data-nav="s-welfare"><span class="ni">🎁</span>福利<span class="nbadge" id="nb-welfare" style="display:none">1</span></button>
+    <button class="nav-btn" data-nav="s-board"><span class="ni">✉️</span>留言<span class="nbadge" id="nb-board" style="display:none">1</span></button>
+    <button class="nav-btn" data-nav="s-friends"><span class="ni">📇</span>邻居</button>
+    <button class="nav-btn" data-nav="s-bag"><span class="ni">🎒</span>背包</button>
+    <button class="nav-btn" data-nav="s-ach"><span class="ni">🏆</span>成就</button>
+    <button class="nav-btn" data-nav="s-dex"><span class="ni">📖</span>图鉴</button>
+  </div>
+</nav>
+
+<div class="mask" id="mask-seed">
+  <div class="sheet">
+    <h3 id="seed-title">选择种子</h3>
+    <div class="desc" id="seed-desc"></div>
+    <div id="seed-list"></div>
+    <button class="btn b3" id="seed-cancel">取消</button>
+  </div>
+</div>
+
+<div class="mask" id="mask-harvest">
+  <div class="sheet" style="text-align:center">
+    <div style="font-size:60px" id="hv-emoji">🥕</div>
+    <h3 id="hv-title">收获成功!</h3>
+    <div class="desc" id="hv-desc" style="font-size:14px"></div>
+    <button class="btn" id="hv-ok">继续种菜</button>
+  </div>
+</div>
+
+<div class="mask" id="mask-steal-msg">
+  <div class="sheet" style="text-align:center">
+    <div style="font-size:60px" id="sm-emoji">🕵️</div>
+    <h3 id="sm-title">有人偷了你的菜</h3>
+    <div class="desc" id="sm-desc" style="font-size:14px;line-height:1.8"></div>
+    <button class="btn" id="sm-ok">知道了</button>
+  </div>
+</div>
+
+<div class="mask" id="mask-useitem">
+  <div class="sheet">
+    <h3>使用道具</h3>
+    <div class="desc" id="ui-desc"></div>
+    <div id="ui-list"></div>
+    <button class="btn b3" id="ui-cancel">取消</button>
+  </div>
+</div>
+
+<div class="mask" id="mask-help">
+  <div class="sheet">
+    <h3>📮 分享码怎么用?</h3>
+    <div class="desc">一句话:把「农场快照」发给朋友,他就能来你家偷菜</div>
+    <div class="help">
+      <div class="hstep">
+        <b>一共有 3 种码,长得像链接,点一下就能用:</b>
+        <div class="hcode">
+          <div class="he">🔗</div>
+          <div class="ht"><div class="hn">农场码</div>
+            <div class="hd">发给朋友 → 他进你的农场偷菜</div></div>
+          <div class="hk">#v=</div>
+        </div>
+        <div class="hcode">
+          <div class="he">🎁</div>
+          <div class="ht"><div class="hn">回执码</div>
+            <div class="hd">朋友偷完发回给你 → 你打开才知道被偷了什么</div></div>
+          <div class="hk">#s=</div>
+        </div>
+        <div class="hcode">
+          <div class="he">✉️</div>
+          <div class="ht"><div class="hn">留言码</div>
+            <div class="hd">只有一句话,短得像发短信,可以当聊天用</div></div>
+          <div class="hk">#n=</div>
+        </div>
+      </div>
+
+      <div class="hstep">
+        <b>怎么玩?就 3 步 👇</b>
+        <div class="hnums">
+          <div><span>1️⃣</span>你点「分享」<br>复制链接</div>
+          <div><span>2️⃣</span>朋友点开<br>偷走成熟作物</div>
+          <div><span>3️⃣</span>他发回执<br>你打开才扣菜</div>
+        </div>
+        <div class="htip">
+          · 发链接的方式:复制到聊天里发出去,或者用手机自带的「分享」直接发给好友<br>
+          · 朋友点开链接 → 自动进你的农场 → 点发光的成熟作物就能偷<br>
+          · 他点「🎁 偷完了」会生成回执码,<b>你打开回执,菜才真的少</b>(不会莫名消失)
+        </div>
+      </div>
+
+      <div class="hstep">
+        <b>几个小规矩 🙌</b>
+        <div class="htip">
+          · 只有<b>成熟</b>的作物能被偷,一块地只会被同一张回执扣 1 次<br>
+          · 用了 🛡️ <b>保护罩</b>的作物偷不走(会在弹窗里告诉你挡下了几个)<br>
+          · 快照是<b>你发码那一刻</b>的农场,不是实时的;对方晚点打开,作物还在长<br>
+          · 偷菜收益 = 作物售价的 <b>70%</b><br>
+          · 码里没有密码,<b>谁拿到链接谁就能来偷</b>,留言也是明文,别发到公开的地方
+        </div>
+      </div>
+    </div>
+    <button class="btn" id="help-ok">明白了 👌</button>
+  </div>
+</div>
+
+<div class="reward-popup" id="reward-popup">
+  <div class="reward-card">
+    <div style="font-size:56px" id="rp-emoji">🎉</div>
+    <h3 id="rp-title">兑换成功!</h3>
+    <div class="rlist" id="rp-list"></div>
+    <button class="btn b6" id="rp-ok">收下了</button>
+  </div>
+</div>
+
+<script>
+/* ================= 作物配置(28种) =================
+   数值规则:v6 重做。收益/秒 随等级单调递增,最长等待压到 8 分钟出头。
+   性价比(卖价/种子价)= 2.16 ~ 2.67 */
+const CROPS = {
+  radish:    { name:'萝卜',   emoji:'🥕', seed:2,   sell:5,   time:15000,  lv:1,  rarity:'common' },
+  tomato:    { name:'番茄',   emoji:'🍅', seed:6,   sell:16,  time:31000,  lv:1,  rarity:'common' },
+  corn:      { name:'玉米',   emoji:'🌽', seed:11,  sell:28,  time:48000,  lv:2,  rarity:'common' },
+  straw:     { name:'草莓',   emoji:'🍓', seed:16,  sell:41,  time:64000,  lv:2,  rarity:'rare' },
+  grape:     { name:'葡萄',   emoji:'🍇', seed:25,  sell:63,  time:81000,  lv:3,  rarity:'rare' },
+  sun:       { name:'向日葵', emoji:'🌻', seed:30,  sell:76,  time:98000,  lv:3,  rarity:'rare' },
+  avocado:   { name:'牛油果', emoji:'🥑', seed:40,  sell:100, time:116000, lv:4,  rarity:'rare' },
+  rose:      { name:'玫瑰',   emoji:'🌹', seed:45,  sell:114, time:133000, lv:4,  rarity:'rare' },
+  pumpkin:   { name:'南瓜',   emoji:'🎃', seed:55,  sell:136, time:151000, lv:5,  rarity:'epic' },
+  cactus:    { name:'仙人掌', emoji:'🌵', seed:65,  sell:159, time:168000, lv:5,  rarity:'epic' },
+  pineapple: { name:'菠萝',   emoji:'🍍', seed:75,  sell:183, time:186000, lv:6,  rarity:'epic' },
+  tulip:     { name:'郁金香', emoji:'🌷', seed:90,  sell:218, time:204000, lv:6,  rarity:'epic' },
+  lotus:     { name:'莲花',   emoji:'🪷', seed:100, sell:240, time:222000, lv:7,  rarity:'epic' },
+  mushroom:  { name:'蘑菇',   emoji:'🍄', seed:110, sell:262, time:240000, lv:7,  rarity:'epic' },
+  watermelon:{ name:'西瓜',   emoji:'🍉', seed:120, sell:284, time:258000, lv:8,  rarity:'epic' },
+  blueberry: { name:'蓝莓',   emoji:'🫐', seed:140, sell:329, time:276000, lv:9,  rarity:'legend' },
+  cherry:    { name:'樱桃',   emoji:'🍒', seed:150, sell:352, time:294000, lv:9,  rarity:'legend' },
+  lemon:     { name:'柠檬',   emoji:'🍋', seed:160, sell:375, time:312000, lv:10, rarity:'legend' },
+  coconut:   { name:'椰子',   emoji:'🥥', seed:180, sell:414, time:330000, lv:10, rarity:'legend' },
+  kiwi:      { name:'猕猴桃', emoji:'🥝', seed:190, sell:437, time:348000, lv:11, rarity:'legend' },
+  bamboo:    { name:'竹子',   emoji:'🎋', seed:210, sell:476, time:367000, lv:11, rarity:'legend' },
+  peach:     { name:'桃子',   emoji:'🍑', seed:220, sell:500, time:385000, lv:12, rarity:'legend' },
+  clover:    { name:'四叶草', emoji:'🍀', seed:240, sell:536, time:404000, lv:12, rarity:'legend' },
+  mango:     { name:'芒果',   emoji:'🥭', seed:250, sell:560, time:422000, lv:13, rarity:'legend' },
+  star:      { name:'星辰花', emoji:'✨', seed:270, sell:594, time:440000, lv:13, rarity:'legend' },
+  gold:      { name:'黄金麦', emoji:'🌾', seed:290, sell:633, time:459000, lv:14, rarity:'legend' },
+  apple:     { name:'金苹果', emoji:'🍎', seed:300, sell:658, time:478000, lv:15, rarity:'legend' },
+  dragon:    { name:'龙息果', emoji:'🐉', seed:320, sell:692, time:496000, lv:16, rarity:'legend' }
+};
+const CROP_KEYS = Object.keys(CROPS);
+const CROP_ORDER = [...CROP_KEYS].sort((a,b)=>CROPS[a].lv - CROPS[b].lv);
+const PLOTS = 16;
+const STAGE_EMOJI = ['🌱','🌿','🍃'];
+const RARITY_NAME = { common:'普通', rare:'稀有', epic:'史诗', legend:'传说' };
+
+/* ================= 天气 ================= */
+const WEATHERS = {
+  sunny:   { name:'晴天',   emoji:'☀️', desc:'生长正常', speed:1.0 },
+  rain:    { name:'雨天',   emoji:'🌧️', desc:'自动浇水', speed:1.0 },
+  cloudy:  { name:'阴天',   emoji:'☁️', desc:'生长减慢20%', speed:0.8 },
+  rainbow: { name:'彩虹日', emoji:'🌈', desc:'双倍收益', speed:1.2, doubleSell:true },
+  pest:    { name:'虫害日', emoji:'🐛', desc:'需驱虫剂', speed:0.6 }
+};
+const WEATHER_KEYS = Object.keys(WEATHERS);
+
+/* ================= 道具 ================= */
+const ITEMS = {
+  speed:  { name:'加速卡', emoji:'⚡', desc:'成熟时间减半', price:5 },
+  rich:   { name:'丰收卡', emoji:'🎁', desc:'收获金币×2',   price:8 },
+  guard:  { name:'保护罩', emoji:'🛡️', desc:'24h 防止被偷', price:6 },
+  bug:    { name:'驱虫剂', emoji:'💊', desc:'解除虫害',     price:3 },
+  fert:   { name:'化肥',   emoji:'🧪', desc:'让一株作物立刻成熟', price:6 }
+};
+
+/* ================= 宠物 ================= */
+const PETS = {
+  cat: { name:'小猫', emoji:'🐱', price:30, desc:'每小时驱赶一次害虫或干扰事件' },
+  dog: { name:'小狗', emoji:'🐶', price:50, desc:'每小时自动浇一次水' }
+};
+
+/* ================= v5:加工坊配方 =================
+   卖价 = 原料售价 ×2.6 左右(加工溢价),时间随原料价值上升 */
+const RECIPES = {
+  bread:  { name:'面包',     emoji:'🍞', need:{ corn:2 },               time:90000,  sell:150 },
+  juice:  { name:'鲜果汁',   emoji:'🧃', need:{ tomato:2, straw:1 },    time:120000, sell:190 },
+  jam:    { name:'果酱',     emoji:'🍯', need:{ straw:3, blueberry:1 }, time:180000, sell:680 },
+  perfume:{ name:'花露水',   emoji:'🧴', need:{ rose:2, tulip:1 },      time:240000, sell:1160 },
+  cake:   { name:'南瓜蛋糕', emoji:'🍰', need:{ pumpkin:1, coconut:1 }, time:240000, sell:1430 },
+  elixir: { name:'星辰药剂', emoji:'⚗️', need:{ star:1, clover:1 },     time:360000, sell:2940 }
+};
+const RECIPE_KEYS = Object.keys(RECIPES);
+const CRAFT_SLOTS = 3;
+
+/* ================= v5:转盘与签到 ================= */
+const WHEEL = [
+  { k:'coin50',  emoji:'💰', name:'50 金币',   w:22, coins:50 },
+  { k:'coin120', emoji:'💰', name:'120 金币',  w:18, coins:120 },
+  { k:'dia2',    emoji:'💎', name:'2 钻石',    w:16, diamonds:2 },
+  { k:'item',    emoji:'⚡', name:'随机道具',  w:14, item:true },
+  { k:'coin300', emoji:'💰', name:'300 金币',  w:11, coins:300 },
+  { k:'dia8',    emoji:'💎', name:'8 钻石',    w:8,  diamonds:8 },
+  { k:'fert2',   emoji:'🧪', name:'化肥×2',    w:6,  items:{ fert:2 } },
+  { k:'jackpot', emoji:'🎉', name:'大奖 88💎', w:5,  diamonds:88, coins:888 }
+];
+const CHECKIN_DAYS = [
+  { emoji:'💰', text:'100金币',   reward:{ coins:100 } },
+  { emoji:'🧪', text:'化肥×1',    reward:{ items:{ fert:1 } } },
+  { emoji:'💰', text:'260金币',   reward:{ coins:260 } },
+  { emoji:'💎', text:'4钻石',     reward:{ diamonds:4 } },
+  { emoji:'⚡', text:'加速卡×1',  reward:{ items:{ speed:1 } } },
+  { emoji:'💰', text:'600金币',   reward:{ coins:600 } },
+  { emoji:'🎉', text:'12💎+888💰',reward:{ diamonds:12, coins:888 } }
+];
+
+/* ================= 成就 ================= */
+const ACHS = [
+  { id:'first',    emoji:'🌱', name:'初次播种', desc:'种下第一颗种子', check:s=>s.planted>=1 },
+  { id:'h10',      emoji:'🌾', name:'勤劳农夫', desc:'累计收获10次', check:s=>s.harvests>=10 },
+  { id:'h50',      emoji:'👨‍🌾', name:'种田达人', desc:'累计收获50次', check:s=>s.harvests>=50 },
+  { id:'h200',     emoji:'🏅', name:'农业大师', desc:'累计收获200次', check:s=>s.harvests>=200 },
+  { id:'lv5',      emoji:'⭐', name:'五级农夫', desc:'达到Lv.5', check:s=>lvOf(s.harvests)>=5 },
+  { id:'lv10',     emoji:'💫', name:'十级农夫', desc:'达到Lv.10', check:s=>lvOf(s.harvests)>=10 },
+  { id:'coin500',  emoji:'💰', name:'小富翁',   desc:'金币达到500', check:s=>s.coins>=500 },
+  { id:'coin2000', emoji:'💎', name:'大富翁',   desc:'金币达到2000', check:s=>s.coins>=2000 },
+  { id:'steal3',   emoji:'🕵️', name:'初试身手', desc:'偷菜3次', check:s=>s.stealCount>=3 },
+  { id:'steal20',  emoji:'🥷', name:'神偷',     desc:'偷菜20次', check:s=>s.stealCount>=20 },
+  { id:'allcrops', emoji:'📖', name:'图鉴大师', desc:'种过所有作物', check:s=>CROP_KEYS.every(k=>(s.dex[k]||0)>0) },
+  { id:'legend',   emoji:'🌟', name:'传说农夫', desc:'种出一株传说作物', check:s=>CROP_KEYS.some(k=>CROPS[k].rarity==='legend' && (s.dex[k]||0)>0) },
+  { id:'rich10',   emoji:'📷', name:'摄影家',   desc:'拥有10张照片', check:s=>s.photos.length>=10 },
+  { id:'redeem3',  emoji:'🎫', name:'兑换达人', desc:'兑换3次兑换码', check:s=>(s.redeemed||[]).length>=3 },
+  /* --- v5 新增 --- */
+  { id:'chef5',    emoji:'🍳', name:'小厨子',   desc:'加工5次', check:s=>(s.craftCount||0)>=5 },
+  { id:'chef30',   emoji:'👨‍🍳', name:'大厨',     desc:'加工30次', check:s=>(s.craftCount||0)>=30 },
+  { id:'chefall',  emoji:'⚗️', name:'炼金术士', desc:'做出所有加工品', check:s=>RECIPE_KEYS.every(k=>(s.goodsDex||{})[k]>0) },
+  { id:'stock50',  emoji:'📦', name:'囤货达人', desc:'仓库里有50件作物', check:s=>Object.values(s.granary||{}).reduce((a,b)=>a+b,0)>=50 },
+  { id:'friend3',  emoji:'📇', name:'社交达人', desc:'邻居簿存3位好友', check:s=>(s.friends||[]).length>=3 },
+  { id:'check7',   emoji:'📅', name:'全勤劳模', desc:'连续签到7天', check:s=>((s.checkin||{}).streak||0)>=7 },
+  { id:'egg',      emoji:'🥚', name:'发现彩蛋', desc:'戳出隐藏彩蛋', check:s=>!!s.eggFound },
+  { id:'night',    emoji:'🌙', name:'夜猫子',   desc:'凌晨0-4点还在种地', check:()=>{const h=new Date().getHours();return h>=0&&h<4;} }
+];
+
+/* ================= 任务模板 ================= */
+const QUEST_TEMPLATES = [
+  { id:'q_harvest', emoji:'🌾', name:'收获 {n} 次作物', min:3, max:8, dia:2, key:'harvest' },
+  { id:'q_plant',   emoji:'🌱', name:'种下 {n} 颗种子', min:3, max:8, dia:2, key:'plant' },
+  { id:'q_water',   emoji:'💧', name:'浇水 {n} 次', min:5, max:15, dia:2, key:'water' },
+  { id:'q_steal',   emoji:'🕵️', name:'偷菜 {n} 次', min:2, max:5, dia:3, key:'steal' },
+  { id:'q_photo',   emoji:'📷', name:'拍 {n} 张照片', min:1, max:3, dia:3, key:'photo' },
+  { id:'q_craft',   emoji:'🍳', name:'加工 {n} 次', min:1, max:3, dia:4, key:'craft' }
+];
+
+/* ================= 状态 ================= */
+let S = {
+  v:5,
+  name:'', coins:20, diamonds:0, harvests:0, planted:0, stealCount:0,
+  plots: new Array(PLOTS).fill(null),
+  plotLv: [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  photos:[], stealLog:[],
+  inventory:{ speed:0, rich:0, guard:0, bug:0, fert:0 },
+  pets:{ cat:0, dog:0 },
+  petLastAct:0,
+  weather: { key:'sunny', at:Date.now() },
+  quests:[], questDate:'',
+  questDaily:{ harvest:0, plant:0, water:0, steal:0, photo:0, craft:0 },
+  questClaimed:[],
+  achievements:[],
+  dex:{}, events:{},
+  redeemed:[],  // [{code, at}]
+  /* ---- v5 新增 ---- */
+  craft: new Array(CRAFT_SLOTS).fill(null),   // [{r:'bread', at}]
+  craftCount:0,
+  granary:{},                                 // 仓库 { cropKey: 数量 }
+  goods:{},                                   // 成品架 { recipeKey: 数量 }
+  goodsDex:{},
+  checkin:{ last:'', streak:0, total:0 },
+  wheel:{ day:'', spins:0, used:0 },
+  friends:[],                                 // [{name, code, at, stolen}]
+  eggFound:false, eggAt:0, nameTaps:0,
+  craftTab:'craft',
+  /* ---- v6 新增 ---- */
+  board:[],              // 收到的留言 [{id, from, text, at, replied}]
+  lastCrop:'radish',     // 「接着种」记住的作物
+  lastSave:0,
+  boardDraft:'',
+  dexMilestone:0,        // 图鉴已领取的里程碑(每 5 种一次)
+  helpSeen:false,        // 是否已看过分享码说明
+  tool:null, filter:0, stickers:[], stickerPick:null
+};
+let V = { name:'', plots:[], plotLv:[], weather:'sunny', stolen:new Set(), total:0, steals:[],
+          lastSteals:[], note:'' };
+
+/* 兑换码数据(从外部加载) */
+let CODES_DATA = [];
+let CODES_URL = new URLSearchParams(location.search).get('codes') || './codes.json';
+
+/* ================= 存档 =================
+   v6 修复「退出后进度丢失」:
+   ① 主存档与照片分开存(照片最容易撑爆 5MB 配额,撑爆后连主存档都写不进去)
+   ② 写入失败时分级降级:砍照片 → 清照片 → 再失败才报警,尽量保住进度
+   ③ pagehide / beforeunload / 切后台 都会立即落盘
+   ④ 支持导出/导入存档码,换设备或清缓存前可备份                        */
+const SAVE_KEY = 'mini_farm_v5';
+const PHOTO_KEY = 'mini_farm_v5_photos';
+const LEGACY_KEYS = ['mini_farm_v4'];   // 旧存档自动迁移
+const MAX_PHOTOS = 12;
+const PHOTO_SIZE = 320;
+const PHOTO_QUALITY = 0.62;
+const SAVE_FIELDS = ['v','name','coins','diamonds','harvests','planted','stealCount','plots','plotLv',
+  'stealLog','inventory','pets','petLastAct','weather','quests','questDate','questDaily',
+  'questClaimed','achievements','dex','events','redeemed','craft',
+  'craftCount','granary','goods','goodsDex','checkin','wheel','friends','eggFound','eggAt',
+  'board','lastCrop','lastSave','boardDraft','dexMilestone','helpSeen'];
+
+function trySet(k, v){
+  try{ localStorage.setItem(k, v); return true; }catch(e){ return false; }
+}
+function warnOnce(msg){
+  if(warnOnce._t && Date.now() - warnOnce._t < 6000) return;
+  warnOnce._t = Date.now();
+  toast(msg);
+}
+function collectSave(){
+  const o = { v:6 };
+  SAVE_FIELDS.forEach(k=>{ o[k] = S[k]; });
+  return o;
+}
+function save(){
+  S.lastSave = Date.now();
+  if(trySet(SAVE_KEY, JSON.stringify(collectSave()))) return true;
+  /* 主存档都写不进去 → 基本都是照片占满配额,分级清理后重试 */
+  for(const keep of [6, 2, 0]){
+    S.photos = S.photos.slice(0, keep);
+    trySet(PHOTO_KEY, JSON.stringify(S.photos));
+    if(trySet(SAVE_KEY, JSON.stringify(collectSave()))){
+      warnOnce(keep === 0 ? '存储空间不足:照片已清空,存档已保住'
+                          : '存储空间紧张,已自动清理部分旧照片');
+      return true;
+    }
+  }
+  warnOnce('⚠️ 存档写入失败:浏览器存储已满,请清理站点数据');
+  return false;
+}
+function savePhotos(){
+  const list = S.photos.slice(0, MAX_PHOTOS);
+  if(trySet(PHOTO_KEY, JSON.stringify(list))){ S.photos = list; return true; }
+  warnOnce('照片存不下了,先删掉几张旧照片吧 📷');
+  return false;
+}
+/* 立即落盘(退出/切后台/页面隐藏时调用) */
+function flushSave(){ save(); savePhotos(); }
+/* 本次启动的档案来源,显示在「存档与备份」里 */
+let LOAD_SOURCE = 'new';
+const SOURCE_TEXT = {
+  'new': '全新档案(本机还没存过)',
+  'mini_farm_v5': '本机 v5/v6 存档',
+  'mini_farm_v4': '继承自旧版存档(你原来那份 v1 的进度)'
+};
+function load(){
+  try{
+    let raw = localStorage.getItem(SAVE_KEY);
+    let from = 'new';
+    if(raw){ from = SAVE_KEY; }
+    else{
+      for(const k of LEGACY_KEYS){
+        const old = localStorage.getItem(k);
+        if(old){ raw = old; from = k; break; }        // 老存档无缝迁移
+      }
+    }
+    LOAD_SOURCE = from;
+    const d = JSON.parse(raw || 'null');
+    if(d){
+      Object.keys(S).forEach(k=>{ if(d[k] !== undefined && k !== 'photos') S[k] = d[k]; });
+      if(Array.isArray(d.photos)) S.photos = d.photos;   // 老版本照片在主存档里
+      migrate();
+    }
+    const pr = JSON.parse(localStorage.getItem(PHOTO_KEY) || 'null');
+    if(Array.isArray(pr) && pr.length) S.photos = pr;
+    if(S.photos.length > MAX_PHOTOS) S.photos = S.photos.slice(0, MAX_PHOTOS);
+  }catch(e){}
+}
+/* 清档重开:先备份…(提示用户导出),清掉三个键后重载 */
+function resetGame(){
+  if(!confirm('重新开始会清空当前的所有进度(等级 / 金币 / 图鉴 / 仓库 / 照片 / 留言)。\n\n建议先点「导出备份码」留一份。确定要清空吗?')) return;
+  if(!confirm('最后确认一次:当前存档将被删除,且无法撤销。继续?')) return;
+  try{
+    localStorage.removeItem(SAVE_KEY);
+    localStorage.removeItem(PHOTO_KEY);
+    LEGACY_KEYS.forEach(k => localStorage.removeItem(k));
+  }catch(e){}
+  toast('🗑️ 已清空,正在重新开始…');
+  setTimeout(()=>{ try{ location.reload(); }catch(e){} }, 700);
+}
+/* 把任何来源的旧存档补齐成当前结构 */
+function migrate(){
+  if(!Array.isArray(S.plots) || S.plots.length !== PLOTS) S.plots = new Array(PLOTS).fill(null);
+  if(!Array.isArray(S.plotLv) || S.plotLv.length !== PLOTS){
+    S.plotLv = [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0];
+  }
+  if(!S.inventory || typeof S.inventory !== 'object') S.inventory = {};
+  ['speed','rich','guard','bug','fert'].forEach(k=>{
+    if(typeof S.inventory[k] !== 'number') S.inventory[k] = 0;
+  });
+  if(!S.pets) S.pets = { cat:0, dog:0 };
+  if(!S.dex) S.dex = {};
+  if(!S.events) S.events = {};
+  if(!S.questDaily) S.questDaily = {};
+  ['harvest','plant','water','steal','photo','craft'].forEach(k=>{
+    if(typeof S.questDaily[k] !== 'number') S.questDaily[k] = 0;
+  });
+  if(!Array.isArray(S.questClaimed)) S.questClaimed = [];
+  if(!Array.isArray(S.achievements)) S.achievements = [];
+  if(!S.weather) S.weather = { key:'sunny', at:Date.now() };
+  if(!Array.isArray(S.redeemed)) S.redeemed = [];
+  if(!Array.isArray(S.photos)) S.photos = [];
+  if(!Array.isArray(S.stealLog)) S.stealLog = [];
+  /* --- v5/v6 --- */
+  if(!Array.isArray(S.craft) || S.craft.length !== CRAFT_SLOTS) S.craft = new Array(CRAFT_SLOTS).fill(null);
+  if(!S.granary || typeof S.granary !== 'object') S.granary = {};
+  if(!S.goods || typeof S.goods !== 'object') S.goods = {};
+  if(!S.goodsDex) S.goodsDex = {};
+  if(typeof S.craftCount !== 'number') S.craftCount = 0;
+  if(!S.checkin || typeof S.checkin !== 'object') S.checkin = { last:'', streak:0, total:0 };
+  if(!S.wheel || typeof S.wheel !== 'object') S.wheel = { day:'', spins:0, used:0 };
+  if(!Array.isArray(S.friends)) S.friends = [];
+  if(typeof S.eggAt !== 'number') S.eggAt = 0;
+  if(!S.craftTab) S.craftTab = 'craft';
+  if(!Array.isArray(S.board)) S.board = [];
+  if(!CROPS[S.lastCrop]) S.lastCrop = 'radish';
+  if(typeof S.lastSave !== 'number') S.lastSave = 0;
+  if(typeof S.dexMilestone !== 'number') S.dexMilestone = 0;
+  if(typeof S.helpSeen !== 'boolean') S.helpSeen = false;
+}
+
+/* --- 存档备份码(不含照片,方便复制保存) --- */
+function exportSaveCode(){
+  try{
+    const raw = JSON.stringify(collectSave());
+    const bytes = new TextEncoder().encode(raw);
+    let bin = '';
+    for(let i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }catch(e){ return ''; }
+}
+function importSaveCode(code){
+  try{
+    const s = String(code || '').trim().replace(/-/g,'+').replace(/_/g,'/');
+    const bin = atob(s);
+    const bytes = new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+    const d = JSON.parse(new TextDecoder().decode(bytes));
+    const src = d && d.save ? d.save : d;
+    if(!src || typeof src !== 'object') return false;
+    Object.keys(S).forEach(k=>{ if(src[k] !== undefined && k !== 'photos') S[k] = src[k]; });
+    migrate();
+    save();
+    return true;
+  }catch(e){ return false; }
+}
+/* 退出/切后台时立即保存 */
+window.addEventListener('pagehide', flushSave);
+window.addEventListener('beforeunload', flushSave);
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden) flushSave();
+  else { refreshActive(); renderNavBadges(); updateTitle(); }
+});
+
+/* ================= 工具 ================= */
+const $ = id => document.getElementById(id);
+const lvOf = h => 1 + Math.floor(h / 5);
+function todayStr(){ const d = new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function buzz(p){try{if(navigator.vibrate)navigator.vibrate(p)}catch(e){}}
+let actx;
+function sfx(f, d, t='sine', v=0.08){
+  try{
+    if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = t; o.frequency.value = f;
+    g.gain.setValueAtTime(v, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + d);
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + d);
+  }catch(e){}
+}
+function toast(m){
+  let box = document.getElementById('toast-box');
+  if(!box){
+    box = document.createElement('div');
+    box.id = 'toast-box';
+    box.className = 'toast-box';
+    document.body.appendChild(box);
+  }
+  const d = document.createElement('div');
+  d.className = 'toast';
+  d.innerHTML = m;
+  box.appendChild(d);
+  /* 最多同时显示 3 条,超出的立刻回收,避免糊成一团 */
+  while(box.children.length > 3) box.removeChild(box.children[0]);
+  setTimeout(()=>{ if(d.parentNode) d.parentNode.removeChild(d); }, 1800);
+}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo(0,0);
+  document.querySelectorAll('.nav-btn').forEach(b=>{
+    b.classList.toggle('on', b.dataset.nav === id);
+  });
+}
+
+/* ================= 天气 ================= */
+function getWeather(){
+  const elapsed = Date.now() - S.weather.at;
+  if(elapsed > 10 * 60 * 1000){
+    const key = WEATHER_KEYS[Math.floor(Math.random() * WEATHER_KEYS.length)];
+    S.weather = { key, at: Date.now() };
+    save();
+  }
+  return WEATHERS[S.weather.key];
+}
+
+/* ================= 生长 ================= */
+function growth(p){
+  if(!p) return 0;
+  const c = CROPS[p.crop]; if(!c) return 0;
+  const w = getWeather();
+  let el = (Date.now() - p.at) * (w.speed || 1);
+  el += c.time * 0.18 * (p.water || 0);
+  if(p.speedBoost) el += c.time * 0.5;
+  if(p.fert) el += c.time;
+  return Math.min(1, el / c.time);
+}
+function stageOf(pr){
+  if(pr >= 1) return 3;
+  if(pr >= 0.65) return 2;
+  if(pr >= 0.3) return 1;
+  return 0;
+}
+
+/* ================= 分享码 v2 =================
+   旧版农场码: 名字|80字符(base36)        —— 仍可读
+   新版农场码: 名字~<base64url 位流>~留言  —— 约 54 字符 + 6bit 校验
+   留言码:     名字~留言文本                —— 极短,可直接发聊天
+   回执码:     名字~位置作物对~留言          —— 兼容旧版 名字|位置作物对        */
+const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+const SUM_SEED = 0x5f3a;
+
+/* 旧版 base36(读老码 + 回执码共用,单字符支持 0-35 号作物) */
+function cropToChar(ci){ return ci.toString(36); }
+function charToCrop(ch){ const v = parseInt(ch, 36); return (isNaN(v) || v < 0 || v > 35) ? 0 : v; }
+function posToChar(p){ return p.toString(36); }
+function charToPos(c){ const v = parseInt(c, 36); return (isNaN(v) || v < 0 || v >= 16) ? -1 : v; }
+
+function cleanName(n){ return String(n || '我').replace(/[|#~\s]/g, '').slice(0, 10) || '我'; }
+/* 留言用 ~ 当分隔符,所以把内容里的 ~ 转义成 %7E,这样留言可以写任意字符 */
+function cleanNote(t){
+  return String(t == null ? '' : t)
+    .replace(/[|#\r\n\t]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/~/g, '%7E')
+    .trim()
+    .slice(0, 60);
+}
+function decodeNote(t){ return String(t == null ? '' : t).replace(/%7E/gi, '~').trim(); }
+
+function bitsToB64(bits){
+  let body = '';
+  for(let i=0;i<bits.length;i+=6){
+    body += B64[parseInt(bits.slice(i, i + 6).padEnd(6, '0'), 2)];
+  }
+  let sum = SUM_SEED;
+  for(let i=0;i<body.length;i++) sum = (sum * 131 + body.charCodeAt(i)) >>> 0;
+  return body + B64[sum & 63];
+}
+function checkB64(s){
+  if(!/^[A-Za-z0-9_-]+$/.test(s)) return null;
+  const body = s.slice(0, -1), ck = s.slice(-1);
+  let sum = SUM_SEED;
+  for(let i=0;i<body.length;i++) sum = (sum * 131 + body.charCodeAt(i)) >>> 0;
+  if(B64[sum & 63] !== ck) return null;
+  let bits = '';
+  for(let i=0;i<body.length;i++){
+    const v = B64.indexOf(body[i]);
+    if(v < 0) return null;
+    bits += v.toString(2).padStart(6, '0');
+  }
+  return bits;
+}
+
+function packFarm(note){
+  let bits = '';
+  const put = (v, n) => { bits += (v >>> 0).toString(2).padStart(n, '0'); };
+  put(CROP_KEYS.length, 6);                    // 作物表长度:换表后旧码会自动失效而不是乱码
+  for(let i=0;i<PLOTS;i++){
+    const p = S.plots[i];
+    const lv = Math.min(15, S.plotLv[i] || 0);
+    if(!p){ put(0, 6); put(lv, 4); put(0, 7); put(0, 2); continue; }
+    put(Math.max(0, CROP_KEYS.indexOf(p.crop)) + 1, 6);
+    put(lv, 4);
+    put(Math.min(100, Math.round(growth(p) * 100)), 7);
+    put(Math.min(3, p.water || 0), 2);
+  }
+  put(Math.max(0, WEATHER_KEYS.indexOf(S.weather.key)), 3);
+  const nt = cleanNote(note);
+  return cleanName(S.name) + '~' + bitsToB64(bits) + (nt ? '~' + nt : '');
+}
+function unpackFarmV2(payload){
+  const s = String(payload || '').trim();
+  if(s.length < 20 || s.length > 120) return null;
+  const bits = checkB64(s);
+  if(!bits) return null;
+  let pos = 0;
+  const read = n => { const v = parseInt(bits.slice(pos, pos + n).padEnd(n, '0'), 2); pos += n; return isNaN(v) ? 0 : v; };
+  if(read(6) !== CROP_KEYS.length) return null;   // 作物表变了,老码不再可靠
+  const plots = [], plotLv = [];
+  for(let i=0;i<PLOTS;i++){
+    const ci = read(6), lv = read(4), pr = read(7), w = read(2);
+    plotLv.push(lv);
+    if(ci < 1 || ci > CROP_KEYS.length){ plots.push(null); continue; }
+    const crop = CROP_KEYS[ci - 1];
+    const c = CROPS[crop];
+    plots.push({ crop, at: Date.now() - (pr / 100 * c.time - c.time * 0.18 * w), water: w });
+  }
+  return { plots, plotLv, weather: WEATHER_KEYS[read(3)] || 'sunny' };
+}
+
+function unpackFarm(code){
+  if(!code) return null;
+  code = String(code).trim();
+  /* 新版 */
+  const t = code.split('~');
+  if(t.length >= 2){
+    const v2 = unpackFarmV2(t[1]);
+    if(v2){
+      return { name: (t[0] || '好友').trim() || '好友', plots: v2.plots, plotLv: v2.plotLv,
+               weather: v2.weather, note: decodeNote(t.slice(2).join(' ')) };
+    }
+  }
+  /* 旧版:名字|80字符 */
+  const i = code.indexOf('|');
+  if(i < 0) return null;
+  const name = code.slice(0, i) || '好友';
+  const data = code.slice(i + 1).replace(/\s+/g, '');
+  if(!/^[0-9a-z]{80}$/i.test(data)) return null;
+  const plots = [], plotLv = [];
+  for(let k=0;k<PLOTS;k++){
+    const ch = data.slice(k*5, k*5+5).toLowerCase();
+    const ci = charToCrop(ch[0]);
+    const lv = Math.min(9, parseInt(ch[1], 10) || 1);
+    plotLv.push(lv);
+    if(ci < 1 || ci > CROP_KEYS.length){ plots.push(null); continue; }
+    const crop = CROP_KEYS[ci - 1];
+    const pr = Math.min(99, parseInt(ch.slice(2,4), 10)) / 100;
+    const w = parseInt(ch[4], 10) || 0;
+    const c = CROPS[crop];
+    const at = Date.now() - (pr * c.time - c.time * 0.18 * w);
+    plots.push({ crop, at, water: w });
+  }
+  return { name, plots, plotLv, weather:'sunny', note:'' };
+}
+
+/* --- 留言码 --- */
+function packNote(text){
+  return cleanName(S.name) + '~' + cleanNote(text);
+}
+function unpackNote(code){
+  const t = String(code || '').trim().split('~');
+  if(t.length < 2) return null;
+  const text = decodeNote(cleanNote(t.slice(1).join(' ')));
+  if(!text) return null;
+  return { name: (t[0] || '好友').trim() || '好友', text };
+}
+
+/* --- 偷菜回执 --- */
+function packReceipt(steals, note){
+  let data = '';
+  steals.forEach(it => {
+    const ci = CROP_KEYS.indexOf(it.c);
+    if(ci < 0 || ci > 35 || it.i < 0 || it.i >= PLOTS) return;
+    data += posToChar(it.i) + cropToChar(ci);
+  });
+  const nt = cleanNote(note);
+  return cleanName(S.name) + '~' + data + (nt ? '~' + nt : '');
+}
+function unpackReceipt(code){
+  if(!code) return null;
+  code = String(code).trim();
+  let name, data, note = '';
+  if(code.indexOf('~') >= 0){
+    const t = code.split('~');
+    name = (t[0] || '有人').trim() || '有人';
+    data = t[1] || '';
+    note = decodeNote(t.slice(2).join(' '));
+  }else{
+    const i = code.indexOf('|');
+    if(i < 0) return null;
+    name = code.slice(0, i) || '有人';
+    data = code.slice(i + 1);
+  }
+  data = data.replace(/\s+/g, '').toLowerCase();
+  if(!data || data.length % 2 !== 0) return null;
+  const steals = [];
+  for(let k=0;k<data.length;k+=2){
+    const pos = charToPos(data[k]);
+    const ci = charToCrop(data[k+1]);
+    if(pos < 0 || pos >= PLOTS || ci < 0 || ci >= CROP_KEYS.length) continue;
+    steals.push({ i: pos, c: CROP_KEYS[ci] });
+  }
+  return { name, steals, note };
+}
+
+/* --- 链接与粘贴解析 --- */
+function extractCode(input, keys){
+  const s = String(input == null ? '' : input).trim();
+  for(const k of keys){
+    const i = s.indexOf(k);
+    if(i >= 0){
+      const raw = s.slice(i + k.length).split('&')[0];
+      try{ return decodeURIComponent(raw); }catch(e){ return raw; }
+    }
+  }
+  return s;
+}
+function extractFarmCode(input){ return extractCode(input, ['#v=']); }
+function extractReceiptCode(input){ return extractCode(input, ['#s=']); }
+function extractNoteCode(input){ return extractCode(input, ['#n=']); }
+
+function baseUrl(){ return location.href.split('#')[0]; }
+function buildFarmLink(note){ return baseUrl() + '#v=' + encodeURIComponent(packFarm(note)); }
+function buildNoteLink(text){ return baseUrl() + '#n=' + encodeURIComponent(packNote(text)); }
+function buildReceiptLink(code){ return baseUrl() + '#s=' + encodeURIComponent(code); }
+
+/* 优先系统分享面板(手机),否则复制 */
+async function shareOrCopy(text, url, btn, original){
+  if(navigator.share){
+    try{ await navigator.share({ title:'小农场 · 双人版', text, url }); return true; }
+    catch(e){ if(e && e.name === 'AbortError') return true; }
+  }
+  copyText(url, btn, original);
+  return false;
+}
+
+/* ================= 兑换码系统 ================= */
+/* codes.json 格式:
+{
+  "codes": [
+    { "code":"WELCOME", "desc":"新手礼包", "reward":{ "coins":100, "diamonds":5,
+      "items":{"speed":2}, "pets":{"cat":1} }, "expires":"2026-12-31" }
+  ]
+}
+*/
+async function loadCodes(){
+  $('code-status').textContent = '正在加载兑换码...';
+  try{
+    const r = await fetch(CODES_URL, { cache:'no-store' });
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    CODES_DATA = Array.isArray(d.codes) ? d.codes : [];
+    $('code-status').textContent = `已加载 ${CODES_DATA.length} 个可用兑换码`;
+  }catch(e){
+    // 加载失败时使用内置演示码
+    CODES_DATA = [
+      { code:'WELCOME', desc:'新手欢迎礼包(内置)', reward:{ coins:200, diamonds:5 } },
+      { code:'LOVE2024', desc:'情人节限定(内置)', reward:{ coins:520, diamonds:14 } },
+      { code:'FARMER', desc:'老农体验包(内置)', reward:{ items:{ speed:2, rich:1, bug:1 } } },
+      { code:'DRAGON', desc:'龙年大吉(内置)', reward:{ diamonds:88, coins:888 } }
+    ];
+    $('code-status').textContent = `⚠️ 无法加载 codes.json,已启用内置兑换码 (${CODES_DATA.length} 个)`;
+  }
+  renderRedeemed();
+}
+
+function findCode(input){
+  const c = (input || '').trim().toUpperCase();
+  if(!c) return null;
+  return CODES_DATA.find(x => (x.code || '').toUpperCase() === c) || null;
+}
+function isExpired(entry){
+  if(!entry.expires) return false;
+  const now = new Date();
+  const ex = new Date(entry.expires + 'T23:59:59');
+  return now > ex;
+}
+function hasRedeemed(code){
+  return (S.redeemed || []).some(r => r.code.toUpperCase() === code.toUpperCase());
+}
+
+function grantReward(reward){
+  const granted = [];
+  if(reward.coins){ S.coins += reward.coins; granted.push({ emoji:'💰', text:`金币 +${reward.coins}` }); }
+  if(reward.diamonds){ S.diamonds += reward.diamonds; granted.push({ emoji:'💎', text:`钻石 +${reward.diamonds}` }); }
+  if(reward.items){
+    Object.entries(reward.items).forEach(([k, n])=>{
+      if(ITEMS[k] && n > 0){
+        S.inventory[k] = (S.inventory[k] || 0) + n;
+        granted.push({ emoji:ITEMS[k].emoji, text:`${ITEMS[k].name} ×${n}` });
+      }
+    });
+  }
+  if(reward.pets){
+    Object.entries(reward.pets).forEach(([k, n])=>{
+      if(PETS[k] && n > 0){
+        S.pets[k] = (S.pets[k] || 0) + n;
+        granted.push({ emoji:PETS[k].emoji, text:`${PETS[k].name} Lv.${S.pets[k]}` });
+      }
+    });
+  }
+  return granted;
+}
+
+function doRedeem(){
+  const input = $('code-input').value;
+  const entry = findCode(input);
+  if(!entry){
+    toast('❌ 兑换码无效');
+    buzz(60);
+    return;
+  }
+  if(isExpired(entry)){
+    toast('⏰ 兑换码已过期');
+    return;
+  }
+  if(hasRedeemed(entry.code)){
+    toast('你已经兑换过这个码啦');
+    return;
+  }
+  const granted = grantReward(entry.reward || {});
+  S.redeemed.push({ code: entry.code, at: Date.now(), desc: entry.desc || '' });
+  save();
+  $('code-input').value = '';
+  showRewardPopup(entry, granted);
+  sfx(880,0.15,'sine'); setTimeout(()=>sfx(1320,0.2,'sine'),130);
+  checkAchievements();
+  renderRedeemed();
+  renderFarm();
+}
+
+function showRewardPopup(entry, granted){
+  $('rp-emoji').textContent = '🎉';
+  $('rp-title').textContent = entry.desc || '兑换成功!';
+  const list = $('rp-list');
+  list.innerHTML = '';
+  if(granted.length === 0){
+    list.innerHTML = '<div class="ritem">兑换成功(无奖励内容)</div>';
+  }else{
+    granted.forEach(g=>{
+      const d = document.createElement('div');
+      d.className = 'ritem';
+      d.innerHTML = `<span class="ri-emoji">${g.emoji}</span><span>${g.text}</span>`;
+      list.appendChild(d);
+    });
+  }
+  $('reward-popup').classList.add('show');
+}
+$('rp-ok').onclick = () => $('reward-popup').classList.remove('show');
+
+function renderRedeemed(){
+  const list = $('redeemed-list');
+  if(!list) return;
+  list.innerHTML = '';
+  if(!S.redeemed || S.redeemed.length === 0){
+    list.innerHTML = '<p class="hint">还没有兑换记录</p>';
+    return;
+  }
+  const title = document.createElement('p');
+  title.className = 'hint';
+  title.style.marginBottom = '8px';
+  title.textContent = `已兑换 ${S.redeemed.length} 个:`;
+  list.appendChild(title);
+
+  [...S.redeemed].reverse().forEach(r=>{
+    const d = document.createElement('div');
+    d.className = 'redeemed-item';
+    const dt = new Date(r.at);
+    d.innerHTML = `<span style="font-size:16px">🎫</span>
+      <span class="rc">${r.code}</span>
+      <span class="rd">${r.desc || ''}<br>${dt.getMonth()+1}/${dt.getDate()}</span>`;
+    list.appendChild(d);
+  });
+}
+
+/* ================= 每日任务 ================= */
+function refreshQuests(){
+  const today = todayStr();
+  if(S.questDate === today && S.quests.length > 0) return;
+  S.questDate = today;
+  S.questDaily = { harvest:0, plant:0, water:0, steal:0, photo:0 };
+  S.questClaimed = [];
+  const pool = [...QUEST_TEMPLATES];
+  S.quests = [];
+  for(let i=0;i<3;i++){
+    const idx = Math.floor(Math.random() * pool.length);
+    const t = pool.splice(idx, 1)[0];
+    const n = t.min + Math.floor(Math.random() * (t.max - t.min + 1));
+    S.quests.push({ id:t.id, emoji:t.emoji, name:t.name.replace('{n}', n), target:n, dia:t.dia, key:t.key });
+  }
+  save();
+}
+function questProgress(q){ return S.questDaily[q.key] || 0; }
+function updateQuestBadge(){
+  const n = S.quests.filter(q => !S.questClaimed.includes(q.id) && questProgress(q) >= q.target).length;
+  const b = $('nb-quest');
+  if(!b) return;
+  if(n > 0){ b.style.display = ''; b.textContent = n; }
+  else b.style.display = 'none';
+}
+function addQuestProgress(type, n=1){
+  if(!S.questDaily) S.questDaily = { harvest:0, plant:0, water:0, steal:0, photo:0 };
+  S.questDaily[type] = (S.questDaily[type] || 0) + n;
+  updateQuestBadge();
+}
+
+/* ================= 成就 ================= */
+function checkAchievements(){
+  let newUnlock = [];
+  ACHS.forEach(a=>{
+    if(S.achievements.includes(a.id)) return;
+    try{
+      if(a.check(S)){
+        S.achievements.push(a.id);
+        S.diamonds += 5;
+        newUnlock.push(a);
+      }
+    }catch(e){}
+  });
+  if(newUnlock.length){
+    save();
+    setTimeout(()=>{
+      toast(`🏆 解锁成就:${newUnlock.map(a=>a.name).join('、')}<br>+💎${newUnlock.length * 5}`);
+      sfx(880,0.15,'sine'); setTimeout(()=>sfx(1320,0.2,'sine'),130);
+    }, 600);
+  }
+  checkDexMilestone();
+  return newUnlock;
+}
+/* 图鉴里程碑:每解锁 5 种作物送 5💎 */
+function checkDexMilestone(){
+  const unlocked = CROP_KEYS.filter(k => (S.dex[k] || 0) > 0).length;
+  const reached = Math.floor(unlocked / 5);
+  const got = S.dexMilestone || 0;
+  if(reached > got){
+    const gain = (reached - got) * 5;
+    S.dexMilestone = reached;
+    S.diamonds += gain;
+    save();
+    setTimeout(()=>{
+      toast(`📖 图鉴已收集 ${reached * 5} 种作物:奖励 +💎${gain}`);
+      sfx(880,0.12,'sine'); setTimeout(()=>sfx(1180,0.14,'sine'), 90);
+    }, 1100);
+  }
+}
+
+/* ================= 随机事件 ================= */
+function rollRandomEvent(){
+  if(Object.keys(S.events).length > 0) return;
+  if(Math.random() > 0.5) return;
+  const growing = [], empties = [];
+  for(let i=0;i<PLOTS;i++){
+    if(!S.plotLv[i]) continue;
+    const p = S.plots[i];
+    if(p && growth(p) < 1) growing.push(i);
+    if(!p) empties.push(i);
+  }
+  const type = Math.random() < 0.45 ? 'butterfly' : (Math.random() < 0.6 ? 'chest' : 'pest');
+  let target;
+  if(type === 'pest'){
+    if(!growing.length) return;
+    target = growing[Math.floor(Math.random() * growing.length)];
+  }else{
+    if(!empties.length) return;
+    target = empties[Math.floor(Math.random() * empties.length)];
+  }
+  S.events[target] = { type, at:Date.now() };
+  save();
+}
+
+/* ================= 渲染主农场 ================= */
+function renderFarm(){
+  const farm = $('farm');
+  farm.innerHTML = '';
+  const lv = lvOf(S.harvests);
+  const wx = getWeather();
+
+  $('coins').textContent = S.coins;
+  $('diamonds').textContent = S.diamonds;
+  $('lv').textContent = lv;
+  $('my-name').textContent = S.name || '我';
+  $('weather-bar').innerHTML = `<span class="wx">${wx.emoji}</span> ${wx.name} · ${wx.desc}`;
+
+  for(let i=0;i<PLOTS;i++){
+    const p = S.plots[i];
+    const plotLv = S.plotLv[i] || 0;
+    const d = document.createElement('div');
+    d.className = 'plot';
+    d.tabIndex = 0;
+    d.setAttribute('role', 'button');
+    d.setAttribute('aria-label', `农田 ${i+1}`);
+
+    if(plotLv === 0){
+      d.classList.add('locked');
+      d.onclick = () => tryUnlockPlot(i);
+      farm.appendChild(d);
+      continue;
+    }
+
+    if(!p){
+      d.classList.add('empty');
+      d.innerHTML = '<span class="emoji" style="opacity:.25;font-size:22px;animation:none">＋</span>';
+      d.onclick = () => openSeed(i);
+    }else{
+      const c = CROPS[p.crop];
+      const pr = growth(p);
+      const st = stageOf(pr);
+      let emoji, cls = '';
+      if(st === 3){ emoji = c.emoji; cls = 'mature'; }
+      else emoji = STAGE_EMOJI[st];
+      d.className = 'plot r-' + (c.rarity || 'common') + ' ' + cls;
+      d.innerHTML = `<span class="emoji">${emoji}</span>
+        ${p.water ? `<span class="water">${'💧'.repeat(p.water)}</span>` : ''}
+        ${p.protected ? '<span class="prot">🛡️</span>' : ''}
+        ${plotLv > 1 ? `<span class="lvtag">Lv${plotLv}</span>` : ''}
+        <div class="bar"><i style="width:${pr*100}%"></i></div>`;
+
+      if(S.events[i]){
+        const evt = S.events[i];
+        const ee = document.createElement('span');
+        ee.className = 'evt';
+        ee.textContent = evt.type === 'butterfly' ? '🦋' : evt.type === 'chest' ? '🎁' : '🐛';
+        ee.onclick = (e) => { e.stopPropagation(); handleEvent(i); };
+        d.appendChild(ee);
+      }
+
+      d.onclick = () => {
+        if(S.events[i]){ handleEvent(i); return; }
+        if(S.tool === 'shovel'){
+          if(!confirm(`铲掉这株 ${CROPS[p.crop].name}?`)) return;
+          S.plots[i] = null;
+          S.tool = null; updateTools();
+          buzz(20); sfx(200,0.12,'sawtooth');
+          toast('已铲除'); save(); renderFarm();
+          return;
+        }
+        if(st === 3){ harvest(i); return; }
+        waterPlot(i);
+      };
+    }
+    farm.appendChild(d);
+  }
+  updateQuestBadge();
+  updateTitle();
+}
+
+function waterPlot(i){
+  const p = S.plots[i];
+  if(!p) return;
+  if((p.water||0) >= 3){ toast('这株已经浇够水啦'); return; }
+  p.water = (p.water||0) + 1;
+  addQuestProgress('water');
+  buzz(12); sfx(660,0.12,'sine');
+  save(); renderFarm();
+}
+
+function tryUnlockPlot(i){
+  const cost = 200;
+  if(S.coins < cost){ toast(`解锁需要 💰${cost},还差 ${cost - S.coins}`); return; }
+  if(!confirm(`花费 💰${cost} 解锁这块土地?`)) return;
+  S.coins -= cost;
+  S.plotLv[i] = 1;
+  save(); renderFarm();
+  toast('🎉 新土地解锁!');
+  sfx(880,0.15,'sine');
+}
+
+function handleEvent(i){
+  const evt = S.events[i];
+  if(!evt) return;
+  delete S.events[i];
+  if(evt.type === 'butterfly'){
+    const gain = 5 + Math.floor(Math.random() * 20);
+    S.coins += gain;
+    toast(`🦋 抓住一只蝴蝶!+💰${gain}`);
+    sfx(1000,0.1,'sine');
+  }else if(evt.type === 'chest'){
+    const roll = Math.random();
+    if(roll < 0.4){ S.coins += 40; toast('🎁 宝箱:+💰40'); }
+    else if(roll < 0.75){ S.diamonds += 2; toast('💎 宝箱:+💎2'); }
+    else { S.inventory.speed++; toast('⚡ 宝箱:获得加速卡×1'); }
+    sfx(880,0.15,'sine'); setTimeout(()=>sfx(1200,0.2,'sine'),100);
+  }else if(evt.type === 'pest'){
+    const p = S.plots[i];
+    if(!p) return;
+    p.water = Math.max(0, (p.water||0) - 1);
+    toast('🐛 害虫!作物生长受阻,快用驱虫剂!');
+  }
+  save(); renderFarm();
+}
+
+/* ================= 播种 ================= */
+let seedTarget = -1;
+function openSeed(i){
+  seedTarget = i;
+  const lv = lvOf(S.harvests);
+  const list = $('seed-list');
+  list.innerHTML = '';
+  $('seed-title').textContent = '选择种子';
+  $('seed-desc').innerHTML = `你的金币:💰 ${S.coins} · 钻石:💎 ${S.diamonds}<br>
+    <span style="font-size:11.5px">绿=普通 蓝=稀有 紫=史诗 橙=传说</span>`;
+
+  CROP_ORDER.forEach(k => {
+    const c = CROPS[k];
+    const locked = lv < c.lv;
+    const canBuy = S.coins >= c.seed;
+    const row = document.createElement('div');
+    row.className = 'seed r-' + (c.rarity || 'common') + (locked ? ' lock' : '');
+    const dexCnt = S.dex[k] || 0;
+    row.innerHTML = `<div class="se">${c.emoji}</div>
+      <div class="info">
+        <div class="nm">${c.name}
+          <span class="rr ${c.rarity||'common'}">${RARITY_NAME[c.rarity||'common']}</span>
+          ${locked ? `<span style="color:#d9534f;font-size:11px">🔒 Lv.${c.lv}</span>` : ''}
+        </div>
+        <div class="meta">${(c.time/1000)|0}秒 · 卖 ${c.sell} 金币${dexCnt ? ` · 已种 ${dexCnt} 次` : ''}</div>
+      </div>
+      <div class="price ${canBuy?'':'no'}">💰${c.seed}</div>`;
+    if(!locked) row.onclick = () => doPlant(k);
+    list.appendChild(row);
+  });
+  $('mask-seed').classList.add('show');
+}
+function doPlant(k){
+  const c = CROPS[k];
+  if(S.coins < c.seed){ toast('金币不够啦'); return; }
+  S.coins -= c.seed;
+  S.plots[seedTarget] = { crop:k, at:Date.now(), water:0 };
+  S.planted++;
+  S.lastCrop = k;                 // 「接着种」会记住最后种下的作物
+  S.dex[k] = (S.dex[k] || 0) + 1;
+  addQuestProgress('plant');
+  $('mask-seed').classList.remove('show');
+  buzz(15); sfx(520,0.1,'triangle');
+  toast(`种下了 ${c.name}`);
+  save(); renderFarm();
+  checkAchievements();
+}
+$('seed-cancel').onclick = () => $('mask-seed').classList.remove('show');
+$('mask-seed').onclick = e => { if(e.target === $('mask-seed')) $('mask-seed').classList.remove('show'); };
+
+/* ================= 收获 ================= */
+function harvest(i){
+  const p = S.plots[i];
+  const r = harvestGain(i);
+  if(!r) return;
+  const c = r.c;
+  const gain = r.gain;
+  S.coins += gain;
+  S.harvests++;
+  S.plots[i] = null;
+  /* 每收获一次,同时放 1 份进仓库(可喂宠物 / 当加工原料) */
+  S.granary[p.crop] = (S.granary[p.crop] || 0) + 1;
+
+  const oldLv = lvOf(S.harvests - 1);
+  const newLv = lvOf(S.harvests);
+
+  $('hv-emoji').textContent = c.emoji;
+  $('hv-title').textContent = `收获 ${c.name}!`;
+  $('hv-desc').innerHTML = `获得 <b style="color:#c98a1a">💰 ${gain}</b>
+    ${r.richUsed ? '<br><b style="color:#f57c00">🎁 丰收卡生效 ×2</b>' : ''}
+    ${r.plotLv > 1 ? `<br>🌱 土地 Lv${r.plotLv} 加成 +${(r.plotLv-1)*30}%` : ''}
+    ${r.doubleSell ? '<br><b style="color:#c2185b">🌈 彩虹日双倍!</b>' : ''}
+    <br>📦 仓库 ${c.emoji} ${c.name} +1(共 ${S.granary[p.crop]} 份)
+    <br><br>累计收获 ${S.harvests} 次`;
+  $('mask-harvest').classList.add('show');
+
+  addQuestProgress('harvest');
+  sfx(880,0.1,'sine'); setTimeout(()=>sfx(1175,0.15,'sine'),90);
+  buzz([20,30,20]);
+  if(newLv > oldLv) setTimeout(()=>toast(`🎉 升级到 Lv.${newLv}!`), 900);
+
+  save(); renderFarm();
+  checkAchievements();
+}
+$('hv-ok').onclick = () => $('mask-harvest').classList.remove('show');
+
+/* ================= 工具 ================= */
+$('t-water').onclick = () => { S.tool = S.tool === 'water' ? null : 'water'; updateTools(); };
+$('t-shovel').onclick = () => {
+  S.tool = S.tool === 'shovel' ? null : 'shovel';
+  updateTools();
+  if(S.tool) toast('点击要铲除的作物');
+};
+function updateTools(){
+  $('t-water').classList.toggle('on', S.tool === 'water');
+  $('t-shovel').classList.toggle('on', S.tool === 'shovel');
+}
+
+/* ================= 分享 ================= */
+function shareNoteText(){ return cleanNote($('share-note') ? $('share-note').value : ''); }
+$('t-share').onclick = () => {
+  if($('share-note')) $('share-note').value = '';
+  $('share-code').textContent = packFarm();
+  show('s-share');
+  /* 第一次打开分享页,先把「分享码怎么用」讲一遍 */
+  if(!S.helpSeen){
+    S.helpSeen = true;
+    save();
+    setTimeout(openHelp, 320);
+  }
+};
+$('share-back').onclick = () => show('s-farm');
+$('btn-copy-share').onclick = () => {
+  const code = packFarm(shareNoteText());
+  $('share-code').textContent = code;
+  copyText(code, $('btn-copy-share'), '📋 只复制农场码');
+};
+$('btn-copy-link').onclick = () => {
+  const note = shareNoteText();
+  $('share-code').textContent = packFarm(note);
+  copyText(buildFarmLink(note), $('btn-copy-link'), '🔗 复制直达链接');
+};
+$('btn-share-system').onclick = () => {
+  const note = shareNoteText();
+  $('share-code').textContent = packFarm(note);
+  shareOrCopy(note ? `来我的小农场看看 🌾 —— ${note}` : '来我的小农场看看 🌾',
+              buildFarmLink(note), $('btn-share-system'), '📤 系统分享 / 发送给好友');
+};
+
+/* ================= 拜访 ================= */
+$('t-visit').onclick = () => {
+  $('visit-input-wrap').style.display = 'block';
+  $('visit-farm-wrap').style.display = 'none';
+  $('visit-input').value = '';
+  show('s-visit');
+};
+$('visit-back').onclick = () => show('s-farm');
+
+$('btn-visit-go').onclick = () => {
+  const raw = $('visit-input').value;
+  const receiptCode = extractReceiptCode(raw);
+  const receipt = unpackReceipt(receiptCode);
+  if(receipt && receipt.name !== S.name){
+    const farm = unpackFarm(receiptCode);
+    if(!farm){
+      if(importReceipt(receiptCode)){
+        $('visit-input-wrap').style.display = 'block';
+        $('visit-farm-wrap').style.display = 'none';
+        return;
+      }
+    }
+  }
+  const farm = unpackFarm(extractFarmCode(raw));
+  if(!farm){ toast('码格式不对,请检查'); return; }
+  V.name = farm.name;
+  V.plots = farm.plots;
+  V.plotLv = farm.plotLv;
+  V.stolen = new Set();
+  V.total = 0;
+  V.steals = [];
+  V.lastSteals = [];
+  V.note = farm.note || '';
+  $('visit-name').textContent = '👤 ' + V.name;
+  const nc = $('visit-note');
+  if(nc){
+    if(V.note){ nc.style.display = ''; nc.innerHTML = `✉️ <b>${esc(V.name)}</b> 留言:${esc(V.note)}`; }
+    else nc.style.display = 'none';
+  }
+  $('visit-input-wrap').style.display = 'none';
+  $('visit-farm-wrap').style.display = 'block';
+  renderVisit();
+  toast(`进入 ${V.name} 的农场`);
+};
+
+function renderVisit(){
+  const g = $('visit-grid');
+  g.innerHTML = '';
+  let matureCount = 0;
+  for(let i=0;i<PLOTS;i++){
+    const p = V.plots[i];
+    const d = document.createElement('div');
+    d.className = 'vcell';
+    d.tabIndex = 0;
+    d.setAttribute('role', 'button');
+    d.setAttribute('aria-label', `好友农田 ${i+1}`);
+    if(!p || !V.plotLv[i]){
+      d.style.opacity = '.35';
+      d.innerHTML = '<span style="opacity:.4">·</span>';
+    }else{
+      const c = CROPS[p.crop];
+      const pr = growth(p);
+      const st = stageOf(pr);
+      const isMature = st === 3;
+      const isStolen = V.stolen.has(i);
+      let emoji = isMature ? c.emoji : STAGE_EMOJI[st];
+      if(isStolen){
+        d.classList.add('stolen');
+        d.textContent = emoji;
+      }else if(isMature){
+        d.classList.add('mature');
+        d.innerHTML = `<span>${emoji}</span><span class="steal-tag">可偷</span>`;
+        matureCount++;
+        d.onclick = () => stealCrop(i);
+      }else{
+        d.textContent = emoji;
+      }
+    }
+    g.appendChild(d);
+  }
+  if(V.total > 0){
+    $('visit-status').innerHTML =
+      `已偷 <b style="color:#c2185b">${V.steals.length}</b> 个,获得 <b style="color:#c98a1a">💰 ${V.total}</b>`;
+  }else if(matureCount === 0){
+    $('visit-status').innerHTML = 'TA 的农场暂时没有成熟的作物,下次再来吧~';
+  }else{
+    $('visit-status').innerHTML = `点击成熟作物偷走,可得售价的 70%`;
+  }
+}
+
+function stealCrop(i){
+  const p = V.plots[i];
+  const c = CROPS[p.crop];
+  const gain = Math.floor(c.sell * 0.7);
+  V.stolen.add(i);
+  V.total += gain;
+  V.steals.push({ i, c: p.crop });
+  buzz(20); sfx(700,0.1,'triangle');
+  toast(`偷到 ${c.name},+💰${gain}`);
+  renderVisit();
+}
+
+$('btn-visit-again').onclick = () => {
+  $('visit-input-wrap').style.display = 'block';
+  $('visit-farm-wrap').style.display = 'none';
+  $('visit-input').value = '';
+};
+
+$('btn-visit-done').onclick = () => {
+  if(V.steals.length === 0){ toast('你还没偷任何作物呢'); return; }
+  S.coins += V.total;
+  S.stealCount += V.steals.length;
+  addQuestProgress('steal', V.steals.length);
+  V.lastSteals = V.steals.slice();
+  if(visitFriendIdx >= 0 && S.friends[visitFriendIdx]){
+    S.friends[visitFriendIdx].stolen = (S.friends[visitFriendIdx].stolen || 0) + V.steals.length;
+    visitFriendIdx = -1;
+  }
+  if($('receipt-note')) $('receipt-note').value = '';
+  $('receipt-code').textContent = packReceipt(V.lastSteals, '');
+  save();
+  show('s-receipt');
+  toast(`获得 💰${V.total} 金币,别忘了留句话 ✍️`);
+  V.total = 0; V.steals = [];
+  renderFarm();
+  checkAchievements();
+};
+
+/* 回执可以附一句话再发给 TA */
+function currentReceiptCode(){
+  return packReceipt(V.lastSteals || [], cleanNote($('receipt-note') ? $('receipt-note').value : ''));
+}
+$('receipt-back').onclick = () => show('s-farm');
+$('btn-copy-receipt').onclick = () => {
+  const code = currentReceiptCode();
+  $('receipt-code').textContent = code;
+  copyText(code, $('btn-copy-receipt'), '📋 只复制回执码');
+};
+$('btn-copy-receipt-link').onclick = () => {
+  const code = currentReceiptCode();
+  $('receipt-code').textContent = code;
+  copyText(buildReceiptLink(code), $('btn-copy-receipt-link'), '🔗 复制回执链接');
+};
+
+/* ================= 导入回执 ================= */
+function importReceipt(codeStr){
+  const data = unpackReceipt(codeStr);
+  if(!data){ toast('回执码无效'); return false; }
+  const thief = cleanName(data.name);
+  let removed = [], protectedCnt = 0;
+
+  data.steals.forEach(item => {
+    const i = item.i;
+    if(i < 0 || i >= PLOTS) return;
+    const p = S.plots[i];
+    if(!p) return;
+    if(p.protected){ protectedCnt++; return; }
+    const pr = growth(p);
+    if(pr >= 1 && p.crop === item.c){
+      removed.push(CROPS[p.crop].name);
+      S.plots[i] = null;
+    }
+  });
+  /* 回执里带来的留言 → 直接进留言板 */
+  if(data.note){
+    addBoardMsg(thief, data.note);
+    renderNavBadges();
+  }
+  if(removed.length){
+    S.stealLog.unshift({ from: thief, t: Date.now(), items: removed });
+    if(S.stealLog.length > 20) S.stealLog.length = 20;
+    $('sm-emoji').textContent = '🕵️';
+    $('sm-title').textContent = `${esc(thief)} 偷了你的菜`;
+    $('sm-desc').innerHTML = `被偷走:<br><b>${removed.map(esc).join('、')}</b>
+      ${protectedCnt ? `<br><span style="color:#4caf50">🛡️ 有 ${protectedCnt} 个被保护罩挡下了</span>` : ''}
+      ${data.note ? `<br><br>✉️ TA 留言:<b>${esc(data.note)}</b>
+        <br><span style="font-size:12px;opacity:.6">去「留言板」可以回一条</span>` : ''}
+      <br><span style="font-size:12px;opacity:.6">下次别忘了去偷回来~</span>`;
+    $('mask-steal-msg').classList.add('show');
+    save(); renderFarm();
+    return true;
+  }else if(protectedCnt){
+    toast(`🛡️ ${protectedCnt} 个作物被保护罩挡下了`);
+    return true;
+  }else{
+    if(data.note){ show('s-board'); renderBoard(); toast(`✉️ ${esc(thief)} 给你留了句话`); return true; }
+    toast('没有找到可以扣掉的作物(可能已收获)');
+    return false;
+  }
+}
+$('sm-ok').onclick = () => $('mask-steal-msg').classList.remove('show');
+
+/* ================= 复制 ================= */
+function copyText(text, btn, original){
+  const done = () => {
+    btn.textContent = '✅ 已复制';
+    buzz(20);
+    setTimeout(()=>{ btn.textContent = original; }, 1400);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>{ fallbackCopy(text); done(); });
+  }else{ fallbackCopy(text); done(); }
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ================= 拍照 ================= */
+const FILTERS = [
+  { name:'原图', c:null },
+  { name:'暖阳', c:'rgba(255,180,90,.22)' },
+  { name:'清新', c:'rgba(120,255,190,.20)' },
+  { name:'复古', c:'rgba(190,140,80,.30)' },
+  { name:'梦幻', c:'rgba(200,150,255,.25)' },
+  { name:'暗调', c:'rgba(30,30,60,.30)' }
+];
+const STICKER_SET = ['❤️','⭐','🌸','🍀','☀️','🌈','🐝','🦋','🎀','✨'];
+$('t-cam').onclick = () => {
+  S.stickers = []; S.stickerPick = null; S.filter = 0;
+  renderCamUI(); show('s-cam'); drawCam();
+};
+$('cam-back').onclick = () => show('s-farm');
+function renderCamUI(){
+  const f = $('filters'); f.innerHTML = '';
+  FILTERS.forEach((it,i)=>{
+    const b = document.createElement('button');
+    b.className = 'fchip' + (S.filter === i ? ' on' : '');
+    b.textContent = it.name;
+    b.onclick = () => { S.filter = i; renderCamUI(); drawCam(); };
+    f.appendChild(b);
+  });
+  const s = $('stickers'); s.innerHTML = '';
+  STICKER_SET.forEach(em=>{
+    const b = document.createElement('button');
+    b.className = 'schip' + (S.stickerPick === em ? ' on' : '');
+    b.textContent = em;
+    b.onclick = () => {
+      S.stickerPick = S.stickerPick === em ? null : em;
+      renderCamUI();
+      if(S.stickerPick) toast('点击图片放置贴纸');
+    };
+    s.appendChild(b);
+  });
+}
+$('cam-clear').onclick = () => { S.stickers = []; drawCam(); toast('已清空贴纸'); };
+$('cam-canvas').addEventListener('click', e => {
+  if(!S.stickerPick) return;
+  const rect = e.target.getBoundingClientRect();
+  S.stickers.push({
+    em: S.stickerPick,
+    x: (e.clientX - rect.left) / rect.width,
+    y: (e.clientY - rect.top) / rect.height
+  });
+  sfx(700,0.08,'sine');
+  drawCam();
+});
+
+function drawCam(){
+  const cv = $('cam-canvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const wx = getWeather();
+  const skyColors = {
+    sunny:['#9fd8ff','#d6efff'],
+    rain:['#6b8ca8','#a8c4d8'],
+    cloudy:['#b8c4cc','#e0e8f0'],
+    rainbow:['#ffd0e8','#d6f0ff'],
+    pest:['#c8b080','#e8d8b0']
+  };
+  const sc = skyColors[S.weather.key] || skyColors.sunny;
+  const sky = ctx.createLinearGradient(0,0,0,H*0.55);
+  sky.addColorStop(0,sc[0]); sky.addColorStop(1,sc[1]);
+  ctx.fillStyle = sky; ctx.fillRect(0,0,W,H*0.55);
+
+  if(S.weather.key !== 'rain' && S.weather.key !== 'cloudy'){
+    ctx.beginPath(); ctx.arc(W*0.82, H*0.13, 46, 0, Math.PI*2);
+    ctx.fillStyle = '#ffe066'; ctx.fill();
+    ctx.globalAlpha = .35;
+    ctx.beginPath(); ctx.arc(W*0.82, H*0.13, 66, 0, Math.PI*2);
+    ctx.fillStyle = '#fff3b0'; ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  drawCloud(ctx, W*0.18, H*0.14, 1);
+  drawCloud(ctx, W*0.55, H*0.08, .7);
+
+  if(S.weather.key === 'rainbow'){
+    const rc = ['#ff0000','#ff7f00','#ffff00','#00ff00','#0000ff','#4b0082','#9400d3'];
+    rc.forEach((c, i)=>{
+      ctx.beginPath();
+      ctx.arc(W*0.5, H*0.55, W*0.4 - i*6, Math.PI, 0);
+      ctx.strokeStyle = c; ctx.lineWidth = 6; ctx.stroke();
+    });
+  }
+
+  ctx.fillStyle = '#a8d8a0';
+  ctx.beginPath();
+  ctx.moveTo(0, H*0.55);
+  ctx.quadraticCurveTo(W*0.25, H*0.42, W*0.5, H*0.55);
+  ctx.quadraticCurveTo(W*0.75, H*0.44, W, H*0.55);
+  ctx.lineTo(W, H*0.6); ctx.lineTo(0, H*0.6);
+  ctx.closePath(); ctx.fill();
+
+  const gr = ctx.createLinearGradient(0,H*0.5,0,H);
+  gr.addColorStop(0,'#8fd07a'); gr.addColorStop(1,'#5fa84e');
+  ctx.fillStyle = gr; ctx.fillRect(0,H*0.53,W,H*0.47);
+
+  const pad = W*0.06, gy = H*0.58, soilH = H*0.36;
+  const cw = ((W - pad*2) - 24) / 4;
+  const ch = (soilH - 24) / 4;
+  for(let r=0;r<4;r++){
+    for(let c=0;c<4;c++){
+      const x = pad + c*(cw+8);
+      const y = gy + r*(ch+8);
+      const sg = ctx.createLinearGradient(0,y,0,y+ch);
+      sg.addColorStop(0,'#a9764a'); sg.addColorStop(1,'#855a32');
+      ctx.fillStyle = sg;
+      roundRect(ctx,x,y,cw,ch,10); ctx.fill();
+      const p = S.plots[r*4+c];
+      if(p){
+        const crop = CROPS[p.crop];
+        const pr = growth(p);
+        const st = stageOf(pr);
+        const em = st===3 ? crop.emoji : STAGE_EMOJI[st];
+        ctx.font = `${Math.floor(ch*0.62)}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(em, x+cw/2, y+ch/2);
+      }
+    }
+  }
+
+  const f = FILTERS[S.filter];
+  if(f.c){ ctx.fillStyle = f.c; ctx.fillRect(0,0,W,H); }
+
+  S.stickers.forEach(s=>{
+    ctx.font = `${Math.floor(W*0.11)}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(s.em, s.x*W, s.y*H);
+  });
+
+  ctx.font = `bold ${Math.floor(W*0.032)}px sans-serif`;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+  ctx.fillStyle = 'rgba(255,255,255,.85)';
+  ctx.fillText(`🌾 ${S.name} 的农场 · ${wx.emoji}${wx.name}`, W*0.05, H - W*0.035);
+
+  const d = new Date();
+  ctx.textAlign = 'right';
+  ctx.font = `${Math.floor(W*0.026)}px sans-serif`;
+  ctx.fillStyle = 'rgba(255,255,255,.75)';
+  ctx.fillText(`${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`, W*0.95, H - W*0.035);
+}
+function drawCloud(ctx,x,y,s){
+  ctx.fillStyle = 'rgba(255,255,255,.9)';
+  ctx.beginPath();
+  ctx.arc(x, y, 22*s, 0, Math.PI*2);
+  ctx.arc(x+26*s, y+6*s, 17*s, 0, Math.PI*2);
+  ctx.arc(x-26*s, y+6*s, 15*s, 0, Math.PI*2);
+  ctx.arc(x+8*s, y-12*s, 16*s, 0, Math.PI*2);
+  ctx.fill();
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+$('cam-save').onclick = () => {
+  const cv = $('cam-canvas');
+  const tmp = document.createElement('canvas');
+  tmp.width = PHOTO_SIZE; tmp.height = PHOTO_SIZE;
+  tmp.getContext('2d').drawImage(cv, 0, 0, PHOTO_SIZE, PHOTO_SIZE);
+  /* 照片是存储空间大户:压到 320px/0.62,并且只留最近 12 张 */
+  const data = tmp.toDataURL('image/jpeg', PHOTO_QUALITY);
+  S.photos.unshift({ id: Date.now(), data, t: Date.now() });
+  if(S.photos.length > MAX_PHOTOS) S.photos.length = MAX_PHOTOS;
+  addQuestProgress('photo');
+  savePhotos();
+  save();
+  toast('已保存到相册 📷');
+  sfx(880,0.12,'sine'); setTimeout(()=>sfx(1320,0.15,'sine'), 100);
+  checkAchievements();
+  setTimeout(()=>show('s-album'), 600);
+};
+
+/* ================= 相册 ================= */
+$('t-album').onclick = () => { renderAlbum(); show('s-album'); };
+$('album-back').onclick = () => show('s-farm');
+function renderAlbum(){
+  const g = $('album-grid');
+  g.innerHTML = '';
+  if(!S.photos.length){ $('album-empty').style.display = 'block'; return; }
+  $('album-empty').style.display = 'none';
+  S.photos.forEach(p=>{
+    const d = document.createElement('div');
+    d.className = 'photo';
+    const dt = new Date(p.t);
+    d.innerHTML = `<img src="${p.data}" alt="照片">
+      <button class="del">×</button>
+      <div class="d">${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}</div>`;
+    d.querySelector('.del').onclick = (e) => {
+      e.stopPropagation();
+      S.photos = S.photos.filter(x => x.id !== p.id);
+      save(); renderAlbum(); toast('已删除');
+    };
+    d.querySelector('img').onclick = () => {
+      const a = document.createElement('a');
+      a.href = p.data; a.download = `farm_${p.id}.jpg`; a.click();
+    };
+    g.appendChild(d);
+  });
+}
+
+/* ================= 商店 ================= */
+$('t-shop').onclick = () => { renderShop(); show('s-shop'); };
+$('shop-back').onclick = () => show('s-farm');
+
+function renderShop(){
+  $('shop-coins').textContent = S.coins;
+  $('shop-dia').textContent = S.diamonds;
+
+  const itemsBox = $('shop-items');
+  itemsBox.innerHTML = '';
+  Object.entries(ITEMS).forEach(([k, it])=>{
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div class="ii">${it.emoji}</div>
+      <div><div class="iname">${it.name}</div><div class="idesc">${it.desc}</div></div>
+      <div class="cnt">💎${it.price}</div>
+      <button class="ibtn">购买</button>`;
+    const btn = row.querySelector('.ibtn');
+    btn.disabled = S.diamonds < it.price;
+    btn.onclick = () => {
+      if(S.diamonds < it.price){ toast('钻石不够'); return; }
+      S.diamonds -= it.price;
+      S.inventory[k]++;
+      save(); renderShop(); renderFarm();
+      toast(`购买成功:${it.name}×1`);
+      sfx(880,0.1,'sine');
+    };
+    itemsBox.appendChild(row);
+  });
+
+  const petsBox = $('shop-pets');
+  petsBox.innerHTML = '';
+  Object.entries(PETS).forEach(([k, p])=>{
+    const owned = S.pets[k] > 0;
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div class="ii">${p.emoji}</div>
+      <div><div class="iname">${p.name} ${owned ? '✅Lv.'+S.pets[k] : ''}</div><div class="idesc">${p.desc}</div></div>
+      <div class="cnt">💎${p.price}</div>
+      <button class="ibtn">${owned ? '已拥有' : '领养'}</button>`;
+    const btn = row.querySelector('.ibtn');
+    if(owned){ btn.disabled = true; btn.style.opacity = '.5'; }
+    else{
+      btn.disabled = S.diamonds < p.price;
+      btn.onclick = () => {
+        if(S.diamonds < p.price){ toast('钻石不够'); return; }
+        S.diamonds -= p.price;
+        S.pets[k] = 1;
+        save(); renderShop(); renderFarm();
+        toast(`🎉 领养了${p.name}!`);
+        sfx(880,0.15,'sine'); setTimeout(()=>sfx(1320,0.2,'sine'),130);
+      };
+    }
+    petsBox.appendChild(row);
+  });
+
+  // 土地升级
+  const plotsBox = $('shop-plots');
+  plotsBox.innerHTML = '';
+  const lockedIdx = S.plotLv.map((v,i)=>v===0?i:-1).filter(i=>i>=0);
+  if(lockedIdx.length === 0){
+    const tip = document.createElement('div');
+    tip.className = 'hint';
+    tip.style.padding = '20px 0';
+    tip.innerHTML = '所有土地都已解锁 🎉<br>在农场点击自己地块可花金币升级土地等级(每级+30%产量)';
+    plotsBox.appendChild(tip);
+  }else{
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div class="ii">🔓</div>
+      <div><div class="iname">解锁新土地</div>
+        <div class="idesc">还剩 ${lockedIdx.length} 块未解锁,每块 200 金币</div></div>
+      <div class="cnt">💰200</div>
+      <button class="ibtn">解锁</button>`;
+    const btn = row.querySelector('.ibtn');
+    btn.disabled = S.coins < 200;
+    btn.onclick = () => {
+      if(S.coins < 200){ toast('金币不够'); return; }
+      S.coins -= 200;
+      S.plotLv[lockedIdx[0]] = 1;
+      save(); renderShop(); renderFarm();
+      toast('🎉 新土地解锁!');
+      sfx(880,0.15,'sine');
+    };
+    plotsBox.appendChild(row);
+
+    // 土地升级按钮
+    for(let i=0;i<PLOTS;i++){
+      if(S.plotLv[i] > 0 && S.plotLv[i] < 9){
+        const cost = S.plotLv[i] * 150;
+        const up = document.createElement('div');
+        up.className = 'item';
+        up.innerHTML = `<div class="ii">🌱</div>
+          <div><div class="iname">土地 ${i+1} 升级 Lv.${S.plotLv[i]} → Lv.${S.plotLv[i]+1}</div>
+            <div class="idesc">产量加成 +${(S.plotLv[i])*30}% → +${(S.plotLv[i]+1)*30}%</div></div>
+          <div class="cnt">💰${cost}</div>
+          <button class="ibtn">升级</button>`;
+        const b2 = up.querySelector('.ibtn');
+        b2.disabled = S.coins < cost;
+        b2.onclick = () => {
+          if(S.coins < cost){ toast('金币不够'); return; }
+          S.coins -= cost;
+          S.plotLv[i]++;
+          save(); renderShop(); renderFarm();
+          toast(`土地 ${i+1} 升级到 Lv.${S.plotLv[i]}`);
+          sfx(880,0.12,'sine');
+        };
+        plotsBox.appendChild(up);
+      }
+    }
+  }
+}
+
+/* ================= 宠物 ================= */
+$('t-pet').onclick = () => { renderPet(); show('s-pet'); };
+$('pet-back').onclick = () => show('s-farm');
+
+function renderPet(){
+  const box = $('pet-content');
+  box.innerHTML = '';
+  const hasPet = S.pets.cat > 0 || S.pets.dog > 0;
+  if(!hasPet){
+    box.innerHTML = `<div class="empty-tip">你还没有宠物<br>去商店领养一只吧 🐾<br><br>
+      <button class="btn b5" onclick="show('s-shop');renderShop()">前往商店</button></div>`;
+    return;
+  }
+  Object.entries(PETS).forEach(([k, p])=>{
+    const lvl = S.pets[k];
+    if(lvl <= 0) return;
+    const d = document.createElement('div');
+    d.className = 'pet';
+    d.innerHTML = `<div class="pe">${p.emoji}</div>
+      <div class="pi">
+        <div class="pn">${p.name} Lv.${lvl}</div>
+        <div class="pl">${p.desc}</div>
+        <div class="pbar"><i style="width:${Math.min(100, lvl*10)}%"></i></div>
+      </div>`;
+    box.appendChild(d);
+  });
+  const feedBtn = document.createElement('button');
+  feedBtn.className = 'btn b5';
+  feedBtn.textContent = '🍖 用 10💎 喂养宠物(升级)';
+  feedBtn.onclick = () => {
+    if(S.diamonds < 10){ toast('钻石不够'); return; }
+    const k = S.pets.cat > 0 ? 'cat' : 'dog';
+    if(S.pets[k] >= 10){ toast('已达到最高等级'); return; }
+    S.diamonds -= 10;
+    S.pets[k]++;
+    save(); renderPet(); renderFarm();
+    toast(`🎉 ${PETS[k].name} 升级到 Lv.${S.pets[k]}`);
+    sfx(880,0.12,'sine'); setTimeout(()=>sfx(1320,0.15,'sine'),100);
+  };
+  box.appendChild(feedBtn);
+
+  const tips = document.createElement('div');
+  tips.className = 'hint';
+  tips.style.marginTop = '14px';
+  tips.innerHTML = `🐱 小猫:每小时帮你驱赶一次害虫或干扰事件<br>
+    🐶 小狗:每小时帮你自动浇一次水<br>
+    宠物等级越高,效果越频繁`;
+  box.appendChild(tips);
+}
+
+/* ================= 导航 ================= */
+document.querySelectorAll('.nav-btn').forEach(b=>{
+  b.onclick = () => {
+    const t = b.dataset.nav;
+    if(t === 's-quests') renderQuests();
+    else if(t === 's-bag') renderBag();
+    else if(t === 's-ach') renderAch();
+    else if(t === 's-dex') renderDex();
+    else if(t === 's-craft') renderCraft();
+    else if(t === 's-welfare') renderWelfare();
+    else if(t === 's-friends') renderFriends();
+    else if(t === 's-board') renderBoard();
+    show(t);
+  };
+});
+$('quest-back').onclick = () => show('s-farm');
+$('ach-back').onclick = () => show('s-farm');
+$('bag-back').onclick = () => show('s-farm');
+$('dex-back').onclick = () => show('s-farm');
+
+$('welfare-seg').addEventListener('click', e => {
+  const b = e.target.closest('button[data-wtab]');
+  if(!b) return;
+  welfareTab = b.dataset.wtab;
+  renderWelfare();
+});
+$('btn-redeem').onclick = doRedeem;
+$('code-input').addEventListener('keydown', e => {
+  if(e.key === 'Enter') doRedeem();
+});
+
+/* ================= 任务页 ================= */
+function renderQuests(){
+  refreshQuests();
+  const list = $('quest-list');
+  list.innerHTML = '';
+  S.quests.forEach(q=>{
+    const cur = Math.min(q.target, questProgress(q));
+    const done = cur >= q.target;
+    const claimed = S.questClaimed.includes(q.id);
+    const d = document.createElement('div');
+    d.className = 'quest' + ((done || claimed) ? ' done' : '');
+    d.innerHTML = `<div class="qi">${q.emoji}</div>
+      <div class="qinfo">
+        <div class="qn">${q.name}</div>
+        <div class="qp">${cur} / ${q.target}${done ? ' · 已完成' : ''}</div>
+        <div class="qbar"><i style="width:${cur/q.target*100}%"></i></div>
+      </div>
+      <div class="qr">💎${q.dia}</div>`;
+    if(done && !claimed){
+      const btn = document.createElement('button');
+      btn.className = 'ibtn';
+      btn.textContent = '领取';
+      btn.onclick = () => {
+        S.questClaimed.push(q.id);
+        S.diamonds += q.dia;
+        save(); renderQuests(); renderFarm();
+        toast(`任务完成!+💎${q.dia}`);
+        sfx(880,0.12,'sine'); setTimeout(()=>sfx(1320,0.15,'sine'),100);
+      };
+      d.appendChild(btn);
+    }else if(claimed){
+      const c = document.createElement('div');
+      c.className = 'qr';
+      c.textContent = '✅';
+      d.appendChild(c);
+    }
+    list.appendChild(d);
+  });
+  $('quest-reset').textContent = `每天 0 点刷新 · 已完成 ${S.questClaimed.length}/${S.quests.length}`;
+}
+
+/* ================= 成就页 ================= */
+function renderAch(){
+  const g = $('ach-grid');
+  g.innerHTML = '';
+  ACHS.forEach(a=>{
+    const done = S.achievements.includes(a.id);
+    const d = document.createElement('div');
+    d.className = 'ach' + (done ? ' done' : '');
+    d.innerHTML = `<div class="ae">${a.emoji}</div>
+      <div class="an">${a.name}</div>
+      <div class="ad">${a.desc}</div>`;
+    g.appendChild(d);
+  });
+  $('ach-count').textContent = `${S.achievements.length}/${ACHS.length}`;
+}
+
+/* ================= 图鉴页 ================= */
+function renderDex(){
+  const g = $('dex-grid');
+  g.innerHTML = '';
+  CROP_ORDER.forEach(k=>{
+    const c = CROPS[k];
+    const cnt = S.dex[k] || 0;
+    const d = document.createElement('div');
+    d.className = 'dex r-' + (c.rarity || 'common') + (cnt === 0 ? ' lock' : '');
+    d.innerHTML = `<div class="de">${c.emoji}</div>
+      <div class="dn">${c.name}</div>
+      <div class="dc">${cnt > 0 ? `已种 ${cnt} 次` : '未解锁'}</div>`;
+    g.appendChild(d);
+  });
+  $('dex-count').textContent = `${CROP_KEYS.filter(k=>S.dex[k]>0).length}/${CROP_KEYS.length}`;
+}
+
+/* ================= 背包 ================= */
+function renderBag(){
+  const g = $('bag-list');
+  g.innerHTML = '';
+  let hasAny = false;
+  Object.entries(ITEMS).forEach(([k, it])=>{
+    const cnt = S.inventory[k] || 0;
+    if(cnt > 0) hasAny = true;
+    const d = document.createElement('div');
+    d.className = 'item';
+    d.innerHTML = `<div class="ii">${it.emoji}</div>
+      <div><div class="iname">${it.name}</div><div class="idesc">${it.desc}</div></div>
+      <div class="cnt">×${cnt}</div>`;
+    if(cnt > 0){
+      const btn = document.createElement('button');
+      btn.className = 'ibtn';
+      btn.textContent = '使用';
+      btn.onclick = () => useItem(k);
+      d.appendChild(btn);
+    }
+    g.appendChild(d);
+  });
+  if(!hasAny){
+    const tip = document.createElement('div');
+    tip.className = 'empty-tip';
+    tip.innerHTML = '背包空空如也<br>去商店买点道具吧 🛒';
+    g.appendChild(tip);
+  }
+  renderSavePanel();
+}
+
+function useItem(k){
+  const it = ITEMS[k];
+  if(S.inventory[k] <= 0){ toast('没有这个道具'); return; }
+
+  if(k === 'bug'){
+    let cnt = 0;
+    Object.keys(S.events).forEach(idx=>{
+      if(S.events[idx].type === 'pest'){ delete S.events[idx]; cnt++; }
+    });
+    if(cnt === 0){ toast('现在没有害虫'); return; }
+    S.inventory[k]--;
+    save(); renderBag(); renderFarm();
+    toast(`💊 驱除了 ${cnt} 只害虫`);
+    return;
+  }
+
+  $('ui-desc').textContent = `使用 ${it.name}:点击要使用的地块`;
+  const list = $('ui-list');
+  list.innerHTML = '';
+  let found = false;
+  for(let i=0;i<PLOTS;i++){
+    const p = S.plots[i];
+    if(!p) continue;
+    found = true;
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.style.cursor = 'pointer';
+    const c = CROPS[p.crop];
+    row.innerHTML = `<div class="ii">${c.emoji}</div>
+      <div><div class="iname">位置 ${i+1} · ${c.name}</div>
+        <div class="idesc">进度 ${Math.round(growth(p)*100)}%${p.protected ? ' · 🛡️已保护' : ''}</div></div>`;
+    row.onclick = () => {
+      if(k === 'speed'){
+        if(p.speedBoost){ toast('已经加速过了'); return; }
+        p.speedBoost = true;
+      }else if(k === 'rich'){
+        if(p.richUsed){ toast('已经用过丰收卡'); return; }
+        p.richUsed = true;
+      }else if(k === 'guard'){
+        if(p.protected){ toast('已有保护罩'); return; }
+        p.protected = true;
+      }else if(k === 'fert'){
+        if(p.fert){ toast('这株已经用过化肥了'); return; }
+        if(growth(p) >= 1){ toast('它已经成熟啦,直接收吧 🌾'); return; }
+        p.fert = true;
+      }
+      S.inventory[k]--;
+      save();
+      $('mask-useitem').classList.remove('show');
+      toast(`${it.emoji} ${it.name} 已使用`);
+      sfx(880,0.12,'sine');
+      renderBag(); renderFarm();
+    };
+    list.appendChild(row);
+  }
+  if(!found){
+    list.innerHTML = '<div class="empty-tip">没有可以使用的作物</div>';
+  }
+  $('mask-useitem').classList.add('show');
+}
+$('ui-cancel').onclick = () => $('mask-useitem').classList.remove('show');
+$('mask-useitem').onclick = e => { if(e.target === $('mask-useitem')) $('mask-useitem').classList.remove('show'); };
+
+/* =========================================================
+   v5:加工坊 + 仓库
+   ========================================================= */
+function granaryTotal(){ return Object.values(S.granary).reduce((a,b)=>a + (b || 0), 0); }
+function goodsTotal(){ return Object.values(S.goods).reduce((a,b)=>a + (b || 0), 0); }
+
+function sellGranary(k){
+  const n = S.granary[k] || 0;
+  if(n <= 0) return;
+  const c = CROPS[k];
+  const wx = getWeather();
+  let unit = c.sell * 0.8;
+  if(wx.doubleSell) unit *= 2;
+  const total = Math.floor(unit * n);
+  S.coins += total;
+  delete S.granary[k];
+  toast(`卖出 ${c.emoji}${c.name} ×${n} · +💰${total}`);
+  sfx(880,0.1,'sine');
+  save(); renderCraft(); renderFarm();
+}
+function sellGood(k){
+  const n = S.goods[k] || 0;
+  if(n <= 0) return;
+  const rc = RECIPES[k];
+  const wx = getWeather();
+  let unit = rc.sell;
+  if(wx.doubleSell) unit *= 2;
+  const total = Math.floor(unit * n);
+  S.coins += total;
+  delete S.goods[k];
+  toast(`卖出 ${rc.emoji}${rc.name} ×${n} · +💰${total}`);
+  sfx(880,0.12,'sine'); setTimeout(()=>sfx(1180,0.14,'sine'), 90);
+  save(); renderCraft(); renderFarm();
+}
+
+function craftProgress(c){
+  if(!c) return 0;
+  const rc = RECIPES[c.r];
+  if(!rc) return 0;
+  return Math.min(1, (Date.now() - c.at) / rc.time);
+}
+function canCraft(k){
+  const rc = RECIPES[k];
+  if(!rc) return false;
+  return Object.entries(rc.need).every(([c,n]) => (S.granary[c] || 0) >= n);
+}
+function needText(k){
+  const rc = RECIPES[k];
+  return Object.entries(rc.need).map(([c,n])=>{
+    const has = S.granary[c] || 0;
+    const cc = CROPS[c] || { emoji:'❔', name:c };
+    return `${cc.emoji}${cc.name}×${n}<span style="color:${has >= n ? '#4caf50' : '#d9534f'}">(有${has})</span>`;
+  }).join(' &nbsp;');
+}
+function startCraft(k){
+  const rc = RECIPES[k];
+  if(!rc) return;
+  if(!canCraft(k)){ toast('原料不够,先去仓库看看'); return; }
+  const idx = S.craft.findIndex(x => !x);
+  if(idx < 0){ toast('加工位都满了,先收一个'); return; }
+  Object.entries(rc.need).forEach(([c,n])=>{
+    S.granary[c] -= n;
+    if(S.granary[c] <= 0) delete S.granary[c];
+  });
+  S.craft[idx] = { r:k, at: Date.now() };
+  S.craftTab = 'craft';
+  toast(`${rc.emoji} 开始加工 ${rc.name}`);
+  buzz(15); sfx(520,0.1,'triangle');
+  save(); renderCraft();
+}
+function speedUpCraft(i){
+  const c = S.craft[i];
+  if(!c) return;
+  if(S.diamonds < 2){ toast('钻石不够(需要 2💎)'); return; }
+  S.diamonds -= 2;
+  c.at = Date.now() - RECIPES[c.r].time;
+  save(); renderCraft(); renderFarm();
+  toast('⚡ 加工完成');
+  sfx(1000,0.1,'sine');
+}
+function collectCraft(i){
+  const c = S.craft[i];
+  if(!c) return;
+  if(craftProgress(c) < 1){ toast('还没做好呢'); return; }
+  const rc = RECIPES[c.r];
+  S.craft[i] = null;
+  S.goods[c.r] = (S.goods[c.r] || 0) + 1;
+  S.goodsDex[c.r] = (S.goodsDex[c.r] || 0) + 1;
+  S.craftCount = (S.craftCount || 0) + 1;
+  addQuestProgress('craft');
+  toast(`${rc.emoji} ${rc.name} 做好了,去「成品架」卖钱`);
+  sfx(880,0.12,'sine'); setTimeout(()=>sfx(1320,0.15,'sine'), 90);
+  save(); renderCraft(); checkAchievements();
+}
+
+function renderCraft(){
+  const seg = $('craft-seg');
+  if(!seg) return;
+  seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.tab === S.craftTab));
+  const box = $('craft-body');
+  box.innerHTML = '';
+  if(S.craftTab === 'recipe') renderRecipeList(box);
+  else if(S.craftTab === 'granary') renderGranary(box);
+  else if(S.craftTab === 'goods') renderGoods(box);
+  else renderCraftSlots(box);
+}
+function renderCraftSlots(box){
+  if(!box) return;
+  for(let i=0;i<CRAFT_SLOTS;i++){
+    const c = S.craft[i];
+    const d = document.createElement('div');
+    if(!c){
+      d.className = 'gslot';
+      d.innerHTML = `<div class="ge" style="opacity:.4">➕</div>
+        <div class="gi"><div class="gn">加工位 ${i+1} · 空闲</div>
+          <div class="gp">去「配方」页挑一个开工</div></div>`;
+      const b = document.createElement('button');
+      b.className = 'ibtn';
+      b.textContent = '选配方';
+      b.onclick = () => { S.craftTab = 'recipe'; renderCraft(); };
+      d.appendChild(b);
+    }else{
+      const rc = RECIPES[c.r];
+      const pr = craftProgress(c);
+      const done = pr >= 1;
+      d.className = 'gslot' + (done ? '' : ' busy');
+      d.innerHTML = `<div class="ge">${rc.emoji}</div>
+        <div class="gi"><div class="gn">${rc.name}${done ? ' · ✅ 已完成' : ''}</div>
+          <div class="gp">${done ? `卖出可得 💰${rc.sell}` : '加工中… 还要 ' + Math.ceil((1 - pr) * rc.time / 1000) + ' 秒'}</div>
+          <div class="gbar"><i style="width:${pr*100}%"></i></div></div>`;
+      const b = document.createElement('button');
+      b.className = 'ibtn';
+      b.textContent = done ? '收取' : '2💎加速';
+      if(done) b.onclick = () => collectCraft(i);
+      else { b.disabled = S.diamonds < 2; b.onclick = () => speedUpCraft(i); }
+      d.appendChild(b);
+    }
+    box.appendChild(d);
+  }
+  const tip = document.createElement('p');
+  tip.className = 'hint';
+  tip.innerHTML = `加工位 ${S.craft.filter(Boolean).length}/${CRAFT_SLOTS} 在用 · 钻石可立刻完成加工<br>
+    原料来自「仓库」,收获作物时会自动入库 📦`;
+  box.appendChild(tip);
+}
+function renderRecipeList(box){
+  if(!box) return;
+  RECIPE_KEYS.forEach(k=>{
+    const rc = RECIPES[k];
+    const ok = canCraft(k);
+    const d = document.createElement('div');
+    d.className = 'rec';
+    d.innerHTML = `<div class="re">${rc.emoji}</div>
+      <div style="flex:1;min-width:0">
+        <div class="rn">${rc.name} <span style="color:#c98a1a">💰${rc.sell}</span></div>
+        <div class="rd">${needText(k)}<br>⏳ ${Math.round(rc.time/1000)} 秒</div>
+      </div>`;
+    const b = document.createElement('button');
+    b.className = 'ibtn';
+    b.textContent = '开工';
+    b.disabled = !ok || !S.craft.some(x => !x);
+    b.onclick = () => startCraft(k);
+    d.appendChild(b);
+    box.appendChild(d);
+  });
+  const tip = document.createElement('p');
+  tip.className = 'hint';
+  tip.innerHTML = '配方越靠后越值钱,但需要更稀有的作物 🌟';
+  box.appendChild(tip);
+}
+function renderGranary(box){
+  if(!box) return;
+  const keys = CROP_ORDER.filter(k => (S.granary[k] || 0) > 0);
+  if(!keys.length){
+    box.innerHTML = '<div class="empty-tip">仓库是空的<br>去农场收获作物吧 🌾</div>';
+    return;
+  }
+  const head = document.createElement('p');
+  head.className = 'hint';
+  head.style.textAlign = 'left';
+  head.innerHTML = `共 <b>${granaryTotal()}</b> 份作物 · 仓库作物按售价 80% 卖出<br>
+    也可以拿去喂牲口 🍽️ 或当加工原料 🍳`;
+  box.appendChild(head);
+  const g = document.createElement('div');
+  g.className = 'goods';
+  keys.forEach(k=>{
+    const c = CROPS[k];
+    const d = document.createElement('div');
+    d.className = 'good';
+    d.innerHTML = `<div class="goe">${c.emoji}</div>
+      <div class="gon">${c.name} ×${S.granary[k]}</div>
+      <div class="goc">卖 💰${Math.floor(c.sell * 0.8 * S.granary[k])}</div>`;
+    const b = document.createElement('button');
+    b.className = 'ibtn';
+    b.textContent = '卖出';
+    b.onclick = () => sellGranary(k);
+    d.appendChild(b);
+    g.appendChild(d);
+  });
+  box.appendChild(g);
+}
+function renderGoods(box){
+  if(!box) return;
+  const keys = RECIPE_KEYS.filter(k => (S.goods[k] || 0) > 0);
+  if(!keys.length){
+    box.innerHTML = '<div class="empty-tip">成品架还空着<br>去「配方」页做点好东西吧 🍳</div>';
+    return;
+  }
+  const head = document.createElement('p');
+  head.className = 'hint';
+  head.style.textAlign = 'left';
+  head.innerHTML = `成品共 <b>${goodsTotal()}</b> 件 · 卖价远高于原料 💰`;
+  box.appendChild(head);
+  const g = document.createElement('div');
+  g.className = 'goods';
+  keys.forEach(k=>{
+    const rc = RECIPES[k];
+    const d = document.createElement('div');
+    d.className = 'good';
+    d.innerHTML = `<div class="goe">${rc.emoji}</div>
+      <div class="gon">${rc.name} ×${S.goods[k]}</div>
+      <div class="goc">卖 💰${rc.sell * S.goods[k]}</div>`;
+    const b = document.createElement('button');
+    b.className = 'ibtn';
+    b.textContent = '卖出';
+    b.onclick = () => sellGood(k);
+    d.appendChild(b);
+    g.appendChild(d);
+  });
+  box.appendChild(g);
+}
+
+/* =========================================================
+   v5:每日签到 + 转盘
+   ========================================================= */
+function yesterdayStr(){
+  const d = new Date(Date.now() - 86400000);
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+function canCheckin(){ return S.checkin.last !== todayStr(); }
+function renderCheckin(){
+  const grid = $('checkin-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const streak = S.checkin.streak || 0;
+  const cur = streak % 7;
+  const cycleDone = streak > 0 && cur === 0;
+  for(let i=0;i<7;i++){
+    const day = CHECKIN_DAYS[i];
+    const got = cycleDone || i < cur;
+    const isToday = !canCheckin() ? false : i === cur;
+    const d = document.createElement('div');
+    d.className = 'cday' + (got ? ' got' : '') + (isToday ? ' today' : '');
+    d.innerHTML = `<div class="cd">第${i+1}天</div>
+      <div class="ce">${day.emoji}</div>
+      <div class="ct">${day.text}</div>`;
+    grid.appendChild(d);
+  }
+  const tip = $('checkin-tip');
+  if(tip){
+    tip.innerHTML = canCheckin()
+      ? `已连续签到 <b>${streak}</b> 天 · 今天还没签,点下面领取<br><span style="font-size:11px">连续签到第 7 天额外送 1 次转盘机会 🎡</span>`
+      : `已连续签到 <b>${streak}</b> 天 · 今天已签,明天记得回来<br><span style="font-size:11px">断签会从第 1 天重新开始哦</span>`;
+  }
+  const btn = $('btn-checkin');
+  if(btn){
+    btn.disabled = !canCheckin();
+    btn.style.opacity = canCheckin() ? '1' : '.55';
+    btn.textContent = canCheckin() ? '领取今日签到' : '✅ 今天已签到';
+  }
+}
+function doCheckin(){
+  if(!canCheckin()){ toast('今天已经签到过啦,明天再来'); return; }
+  const today = todayStr();
+  S.checkin.streak = (S.checkin.last === yesterdayStr()) ? (S.checkin.streak || 0) + 1 : 1;
+  S.checkin.last = today;
+  S.checkin.total = (S.checkin.total || 0) + 1;
+  const idx = (S.checkin.streak - 1) % 7;
+  const granted = grantReward(CHECKIN_DAYS[idx].reward);
+  let extra = '';
+  if(S.checkin.streak % 7 === 0){
+    S.wheel.spins = (S.wheel.spins || 0) + 1;
+    extra = '<br>🎡 连签 7 天,送 1 次转盘机会!';
+  }
+  save();
+  renderCheckin(); renderFarm(); renderNavBadges(); updateWheelUI();
+  showRewardPopup({ desc:`第 ${S.checkin.streak} 天签到` }, granted);
+  if(extra) setTimeout(()=>toast('🎡 连签 7 天,转盘 +1 次'), 900);
+  sfx(880,0.15,'sine'); setTimeout(()=>sfx(1320,0.2,'sine'), 130);
+  checkAchievements();
+}
+
+const WHEEL_TOTAL = WHEEL.reduce((a,p)=>a + p.w, 0);
+let wheelRot = 0, spinning = false;
+function canSpin(){ return S.wheel.day !== todayStr() || (S.wheel.spins || 0) > 0; }
+function buildWheel(){
+  const w = $('wheel');
+  if(!w || w.dataset.built) return;
+  w.innerHTML = '';
+  WHEEL.forEach((p,i)=>{
+    const a = i * 45 + 22.5;
+    const el = document.createElement('div');
+    el.className = 'wl';
+    el.style.transform = `rotate(${a}deg) translateY(-96px) rotate(${-a}deg)`;
+    el.innerHTML = `<span>${p.emoji}</span>${p.name}`;
+    w.appendChild(el);
+  });
+  w.dataset.built = '1';
+}
+function updateWheelUI(){  const btn = $('btn-spin');
+  const tip = $('wheel-tip');
+  if(!btn) return;
+  const free = S.wheel.day !== todayStr();
+  const extra = S.wheel.spins || 0;
+  btn.disabled = !canSpin();
+  btn.style.opacity = canSpin() ? '1' : '.55';
+  btn.textContent = free ? '🎡 免费转一次' : (extra > 0 ? `转一次(还有 ${extra} 次)` : '今天的转盘用完了');
+  if(tip){
+    tip.innerHTML = free
+      ? '每天 1 次免费机会 · 连续签到 7 天再送 1 次<br>奖品:金币 / 钻石 / 道具 / 大奖 🎉'
+      : `今天的免费机会已用完${extra > 0 ? `,还有 ${extra} 次` : ',明天 0 点刷新'}`;
+  }
+}
+function spinWheel(){
+  if(spinning) return;
+  if(!canSpin()){ toast('今天的机会用完啦,明天再来~'); return; }
+  buildWheel();
+  if(S.wheel.day !== todayStr()) S.wheel.day = todayStr();
+  else S.wheel.spins = Math.max(0, (S.wheel.spins || 0) - 1);
+  save();
+  let roll = Math.random() * WHEEL_TOTAL, idx = WHEEL.length - 1;
+  for(let i=0;i<WHEEL.length;i++){
+    roll -= WHEEL[i].w;
+    if(roll <= 0){ idx = i; break; }
+  }
+  const mid = idx * 45 + 22.5 + (Math.random() * 26 - 13);
+  const need = ((360 - mid) - (wheelRot % 360) + 720) % 360;
+  wheelRot += 1440 + need;
+  spinning = true;
+  const w = $('wheel');
+  if(w) w.style.transform = `rotate(${wheelRot}deg)`;
+  updateWheelUI();
+  sfx(420,0.2,'triangle');
+  setTimeout(()=>{
+    spinning = false;
+    const prize = WHEEL[idx];
+    const granted = applyWheelPrize(prize);
+    save(); renderFarm(); renderNavBadges();
+    showRewardPopup({ desc:`转盘:${prize.name}` }, granted);
+    sfx(880,0.15,'sine'); setTimeout(()=>sfx(1320,0.2,'sine'), 130);
+    checkAchievements();
+  }, 4000);
+}
+function applyWheelPrize(p){
+  const granted = [];
+  if(p.item){
+    const keys = Object.keys(ITEMS);
+    const k = keys[Math.floor(Math.random() * keys.length)];
+    S.inventory[k] = (S.inventory[k] || 0) + 1;
+    granted.push({ emoji:ITEMS[k].emoji, text:`${ITEMS[k].name} ×1` });
+  }
+  if(p.coins){ S.coins += p.coins; granted.push({ emoji:'💰', text:`金币 +${p.coins}` }); }
+  if(p.diamonds){ S.diamonds += p.diamonds; granted.push({ emoji:'💎', text:`钻石 +${p.diamonds}` }); }
+  if(p.items){
+    Object.entries(p.items).forEach(([k,n])=>{
+      if(!ITEMS[k]) return;
+      S.inventory[k] = (S.inventory[k] || 0) + n;
+      granted.push({ emoji:ITEMS[k].emoji, text:`${ITEMS[k].name} ×${n}` });
+    });
+  }
+  return granted;
+}
+
+/* 福利页三个标签:签到 / 转盘 / 兑换码 */
+let welfareTab = 'checkin';
+function renderWelfare(){
+  const seg = $('welfare-seg');
+  if(seg) seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.wtab === welfareTab));
+  ['checkin','wheel','code'].forEach(t=>{
+    const p = $('wtab-' + t);
+    if(p) p.style.display = (t === welfareTab) ? '' : 'none';
+  });
+  if(welfareTab === 'wheel'){ buildWheel(); updateWheelUI(); }
+  else if(welfareTab === 'code'){ renderRedeemed(); }
+  else renderCheckin();
+}
+
+/* =========================================================
+   v5:邻居簿
+   ========================================================= */
+const FRIEND_MAX = 12;
+let visitFriendIdx = -1;
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, m =>
+    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+}
+function renderFriends(){
+  const box = $('friend-list');
+  if(!box) return;
+  box.innerHTML = '';
+  if(!S.friends.length){
+    box.innerHTML = '<div class="empty-tip">邻居簿还是空的<br>把朋友的农场码存进来吧 📇</div>';
+    return;
+  }
+  S.friends.forEach((f, idx)=>{
+    const dt = new Date(f.at || Date.now());
+    const d = document.createElement('div');
+    d.className = 'friend';
+    d.innerHTML = `<div class="fe">👤</div>
+      <div class="fi">
+        <div class="fn">${esc(f.name || '好友')}</div>
+        <div class="fd">${f.stolen ? `偷过 ${f.stolen} 次 · ` : ''}${dt.getMonth()+1}/${dt.getDate()} 存入</div>
+      </div>`;
+    const bs = document.createElement('div');
+    bs.className = 'fbtns';
+    const b1 = document.createElement('button');
+    b1.textContent = '串门';
+    b1.onclick = () => visitFriend(idx);
+    const b2 = document.createElement('button');
+    b2.className = 'del';
+    b2.textContent = '删';
+    b2.setAttribute('aria-label', `删除邻居 ${f.name || ''}`);
+    b2.onclick = () => {
+      S.friends.splice(idx, 1);
+      save(); renderFriends();
+      toast('已移出邻居簿');
+    };
+    bs.appendChild(b1); bs.appendChild(b2);
+    d.appendChild(bs);
+    box.appendChild(d);
+  });
+  const tip = document.createElement('p');
+  tip.className = 'hint';
+  tip.innerHTML = `最多存 ${FRIEND_MAX} 位邻居 · 串门进入的是 TA 存码时的农场快照`;
+  box.appendChild(tip);
+}
+function addFriend(){
+  const raw = $('friend-input').value;
+  const code = extractFarmCode(raw);
+  const farm = unpackFarm(code);
+  if(!farm){ toast('这个码看不懂,检查一下'); return; }
+  const name = farm.name || '好友';
+  const exist = S.friends.findIndex(f => f.code === code);
+  if(exist >= 0){
+    S.friends[exist].at = Date.now();
+    S.friends[exist].name = name;
+    $('friend-input').value = '';
+    save(); renderFriends();
+    toast('已更新 TA 的农场码');
+    return;
+  }
+  if(S.friends.length >= FRIEND_MAX){ toast('邻居簿满啦,先删一个'); return; }
+  S.friends.unshift({ name, code, at:Date.now(), stolen:0 });
+  $('friend-input').value = '';
+  save(); renderFriends(); checkAchievements();
+  toast(`📇 已把 ${name} 存进邻居簿`);
+}
+function visitFriend(idx){
+  const f = S.friends[idx];
+  if(!f) return;
+  visitFriendIdx = idx;
+  $('visit-input').value = f.code;
+  show('s-visit');
+  $('visit-input-wrap').style.display = 'block';
+  $('visit-farm-wrap').style.display = 'none';
+  $('btn-visit-go').click();
+}
+
+/* =========================================================
+   v5:小彩蛋 + 常用小工具
+   ========================================================= */
+function closeMask(id){ const m = $(id); if(m) m.classList.remove('show'); }
+function coinRain(n){
+  const box = document.createElement('div');
+  box.className = 'coin-rain';
+  for(let i=0;i<n;i++){
+    const s = document.createElement('i');
+    s.textContent = ['💰','🪙','💎','⭐'][Math.floor(Math.random() * 4)];
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.fontSize = (16 + Math.random() * 18) + 'px';
+    s.style.animationDuration = (1.6 + Math.random() * 1.6) + 's';
+    s.style.animationDelay = (Math.random() * 0.6) + 's';
+    box.appendChild(s);
+  }
+  document.body.appendChild(box);
+  setTimeout(()=>box.remove(), 4400);
+}
+function tapName(){
+  S.nameTaps = (S.nameTaps || 0) + 1;
+  if(S.nameTaps < 5) return;
+  S.nameTaps = 0;
+  if(Date.now() - (S.eggAt || 0) < 6 * 60 * 60 * 1000){
+    toast('🥚 彩蛋刚戳过,过几小时再来');
+    return;
+  }
+  S.eggAt = Date.now();
+  S.eggFound = true;
+  const gain = 100 + Math.floor(Math.random() * 200);
+  S.coins += gain;
+  save(); renderFarm(); coinRain(26);
+  $('sm-emoji').textContent = '🥚';
+  $('sm-title').textContent = '彩蛋!';
+  $('sm-desc').innerHTML = `你连戳了 5 下自己的名字,<br>一只路过的小鸡抖落一地金币:<b>+💰${gain}</b>
+    <br><span style="font-size:12px;opacity:.65">每 6 小时可以再戳一次 🐔</span>`;
+  $('mask-steal-msg').classList.add('show');
+  sfx(880,0.15,'sine'); setTimeout(()=>sfx(1320,0.2,'sine'), 130);
+  checkAchievements();
+}
+function renderNavBadges(){
+  const b = $('nb-welfare');
+  if(b) b.style.display = (canCheckin() || canSpin()) ? '' : 'none';
+  const bd = $('nb-board');
+  if(bd){
+    const n = boardUnread();
+    bd.style.display = n > 0 ? '' : 'none';
+    bd.textContent = n;
+  }
+  updateQuestBadge();
+}
+/* 当前页面按需重绘(定时器调用) */
+function refreshActive(){
+  if($('s-farm').classList.contains('active')) renderFarm();
+  else if($('s-craft').classList.contains('active')) renderCraft();
+  else if($('s-welfare').classList.contains('active')) renderWelfare();
+}
+
+/* 新页面按钮绑定 */
+$('craft-back').onclick = () => show('s-farm');
+$('welfare-back').onclick = () => show('s-farm');
+$('friends-back').onclick = () => show('s-farm');
+$('btn-checkin').onclick = doCheckin;
+$('btn-spin').onclick = spinWheel;
+$('btn-friend-add').onclick = addFriend;
+$('friend-input').addEventListener('keydown', e => { if(e.key === 'Enter') addFriend(); });
+$('craft-seg').addEventListener('click', e => {
+  const b = e.target.closest('button[data-tab]');
+  if(!b) return;
+  S.craftTab = b.dataset.tab;
+  renderCraft();
+});
+/* =========================================================
+   v6:留言板(异步互动) —— 留言码极短,可以直接发聊天
+   ========================================================= */
+const BOARD_MAX = 30;
+let replyToId = null;
+function boardUnread(){ return S.board.filter(m => !m.replied).length; }
+function addBoardMsg(from, text){
+  const msg = { id: Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+                from: cleanName(from), text: cleanNote(text), at: Date.now(), replied:false };
+  S.board.unshift(msg);
+  if(S.board.length > BOARD_MAX) S.board.length = BOARD_MAX;
+  save();
+  return msg;
+}
+function renderBoard(){
+  const list = $('board-list');
+  if(!list) return;
+  list.innerHTML = '';
+  const cnt = $('board-count');
+  if(cnt) cnt.textContent = S.board.length ? `(${S.board.length} 条)` : '';
+  if(!S.board.length){
+    list.innerHTML = `<div class="empty-tip">还没有收到留言<br>
+      把你的<b>留言链接</b>发出去,或者让朋友偷完菜带来回执 🕊️</div>`;
+    return;
+  }
+  S.board.forEach((m, idx)=>{
+    const dt = new Date(m.at);
+    const d = document.createElement('div');
+    d.className = 'msg' + (m.replied ? ' done' : '');
+    d.innerHTML = `<div class="mh">
+        <span class="mf">👤 ${esc(m.from)}</span>
+        <span class="mt">${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}${m.replied ? ' · 已回' : ''}</span>
+      </div>
+      <div class="mb">${esc(m.text)}</div>`;
+    const bs = document.createElement('div');
+    bs.className = 'mbtns';
+    const b1 = document.createElement('button');
+    b1.textContent = m.replied ? '再回一条' : '回信';
+    b1.onclick = () => {
+      replyToId = m.id;
+      $('board-input').value = `@${m.from} `;
+      window.scrollTo({ top:0, behavior:'smooth' });
+      $('board-input').focus();
+      toast('写完点「分享」或「复制留言链接」发回给 TA');
+    };
+    const b2 = document.createElement('button');
+    b2.className = 'del';
+    b2.textContent = '删除';
+    b2.onclick = () => { S.board.splice(idx, 1); save(); renderBoard(); renderNavBadges(); };
+    bs.appendChild(b1); bs.appendChild(b2);
+    d.appendChild(bs);
+    list.appendChild(d);
+  });
+}
+function sendBoardNote(){
+  const text = cleanNote($('board-input').value);
+  if(!text){ toast('先写点什么吧 ✍️'); return ''; }
+  if(replyToId){
+    const t = S.board.find(x => x.id === replyToId);
+    if(t){ t.replied = true; replyToId = null; }
+  }
+  S.boardDraft = text;
+  const code = packNote(text);
+  $('board-code').style.display = '';
+  $('board-code').textContent = code;
+  save(); renderBoard(); renderNavBadges();
+  return code;
+}
+function receiveNote(codeStr){
+  const note = unpackNote(codeStr);
+  if(!note){ toast('留言码看不懂,检查一下 🤔'); return false; }
+  const msg = addBoardMsg(note.name, note.text);
+  renderBoard(); renderNavBadges();
+  show('s-board');
+  toast(`✉️ 收到 ${esc(msg.from)} 的留言`);
+  sfx(760,0.12,'sine'); setTimeout(()=>sfx(1040,0.14,'sine'), 90);
+  return true;
+}
+
+/* =========================================================
+   v6:移动端快捷操作
+   ========================================================= */
+function readyCount(){
+  let n = 0;
+  for(let i=0;i<PLOTS;i++){ const p = S.plots[i]; if(p && growth(p) >= 1) n++; }
+  return n;
+}
+function updateTitle(){
+  const n = readyCount();
+  document.title = n ? `(${n}) 有作物熟了 · 小农场` : '小农场 · 双人版';
+}
+function waterAll(){
+  let n = 0;
+  for(let i=0;i<PLOTS;i++){
+    const p = S.plots[i];
+    if(p && growth(p) < 1 && (p.water || 0) < 3){ p.water = (p.water || 0) + 1; n++; }
+  }
+  if(!n){ toast('没有需要浇水的作物 💧'); return; }
+  addQuestProgress('water', n);
+  save(); renderFarm();
+  toast(`💧 一次浇了 ${n} 株`);
+  buzz(15); sfx(660,0.12,'sine');
+}
+function plantAll(){
+  const k = CROPS[S.lastCrop] ? S.lastCrop : 'radish';
+  const c = CROPS[k];
+  let n = 0, cost = 0;
+  for(let i=0;i<PLOTS;i++){
+    if(!S.plotLv[i] || S.plots[i]) continue;
+    if(S.coins - cost < c.seed) break;
+    cost += c.seed;
+    S.plots[i] = { crop:k, at:Date.now(), water:0 };
+    n++;
+  }
+  if(!n){ toast(S.coins < c.seed ? '金币不够啦 💰' : '没有空地可以种了'); return; }
+  S.coins -= cost;
+  S.planted += n;
+  S.dex[k] = (S.dex[k] || 0) + n;
+  addQuestProgress('plant', n);
+  save(); renderFarm();
+  toast(`🌱 又种下 ${n} 株 ${c.name}(-💰${cost})`);
+  buzz(15); sfx(520,0.1,'triangle');
+  checkAchievements();
+}
+function harvestGain(i){
+  const p = S.plots[i];
+  if(!p) return null;
+  const c = CROPS[p.crop];
+  const wx = getWeather();
+  const plotLv = S.plotLv[i] || 1;
+  let gain = c.sell * (1 + (plotLv - 1) * 0.3);
+  if(wx.doubleSell) gain *= 2;
+  let richUsed = false;
+  if(S.inventory.rich > 0 && !p.richUsed){
+    S.inventory.rich--;
+    p.richUsed = true;
+    gain *= 2;
+    richUsed = true;
+  }
+  return { c, gain: Math.floor(gain), richUsed, plotLv, doubleSell: !!wx.doubleSell };
+}
+function harvestAll(){
+  let total = 0, n = 0;
+  const names = [];
+  for(let i=0;i<PLOTS;i++){
+    const p = S.plots[i];
+    if(!p || growth(p) < 1) continue;
+    const r = harvestGain(i);
+    if(!r) continue;
+    total += r.gain;
+    n++;
+    names.push(r.c.emoji);
+    S.coins += r.gain;
+    S.harvests++;
+    S.granary[p.crop] = (S.granary[p.crop] || 0) + 1;   // 与单株收获一致:入库 1 份
+    S.plots[i] = null;
+  }
+  if(!n){ toast('还没有成熟的作物 ⏳'); return; }
+  addQuestProgress('harvest', n);
+  const oldLv = lvOf(S.harvests - n), newLv = lvOf(S.harvests);
+  $('hv-emoji').textContent = '🌾';
+  $('hv-title').textContent = `一键收获 ${n} 株!`;
+  $('hv-desc').innerHTML = `共获得 <b style="color:#c98a1a">💰 ${total}</b><br>
+    收获:${names.join(' ')}<br>📦 仓库各 +1
+    <br><br>累计收获 ${S.harvests} 次`;
+  $('mask-harvest').classList.add('show');
+  sfx(880,0.1,'sine'); setTimeout(()=>sfx(1175,0.15,'sine'), 90);
+  buzz([20,30,20]);
+  if(newLv > oldLv) setTimeout(()=>toast(`🎉 升级到 Lv.${newLv}!`), 900);
+  save(); renderFarm(); updateTitle(); checkAchievements();
+}
+
+/* =========================================================
+   v6:存档面板
+   ========================================================= */
+function renderSavePanel(){
+  const info = $('save-info');
+  if(!info) return;
+  const t = S.lastSave ? new Date(S.lastSave) : null;
+  const size = (()=>{ try{ return Math.round((localStorage.getItem(SAVE_KEY) || '').length / 1024); }catch(e){ return 0; } })();
+  const src = SOURCE_TEXT[LOAD_SOURCE] || LOAD_SOURCE;
+  const head = `当前档案:<b>${src}</b> · 昵称 ${esc(S.name || '未取名')} · Lv.${lvOf(S.harvests)} · 累计收获 ${S.harvests} 次<br>`;
+  info.innerHTML = head + (t
+    ? `上次保存:${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}
+       · 存档 ${size}KB · 照片 ${S.photos.length}/${MAX_PHOTOS} 张<br>
+       <span style="font-size:11px">退出/切后台会自动保存;换设备或清缓存前,先导出备份码 📋</span>`
+    : `还没有保存过 · 退出/切后台时会自动保存<br>
+       <span style="font-size:11px">换设备或清缓存前,先导出备份码 📋</span>`);
+}
+
+/* 名字连点彩蛋 */
+$('my-name').parentElement.onclick = tapName;
+$('my-name').parentElement.style.cursor = 'pointer';
+
+/* 键盘可达:回车/空格 = 点击地块、拜访格 */
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Enter' && e.key !== ' ') return;
+  const t = e.target;
+  if(!t || !t.classList) return;
+  if(t.classList.contains('plot') || t.classList.contains('vcell')){
+    e.preventDefault();
+    t.click();
+  }
+});
+
+/* =========================================================
+   v6:按钮绑定
+   ========================================================= */
+$('board-back').onclick = () => show('s-farm');
+$('t-board').onclick = () => { renderBoard(); show('s-board'); };
+$('t-craft').onclick = () => { renderCraft(); show('s-craft'); };
+$('btn-board-link').onclick = () => {
+  const code = sendBoardNote();
+  if(!code) return;
+  copyText(buildNoteLink($('board-input').value), $('btn-board-link'), '🔗 复制留言链接');
+};
+$('btn-board-share').onclick = () => {
+  const code = sendBoardNote();
+  if(!code) return;
+  shareOrCopy('给你留了句话 ✉️', buildNoteLink($('board-input').value), $('btn-board-share'), '📤 分享');
+};
+$('q-water').onclick = waterAll;
+$('q-harvest').onclick = harvestAll;
+$('q-plant').onclick = plantAll;
+$('btn-save-now').onclick = () => { save(); savePhotos(); renderSavePanel(); toast('✅ 已保存'); };
+$('btn-save-export').onclick = () => {
+  const code = exportSaveCode();
+  if(!code){ toast('导出失败'); return; }
+  $('save-code').value = code;
+  copyText(code, $('btn-save-export'), '导出备份码');
+  toast('备份码已生成并复制,请另存 📋');
+};
+$('btn-save-import').onclick = () => {
+  const raw = ($('save-code').value || '').trim();
+  if(!raw){ toast('先把备份码粘贴进来'); return; }
+  if(!confirm('用备份码覆盖当前存档?')) return;
+  if(importSaveCode(raw)){
+    renderFarm(); renderBag(); renderNavBadges(); renderSavePanel(); updateTitle();
+    toast('✅ 存档已恢复');
+  }else toast('备份码无效');
+};
+
+$('btn-save-reset').onclick = resetGame;
+
+/* =========================================================
+   v6.1:分享码说明弹层
+   ========================================================= */
+function openHelp(){ closeMask('mask-help'); const m = $('mask-help'); if(m) m.classList.add('show'); }
+['btn-help-share','btn-help-visit','btn-help-board','btn-help-receipt'].forEach(id=>{
+  const b = $(id);
+  if(b) b.onclick = openHelp;
+});
+$('help-ok').onclick = () => closeMask('mask-help');
+$('mask-help').onclick = e => { if(e.target === $('mask-help')) closeMask('mask-help'); };
+
+/* ================= 定时 ================= */
+setInterval(()=>{
+  if(document.hidden) return;            // 后台不重绘,省电
+  refreshActive();
+  updateTitle();
+  renderNavBadges();
+  rollRandomEvent();
+  // 宠物行动
+  const now = Date.now();
+  if(now - S.petLastAct > 60 * 60 * 1000){
+    if(S.pets.dog > 0){
+      for(let i=0;i<PLOTS;i++){
+        const p = S.plots[i];
+        if(p && (p.water||0) < 3 && growth(p) < 1){
+          p.water = (p.water||0) + 1;
+          break;
+        }
+      }
+    }
+    if(S.pets.cat > 0){
+      const evts = Object.keys(S.events);
+      if(evts.length){
+        delete S.events[evts[0]];
+      }
+    }
+    S.petLastAct = now;
+    save();
+  }
+  save();                                 // 每 30 秒落一次盘,意外关掉也不丢进度
+}, 30000);
+
+/* ================= URL hash 处理 =================
+   #v=<农场码/链接>  串门该农场
+   #s=<回执码>       结算被偷
+   #n=<留言码>       收到一条留言                                   */
+function handleHash(){
+  const h = location.hash;
+  if(!h) return;
+  if(h.startsWith('#v=')){
+    const code = extractFarmCode(h);
+    $('visit-input-wrap').style.display = 'block';
+    $('visit-farm-wrap').style.display = 'none';
+    $('visit-input').value = code;
+    show('s-visit');
+    setTimeout(()=>$('btn-visit-go').click(), 250);
+    history.replaceState(null, '', location.pathname);
+  }else if(h.startsWith('#s=')){
+    const code = extractReceiptCode(h);
+    setTimeout(()=>{
+      importReceipt(code);
+      history.replaceState(null, '', location.pathname);
+    }, 400);
+  }else if(h.startsWith('#n=')){
+    const code = extractNoteCode(h);
+    setTimeout(()=>{
+      receiveNote(code);
+      history.replaceState(null, '', location.pathname);
+    }, 400);
+  }
+}
+
+/* ================= 启动 ================= */
+load();
+refreshQuests();
+loadCodes();
+buildWheel();
+renderNavBadges();
+updateTitle();
+
+if(S.name){
+  $('s-name').classList.remove('active');
+  $('s-farm').classList.add('active');
+  $('navbar').style.display = 'flex';
+  renderFarm();
+  renderBoard();
+  handleHash();
+}else{
+  $('s-farm').classList.remove('active');
+  $('s-name').classList.add('active');
+  window._pendingHash = true;
+}
+$('btn-name-ok').onclick = () => {
+  const n = cleanName(($('name-input').value || '').trim()) || '我';
+  S.name = n;
+  save();
+  show('s-farm');
+  $('navbar').style.display = 'flex';
+  renderFarm();
+  refreshQuests();
+  if(window._pendingHash){
+    window._pendingHash = false;
+    handleHash();
+  }
+};
+$('name-input').addEventListener('keydown', e => {
+  if(e.key === 'Enter') $('btn-name-ok').click();
+});
+updateTools();
+/* 首屏后补一次成就检查(夜猫子这类按时间判定的成就) */
+setTimeout(()=>{ checkAchievements(); renderNavBadges(); updateTitle(); }, 1500);
+</script>
+</body>
+</html>

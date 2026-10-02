@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Test on 珞桐蔚</title>
-        <link>https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/test/</link>
+        <link>https://luotongweix.github.io/LuoTongweix-my-hugo-site/categories/test/</link>
         <description>Recent content in Test on 珞桐蔚</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <copyright>珞桐蔚</copyright><atom:link href="https://LuoTongw.github.io/LuoTongweix-my-hugo-site/categories/test/index.xml" rel="self" type="application/rss+xml" />
+        <copyright>珞桐蔚</copyright><atom:link href="https://luotongweix.github.io/LuoTongweix-my-hugo-site/categories/test/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 </rss>
